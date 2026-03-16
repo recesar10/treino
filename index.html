@@ -4,43 +4,43 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Treino Semanal Pro</title>
-<meta name="theme-color" content="#0f172a">
-<meta name="description" content="App de treino com checklist, descanso automático, histórico e progresso semanal.">
+<meta name="theme-color" content="#050505">
+<meta name="description" content="App de treino com checklist, descanso automático, progresso semanal, gráfico e modo academia.">
 <link rel="manifest" href="/treino/manifest.json">
 <link rel="icon" href="/treino/icon-192.png">
 <style>
 :root {
-  --bg:#081120; --panel:#111b31; --panel2:#182544; --text:#eef4ff; --muted:#9fb0cc;
-  --accent:#45c2ff; --accent2:#24d366; --danger:#ff4d57; --warn:#ffb020;
-  --border:rgba(160,180,210,.16); --shadow:0 14px 28px rgba(0,0,0,.24);
+  --bg:#050505; --panel:#111111; --panel2:#1a1a1a; --text:#f5f5f5; --muted:#b8b8b8;
+  --accent:#ffffff; --accent2:#c0c0c0; --danger:#d93030; --good:#1db954; --warn:#d4a017;
+  --border:rgba(255,255,255,.10); --shadow:0 14px 28px rgba(0,0,0,.3);
 }
 * { box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
 body {
   margin:0; font-family:Arial,Helvetica,sans-serif; color:var(--text);
-  background:linear-gradient(180deg,#07101f 0%, #0c1630 100%);
+  background:linear-gradient(180deg,#000 0%, #111 100%);
 }
 .wrap { max-width:980px; margin:0 auto; padding:16px 14px 90px; }
 .hero {
-  position:sticky; top:0; z-index:20; background:rgba(7,16,31,.94);
+  position:sticky; top:0; z-index:20; background:rgba(0,0,0,.94);
   backdrop-filter: blur(10px); border-bottom:1px solid var(--border);
   margin:0 -14px 14px; padding:16px 14px;
 }
 .hero h1 { margin:0; font-size:30px; }
 .hero p { margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.45; }
-.install, .tips, .timer, .mini, .day, .history, .stats {
+.install, .tips, .timer, .mini, .day, .history, .stats, .chartbox {
   background:var(--panel); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow);
 }
-.install, .tips, .timer, .history, .stats { padding:14px; margin-bottom:14px; }
-.install strong, .tips strong { display:block; color:#9df7ba; margin-bottom:6px; }
-.install-row, .controls, .toolbar { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+.install, .tips, .timer, .history, .stats, .chartbox { padding:14px; margin-bottom:14px; }
+.install strong, .tips strong, .stats strong, .history strong, .chartbox strong { display:block; color:#fff; margin-bottom:6px; }
+.install-row, .controls, .toolbar, .modebar { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
 button {
   border:0; border-radius:16px; padding:12px 14px; font-weight:700; font-size:16px;
   color:white; background:var(--panel2); min-height:48px;
 }
-button.primary { background:var(--accent); color:#04273a; }
-button.good { background:var(--accent2); color:#05250d; }
+button.primary { background:#ffffff; color:#000; }
+button.good { background:var(--good); color:#041c0e; }
 button.danger { background:var(--danger); }
-button.warn { background:var(--warn); color:#3a2500; }
+button.warn { background:var(--warn); color:#2e2100; }
 button.ghost { background:transparent; border:1px solid var(--border); }
 .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px; }
 .mini { padding:14px; }
@@ -53,15 +53,15 @@ button.ghost { background:transparent; border:1px solid var(--border); }
 }
 .badge {
   display:inline-block; padding:8px 10px; border-radius:999px; font-weight:700; font-size:12px;
-  background:rgba(69,194,255,.12); color:#8adfff; border:1px solid rgba(69,194,255,.22);
+  background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.15);
 }
-.toolbar button { flex:1 1 140px; }
+.toolbar button, .modebar button { flex:1 1 140px; }
 .day { overflow:hidden; margin-bottom:14px; }
 .head { padding:16px; border-bottom:1px solid var(--border); }
-.title { margin:0 0 6px; font-size:24px; color:var(--accent); }
+.title { margin:0 0 6px; font-size:24px; color:#fff; }
 .sub { margin:0; color:var(--muted); font-size:14px; }
 .progress { height:10px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-top:12px; }
-.progress > div { height:100%; width:0; background:linear-gradient(90deg,var(--accent2),var(--accent)); transition:width .25s ease; }
+.progress > div { height:100%; width:0; background:linear-gradient(90deg,#888,#fff); transition:width .25s ease; }
 .small { color:var(--muted); font-size:12px; margin-top:8px; }
 .list { padding:12px; }
 .exercise {
@@ -71,13 +71,13 @@ button.ghost { background:transparent; border:1px solid var(--border); }
 }
 .exercise:last-child { margin-bottom:0; }
 .exercise input[type=checkbox] {
-  width:24px; height:24px; margin-top:2px; accent-color:var(--accent2);
+  width:24px; height:24px; margin-top:2px; accent-color:#ffffff;
 }
 .name { font-weight:800; font-size:16px; }
 .meta { color:var(--muted); font-size:13px; margin-top:4px; }
 .tag {
-  font-size:12px; font-weight:800; color:#93dfff; background:rgba(69,194,255,.12);
-  border:1px solid rgba(69,194,255,.2); padding:8px 10px; border-radius:999px;
+  font-size:12px; font-weight:800; color:#fff; background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:999px;
 }
 .quick {
   display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;
@@ -89,6 +89,16 @@ button.ghost { background:transparent; border:1px solid var(--border); }
 }
 .history-item strong { display:block; margin-bottom:4px; }
 .stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.chart {
+  display:flex; align-items:flex-end; gap:8px; height:180px; margin-top:12px;
+  padding:10px; border-radius:16px; background:rgba(255,255,255,.02); border:1px solid var(--border);
+}
+.bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
+.bar {
+  width:100%; max-width:42px; min-height:4px; border-radius:12px 12px 4px 4px;
+  background:linear-gradient(180deg,#fff,#666); transition:height .3s ease;
+}
+.bar-label, .bar-val { font-size:11px; color:var(--muted); }
 .footer { color:var(--muted); text-align:center; font-size:12px; margin-top:12px; }
 @media (max-width:480px) {
   .title { font-size:20px; }
@@ -100,7 +110,7 @@ button.ghost { background:transparent; border:1px solid var(--border); }
 <div class="wrap">
   <div class="hero">
     <h1>Treino Semanal Pro</h1>
-    <p>Checklist, descanso automático, progresso semanal e histórico salvo no celular.</p>
+    <p>Checklist, gráfico de evolução, modo academia e histórico salvo no celular.</p>
   </div>
 
   <div class="install">
@@ -110,6 +120,10 @@ button.ghost { background:transparent; border:1px solid var(--border); }
       <button id="installBtn" class="good" style="display:none">Instalar app</button>
       <button id="exportBtn" class="ghost">Exportar progresso</button>
     </div>
+  </div>
+
+  <div class="modebar">
+    <button id="wakeBtn" class="warn">Modo academia: desligado</button>
   </div>
 
   <div class="grid">
@@ -127,6 +141,12 @@ button.ghost { background:transparent; border:1px solid var(--border); }
     </div>
   </div>
 
+  <div class="chartbox">
+    <strong>Gráfico de evolução</strong>
+    <div class="small">Mostra quantos treinos você concluiu nos últimos 7 registros.</div>
+    <div class="chart" id="chart"></div>
+  </div>
+
   <div class="timer">
     <div class="timer-top">
       <div>
@@ -142,7 +162,7 @@ button.ghost { background:transparent; border:1px solid var(--border); }
       <button class="primary" onclick="startTimer()">Iniciar</button>
       <button onclick="pauseTimer()">Pausar</button>
       <button class="danger" onclick="resetTimer()">Zerar</button>
-      <button class="warn" onclick="toggleAutoRest()">Auto</button>
+      <button class="ghost" onclick="toggleAutoRest()">Auto</button>
     </div>
   </div>
 
@@ -155,7 +175,7 @@ button.ghost { background:transparent; border:1px solid var(--border); }
 
   <div class="tips">
     <strong>Dicas rápidas</strong>
-    <div>Toque em um checkbox para concluir um exercício. Com o modo Auto ligado, o cronômetro inicia sozinho após cada marcação.</div>
+    <div>Com o modo Auto ligado, o cronômetro inicia sozinho ao marcar um exercício. Com o modo academia ligado, a tela tenta ficar acesa durante o treino.</div>
   </div>
 <section class="day" id="terca"><div class="head"><h2 class="title">Terça — Peito + Tríceps</h2><p class="sub">19h • compostos até 90s • isolados 45–60s</p><div class="quick"><button class="ghost" onclick="focusDay('terca')">Abrir este treino</button><button class="ghost" onclick="clearDay('terca')">Limpar dia</button></div><div class="progress"><div id="bar-terca"></div></div><div class="small" id="txt-terca">0 de 5 exercícios concluídos</div></div><div class="list"><label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Supino reto</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Supino inclinado halter</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Crossover</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Tríceps corda</div><div class="meta">3 séries • 10–12 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Tríceps testa</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label></div></section><section class="day" id="quarta"><div class="head"><h2 class="title">Quarta — Costas + Bíceps</h2><p class="sub">19h • foco em execução e amplitude</p><div class="quick"><button class="ghost" onclick="focusDay('quarta')">Abrir este treino</button><button class="ghost" onclick="clearDay('quarta')">Limpar dia</button></div><div class="progress"><div id="bar-quarta"></div></div><div class="small" id="txt-quarta">0 de 5 exercícios concluídos</div></div><div class="list"><label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Puxada frente</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Remada baixa</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Remada unilateral</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Rosca direta</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Rosca alternada</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label></div></section><section class="day" id="quinta"><div class="head"><h2 class="title">Quinta — Pernas + Ombro</h2><p class="sub">19h • dia mais pesado da semana</p><div class="quick"><button class="ghost" onclick="focusDay('quinta')">Abrir este treino</button><button class="ghost" onclick="clearDay('quinta')">Limpar dia</button></div><div class="progress"><div id="bar-quinta"></div></div><div class="small" id="txt-quinta">0 de 5 exercícios concluídos</div></div><div class="list"><label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Agachamento</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Leg press</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Flexora</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Desenvolvimento ombro</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Elevação lateral</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label></div></section><section class="day" id="sabado"><div class="head"><h2 class="title">Sábado — Peito + Costas</h2><p class="sub">10h • estímulo extra de tronco</p><div class="quick"><button class="ghost" onclick="focusDay('sabado')">Abrir este treino</button><button class="ghost" onclick="clearDay('sabado')">Limpar dia</button></div><div class="progress"><div id="bar-sabado"></div></div><div class="small" id="txt-sabado">0 de 4 exercícios concluídos</div></div><div class="list"><label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Supino inclinado barra</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Chest press máquina</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Puxada aberta</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Remada curvada</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label></div></section><section class="day" id="domingo"><div class="head"><h2 class="title">Domingo — Ombro + Braços + Core</h2><p class="sub">10h • ritmo mais contínuo • descanso menor</p><div class="quick"><button class="ghost" onclick="focusDay('domingo')">Abrir este treino</button><button class="ghost" onclick="clearDay('domingo')">Limpar dia</button></div><div class="progress"><div id="bar-domingo"></div></div><div class="small" id="txt-domingo">0 de 6 exercícios concluídos</div></div><div class="list"><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Elevação lateral</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Posterior de ombro</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Rosca martelo</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Tríceps francês</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Elevação de pernas</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">45s</div></label><label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Prancha</div><div class="meta">3 séries • 40 segundos</div></div><div class="tag">45s</div></label></div></section>
   <div class="history">
@@ -171,8 +191,11 @@ const checkboxes = [...document.querySelectorAll('.chk')];
 const installBtn = document.getElementById('installBtn');
 const installText = document.getElementById('installText');
 const exportBtn = document.getElementById('exportBtn');
+const wakeBtn = document.getElementById('wakeBtn');
 let totalSeconds = 60, remaining = 60, interval = null, deferredPrompt = null;
 let autoRest = false;
+let wakeLock = null;
+let wakeEnabled = false;
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -223,27 +246,64 @@ function startTimer() {
     }
   }, 1000);
 }
-function pauseTimer() {
-  clearInterval(interval); interval = null;
-}
+function pauseTimer() { clearInterval(interval); interval = null; }
 function resetTimer() {
   clearInterval(interval); interval = null;
   remaining = totalSeconds; renderTimer();
 }
 function toggleAutoRest() {
   autoRest = !autoRest;
-  localStorage.setItem('treinoAutoRest', JSON.stringify(autoRest));
+  localStorage.setItem('treinoAutoRestV4', JSON.stringify(autoRest));
   document.getElementById('autoMode').textContent = 'Auto descanso: ' + (autoRest ? 'ligado' : 'desligado');
 }
 function loadAutoRest() {
-  const raw = localStorage.getItem('treinoAutoRest');
+  const raw = localStorage.getItem('treinoAutoRestV4');
   autoRest = raw ? JSON.parse(raw) : false;
   document.getElementById('autoMode').textContent = 'Auto descanso: ' + (autoRest ? 'ligado' : 'desligado');
 }
 
-function storageKey() { return 'treinoProChecks'; }
-function doneDaysKey() { return 'treinoProDoneDays'; }
-function historyKey() { return 'treinoProHistory'; }
+async function requestWakeLock() {
+  try {
+    if ('wakeLock' in navigator) {
+      wakeLock = await navigator.wakeLock.request('screen');
+      wakeEnabled = true;
+      wakeBtn.textContent = 'Modo academia: ligado';
+      localStorage.setItem('treinoWakeLock', 'true');
+      wakeLock.addEventListener('release', () => {
+        wakeEnabled = false;
+        wakeBtn.textContent = 'Modo academia: desligado';
+      });
+    } else {
+      alert('Seu navegador não suporta modo academia.');
+    }
+  } catch (err) {
+    alert('Não foi possível ativar o modo academia.');
+  }
+}
+async function releaseWakeLock() {
+  if (wakeLock) {
+    await wakeLock.release();
+    wakeLock = null;
+  }
+  wakeEnabled = false;
+  wakeBtn.textContent = 'Modo academia: desligado';
+  localStorage.setItem('treinoWakeLock', 'false');
+}
+async function toggleWakeLock() {
+  if (wakeEnabled) await releaseWakeLock();
+  else await requestWakeLock();
+}
+wakeBtn.addEventListener('click', toggleWakeLock);
+
+document.addEventListener('visibilitychange', async () => {
+  if (document.visibilityState === 'visible' && localStorage.getItem('treinoWakeLock') === 'true' && !wakeEnabled) {
+    await requestWakeLock();
+  }
+});
+
+function storageKey() { return 'treinoProChecksV4'; }
+function doneDaysKey() { return 'treinoProDoneDaysV4'; }
+function historyKey() { return 'treinoProHistoryV4'; }
 
 function updateProgress() {
   let checked = 0, total = checkboxes.length, doneDays = 0;
@@ -322,9 +382,10 @@ function markDayDone() {
     day: day,
     label: document.querySelector(`#${day} .title`).textContent
   });
-  localStorage.setItem(historyKey(), JSON.stringify(history.slice(0,10)));
+  localStorage.setItem(historyKey(), JSON.stringify(history.slice(0,20)));
   renderHistory();
   renderStreak();
+  renderChart();
   alert('Treino do dia registrado no histórico.');
 }
 
@@ -343,11 +404,27 @@ function renderStreak() {
   document.getElementById('streak').textContent = history.length;
 }
 
+function renderChart() {
+  const history = JSON.parse(localStorage.getItem(historyKey()) || '[]');
+  const chart = document.getElementById('chart');
+  const recent = history.slice(0,7).reverse();
+  if (!recent.length) {
+    chart.innerHTML = '<div class="small">Sem dados ainda. Conclua treinos para gerar o gráfico.</div>';
+    return;
+  }
+  chart.innerHTML = recent.map((h, idx) => {
+    const val = idx + 1;
+    const height = Math.max(18, 20 + val * 18);
+    const label = h.date.slice(5);
+    return `<div class="bar-wrap"><div class="bar-val">${val}</div><div class="bar" style="height:${height}px"></div><div class="bar-label">${label}</div></div>`;
+  }).join('');
+}
+
 exportBtn.addEventListener('click', () => {
   const data = {
     checks: JSON.parse(localStorage.getItem(storageKey()) || '[]'),
-    doneDays: JSON.parse(localStorage.getItem(doneDaysKey()) || '[]'),
-    history: JSON.parse(localStorage.getItem(historyKey()) || '[]')
+    history: JSON.parse(localStorage.getItem(historyKey()) || '[]'),
+    autoRest: JSON.parse(localStorage.getItem('treinoAutoRestV4') || 'false')
   };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type:'application/json' });
   const a = document.createElement('a');
@@ -372,8 +449,12 @@ loadState();
 loadAutoRest();
 renderHistory();
 renderStreak();
+renderChart();
 updateProgress();
 renderTimer();
+if (localStorage.getItem('treinoWakeLock') === 'true') {
+  requestWakeLock();
+}
 </script>
 </body>
 </html>

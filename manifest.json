@@ -2,14 +2,14 @@
   "id": "/treino/",
   "name": "Treino Semanal Pro",
   "short_name": "Treino Pro",
-  "description": "App de treino com checklist, histórico e cronômetro.",
+  "description": "App de treino com checklist, gráfico, histórico e modo academia.",
   "lang": "pt-BR",
   "start_url": "/treino/",
   "scope": "/treino/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#081120",
-  "theme_color": "#0f172a",
+  "background_color": "#050505",
+  "theme_color": "#050505",
   "icons": [
     {
       "src": "/treino/icon-192.png",
