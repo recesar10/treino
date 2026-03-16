@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Treino Semanal</title>
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="manifest" href="manifest.json" />
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#121a2b; --panel2:#182236; --text:#e8eef8; --muted:#9aa9c0;
+      --accent:#38bdf8; --accent2:#22c55e; --danger:#ef4444; --border:rgba(148,163,184,.18);
+      --shadow:0 10px 24px rgba(0,0,0,.22);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#0b1220 0%,#0f172a 100%);color:var(--text)}
+    .wrap{max-width:960px;margin:0 auto;padding:16px 14px 90px}
+    .hero{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);background:rgba(11,18,32,.88);border-bottom:1px solid var(--border);padding:16px 14px;margin:0 -14px 16px}
+    .hero h1{margin:0;font-size:28px}
+    .hero p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.4}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px}
+    .mini,.day,.timer{background:var(--panel);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow)}
+    .mini{padding:14px}
+    .mini .label{color:var(--muted);font-size:12px;margin-bottom:6px}
+    .mini .value{font-size:20px;font-weight:700}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+    button{border:0;border-radius:14px;padding:12px 14px;font-weight:700;cursor:pointer;color:white;background:var(--panel2);border:1px solid var(--border)}
+    .primary{background:var(--accent);color:#062033}
+    .good{background:var(--accent2);color:#05230f}
+    .danger{background:var(--danger)}
+    .timer{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px;margin-bottom:16px;flex-wrap:wrap}
+    .timer .time{font-size:32px;font-weight:800;letter-spacing:1px}
+    .timer .note{color:var(--muted);font-size:13px}
+    .timer-controls{display:flex;gap:8px;flex-wrap:wrap}
+    .day{margin-bottom:16px;overflow:hidden}
+    .day-head{padding:16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border)}
+    .day-title{margin:0 0 6px;font-size:22px;color:var(--accent)}
+    .day-sub{margin:0;color:var(--muted);font-size:14px}
+    .list{padding:12px}
+    .exercise{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:10px}
+    .exercise:last-child{margin-bottom:0}
+    .exercise input[type='checkbox']{width:22px;height:22px;margin-top:2px;accent-color:var(--accent2)}
+    .name{font-weight:700;font-size:16px;margin-bottom:4px}
+    .meta{font-size:13px;color:var(--muted)}
+    .tag{white-space:nowrap;font-size:12px;color:#7dd3fc;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);padding:8px 10px;border-radius:999px;font-weight:700}
+    .progress{height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:10px}
+    .progress>div{height:100%;width:0%;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .2s ease}
+    .small{color:var(--muted);font-size:12px;margin-top:8px}
+    .install-box{margin-bottom:16px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);padding:14px;border-radius:16px}
+    .install-box strong{display:block;margin-bottom:6px;color:#86efac}
+    .footer{color:var(--muted);text-align:center;font-size:12px;margin-top:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <h1>Treino Semanal</h1>
+      <p>Plano semanal com foco em definição muscular. Marque os exercícios concluídos e use o cronômetro de descanso durante o treino.</p>
+    </div>
+
+    <div class="install-box" id="installBox">
+      <strong>Instalar na tela inicial</strong>
+      <div>No Android/Chrome, toque no menu do navegador e escolha <b>Adicionar à tela inicial</b> ou <b>Instalar app</b>.</div>
+    </div>
+
+    <div class="grid">
+      <div class="mini"><div class="label">Frequência</div><div class="value">5x/semana</div></div>
+      <div class="mini"><div class="label">Horários</div><div class="value">19h / 10h</div></div>
+      <div class="mini"><div class="label">Descanso base</div><div class="value">60–90s</div></div>
+      <div class="mini"><div class="label">Meta</div><div class="value" id="globalPct">0%</div></div>
+    </div>
+
+    <div class="timer">
+      <div>
+        <div class="time" id="timer">01:00</div>
+        <div class="note">Cronômetro de descanso. Toque em 60s ou 90s e depois em iniciar.</div>
+      </div>
+      <div class="timer-controls">
+        <button onclick="setTimer(60)">60s</button>
+        <button onclick="setTimer(90)">90s</button>
+        <button class="primary" onclick="startTimer()">Iniciar</button>
+        <button onclick="pauseTimer()">Pausar</button>
+        <button class="danger" onclick="resetTimer()">Zerar</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <button class="good" onclick="expandToday()">Ir para treino de hoje</button>
+      <button onclick="saveState(true)">Salvar progresso</button>
+      <button class="danger" onclick="clearChecks()">Limpar marcações</button>
+    </div>
+
+    <section class="day" id="terca">
+      <div class="day-head">
+        <h2 class="day-title">Terça — Peito + Tríceps</h2>
+        <p class="day-sub">19h • exercícios compostos: até 90s • isolados: 45–60s</p>
+        <div class="progress"><div id="bar-terca"></div></div>
+        <div class="small" id="txt-terca">0 de 5 exercícios concluídos</div>
+      </div>
+      <div class="list">
+        <label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Supino reto</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Supino inclinado halter</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Crossover</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Tríceps corda</div><div class="meta">3 séries • 10–12 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="terca"><div><div class="name">Tríceps testa</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label>
+      </div>
+    </section>
+
+    <section class="day" id="quarta">
+      <div class="day-head">
+        <h2 class="day-title">Quarta — Costas + Bíceps</h2>
+        <p class="day-sub">19h • foco em execução e amplitude</p>
+        <div class="progress"><div id="bar-quarta"></div></div>
+        <div class="small" id="txt-quarta">0 de 5 exercícios concluídos</div>
+      </div>
+      <div class="list">
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Puxada frente</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Remada baixa</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Remada unilateral</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Rosca direta</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quarta"><div><div class="name">Rosca alternada</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label>
+      </div>
+    </section>
+
+    <section class="day" id="quinta">
+      <div class="day-head">
+        <h2 class="day-title">Quinta — Pernas + Ombro</h2>
+        <p class="day-sub">19h • dia mais pesado da semana</p>
+        <div class="progress"><div id="bar-quinta"></div></div>
+        <div class="small" id="txt-quinta">0 de 5 exercícios concluídos</div>
+      </div>
+      <div class="list">
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Agachamento</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Leg press</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Flexora</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Desenvolvimento ombro</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="quinta"><div><div class="name">Elevação lateral</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label>
+      </div>
+    </section>
+
+    <section class="day" id="sabado">
+      <div class="day-head">
+        <h2 class="day-title">Sábado — Peito + Costas</h2>
+        <p class="day-sub">10h • estímulo extra de tronco</p>
+        <div class="progress"><div id="bar-sabado"></div></div>
+        <div class="small" id="txt-sabado">0 de 4 exercícios concluídos</div>
+      </div>
+      <div class="list">
+        <label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Supino inclinado barra</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Chest press máquina</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Puxada aberta</div><div class="meta">4 séries • 8–10 repetições</div></div><div class="tag">90s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="sabado"><div><div class="name">Remada curvada</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">90s</div></label>
+      </div>
+    </section>
+
+    <section class="day" id="domingo">
+      <div class="day-head">
+        <h2 class="day-title">Domingo — Ombro + Braços + Core</h2>
+        <p class="day-sub">10h • ritmo mais contínuo • descanso menor</p>
+        <div class="progress"><div id="bar-domingo"></div></div>
+        <div class="small" id="txt-domingo">0 de 6 exercícios concluídos</div>
+      </div>
+      <div class="list">
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Elevação lateral</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Posterior de ombro</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Rosca martelo</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Tríceps francês</div><div class="meta">3 séries • 10 repetições</div></div><div class="tag">60s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Elevação de pernas</div><div class="meta">3 séries • 12 repetições</div></div><div class="tag">45s</div></label>
+        <label class="exercise"><input type="checkbox" class="chk" data-group="domingo"><div><div class="name">Prancha</div><div class="meta">3 séries • 40 segundos</div></div><div class="tag">45s</div></label>
+      </div>
+    </section>
+
+    <div class="footer">PWA offline com salvamento local no navegador.</div>
+  </div>
+
+  <script>
+    const checkboxes = [...document.querySelectorAll('.chk')];
+    let totalSeconds = 60, remaining = 60, interval = null, deferredPrompt = null;
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    function formatTime(sec){const m=String(Math.floor(sec/60)).padStart(2,'0');const s=String(sec%60).padStart(2,'0');return `${m}:${s}`;}
+    function renderTimer(){document.getElementById('timer').textContent = formatTime(remaining);}
+    function setTimer(sec){totalSeconds=sec;remaining=sec;clearInterval(interval);interval=null;renderTimer();}
+    function startTimer(){clearInterval(interval);interval=setInterval(()=>{if(remaining>0){remaining--;renderTimer();}else{clearInterval(interval);interval=null;alert('Tempo de descanso concluído.');}},1000);}
+    function pauseTimer(){clearInterval(interval);interval=null;}
+    function resetTimer(){clearInterval(interval);interval=null;remaining=totalSeconds;renderTimer();}
+
+    function updateProgress(){
+      let checked=0, total=checkboxes.length;
+      ['terca','quarta','quinta','sabado','domingo'].forEach(g=>{
+        const items=[...document.querySelectorAll(`.chk[data-group="${g}"]`)], done=items.filter(i=>i.checked).length;
+        const pct=items.length?Math.round((done/items.length)*100):0;
+        document.getElementById(`bar-${g}`).style.width=pct+'%';
+        document.getElementById(`txt-${g}`).textContent=`${done} de ${items.length} exercícios concluídos`;
+        checked += done;
+      });
+      document.getElementById('globalPct').textContent = Math.round((checked/total)*100) + '%';
+    }
+
+    function saveState(showAlert){
+      localStorage.setItem('treinoChecks', JSON.stringify(checkboxes.map(c=>c.checked)));
+      if (showAlert) alert('Progresso salvo no navegador.');
+    }
+
+    function loadState(){
+      const raw=localStorage.getItem('treinoChecks'); if(!raw) return;
+      try{const state=JSON.parse(raw); checkboxes.forEach((c,i)=>c.checked=!!state[i]);}catch(e){}
+    }
+
+    function clearChecks(){
+      if(!confirm('Deseja limpar todas as marcações?')) return;
+      checkboxes.forEach(c=>c.checked=false); localStorage.removeItem('treinoChecks'); updateProgress();
+    }
+
+    function expandToday(){
+      const map={2:'terca',3:'quarta',4:'quinta',6:'sabado',0:'domingo'};
+      const id=map[new Date().getDay()];
+      if(id){document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});}
+      else{alert('Hoje não há treino programado neste cronograma.');}
+    }
+
+    checkboxes.forEach(c=>c.addEventListener('change', ()=>{updateProgress(); saveState(false);}));
+    loadState(); updateProgress(); renderTimer();
+  </script>
+</body>
+</html>
