@@ -1,14 +1,14 @@
 {
   "id": "/treino/",
-  "name": "Treino Semanal",
-  "short_name": "Treino",
-  "description": "Cronograma de treino semanal com checklist e cronômetro.",
+  "name": "Treino Semanal Pro",
+  "short_name": "Treino Pro",
+  "description": "App de treino com checklist, histórico e cronômetro.",
   "lang": "pt-BR",
   "start_url": "/treino/",
   "scope": "/treino/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b1220",
+  "background_color": "#081120",
   "theme_color": "#0f172a",
   "icons": [
     {
