@@ -1,8 +1,8 @@
 {
   "id": "/treino/",
-  "name": "Treino Semanal Pro",
-  "short_name": "Treino Pro",
-  "description": "App de treino com checklist, gráfico, histórico e modo academia.",
+  "name": "Treino Semanal Pro+",
+  "short_name": "Treino Pro+",
+  "description": "App de treino com checklist, gráfico, cargas, histórico e modo academia.",
   "lang": "pt-BR",
   "start_url": "/treino/",
   "scope": "/treino/",

@@ -3,79 +3,84 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Treino Semanal Pro</title>
+<title>Treino Semanal Pro+</title>
 <meta name="theme-color" content="#050505">
-<meta name="description" content="App de treino com checklist visível, descanso automático, gráfico e modo academia.">
+<meta name="description" content="App de treino com checklist, cronômetro, histórico, carga, meta semanal e modo academia.">
 <link rel="manifest" href="/treino/manifest.json">
 <link rel="icon" href="/treino/icon-192.png">
 <style>
-:root {
-  --panel:#111111; --panel2:#1a1a1a; --text:#f5f5f5; --muted:#b8b8b8;
+:root{
+  --bg:#050505; --panel:#111111; --panel2:#1a1a1a; --text:#f5f5f5; --muted:#b8b8b8;
   --danger:#d93030; --good:#1db954; --warn:#d4a017; --border:rgba(255,255,255,.10);
   --shadow:0 14px 28px rgba(0,0,0,.3);
 }
-* { box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-body { margin:0; font-family:Arial,Helvetica,sans-serif; color:var(--text); background:linear-gradient(180deg,#000 0%, #111 100%); }
-.wrap { max-width:980px; margin:0 auto; padding:16px 14px 90px; }
-.hero { position:sticky; top:0; z-index:20; background:rgba(0,0,0,.94); backdrop-filter: blur(10px); border-bottom:1px solid var(--border); margin:0 -14px 14px; padding:16px 14px; }
-.hero h1 { margin:0; font-size:30px; }
-.hero p { margin:6px 0 0; color:var(--muted); font-size:14px; line-height:1.45; }
-.install,.tips,.timer,.mini,.day,.history,.stats,.chartbox { background:var(--panel); border:1px solid var(--border); border-radius:20px; box-shadow:var(--shadow); }
-.install,.tips,.timer,.history,.stats,.chartbox { padding:14px; margin-bottom:14px; }
-.install strong,.tips strong,.stats strong,.history strong,.chartbox strong { display:block; color:#fff; margin-bottom:6px; }
-.install-row,.controls,.toolbar,.modebar { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-button { border:0; border-radius:16px; padding:12px 14px; font-weight:700; font-size:16px; color:white; background:var(--panel2); min-height:48px; }
-button.primary { background:#ffffff; color:#000; }
-button.good { background:var(--good); color:#041c0e; }
-button.danger { background:var(--danger); }
-button.warn { background:var(--warn); color:#2e2100; }
-button.ghost { background:transparent; border:1px solid var(--border); }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:14px; }
-.mini { padding:14px; }
-.mini .label { color:var(--muted); font-size:12px; }
-.mini .value { font-size:20px; font-weight:800; margin-top:6px; }
-.timer .time { font-size:44px; font-weight:900; letter-spacing:1px; }
-.timer .note { color:var(--muted); font-size:13px; margin-top:4px; }
-.timer-top { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; flex-wrap:wrap; }
-.badge { display:inline-block; padding:8px 10px; border-radius:999px; font-weight:700; font-size:12px; background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.15); }
-.toolbar button,.modebar button { flex:1 1 140px; }
-.day { overflow:hidden; margin-bottom:14px; }
-.head { padding:16px; border-bottom:1px solid var(--border); }
-.title { margin:0 0 6px; font-size:24px; color:#fff; }
-.sub { margin:0; color:var(--muted); font-size:14px; }
-.progress { height:10px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; margin-top:12px; }
-.progress>div { height:100%; width:0; background:linear-gradient(90deg,#888,#fff); transition:width .25s ease; }
-.small { color:var(--muted); font-size:12px; margin-top:8px; }
-.list { padding:12px; }
-.exercise { display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:start; background:rgba(255,255,255,.02); border:1px solid var(--border); border-radius:16px; padding:12px; margin-bottom:10px; transition:all .18s ease; }
-.exercise:last-child { margin-bottom:0; }
-.exercise.done { background:rgba(29,185,84,.10); border-color:rgba(29,185,84,.35); }
-.checkbox { width:28px; height:28px; border-radius:8px; border:2px solid rgba(255,255,255,.5); display:flex; align-items:center; justify-content:center; background:#fff; color:#000; font-weight:900; font-size:18px; flex:0 0 28px; margin-top:2px; transition:all .18s ease; }
-.exercise.done .checkbox { background:var(--good); border-color:var(--good); color:#041c0e; }
-.exercise input[type=checkbox] { position:absolute; opacity:0; pointer-events:none; }
-.exercise-main { min-width:0; }
-.name { font-weight:800; font-size:16px; transition:all .18s ease; }
-.meta { color:var(--muted); font-size:13px; margin-top:4px; transition:all .18s ease; }
-.exercise.done .name,.exercise.done .meta { text-decoration:line-through; opacity:.72; }
-.tag { font-size:12px; font-weight:800; color:#fff; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:999px; }
-.quick { display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
-.quick button { font-size:13px; min-height:38px; padding:8px 12px; }
-.history-item { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:14px; padding:12px; margin-top:10px; }
-.history-item strong { display:block; margin-bottom:4px; }
-.stats-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.chart { display:flex; align-items:flex-end; gap:8px; height:180px; margin-top:12px; padding:10px; border-radius:16px; background:rgba(255,255,255,.02); border:1px solid var(--border); }
-.bar-wrap { flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; height:100%; justify-content:flex-end; }
-.bar { width:100%; max-width:42px; min-height:4px; border-radius:12px 12px 4px 4px; background:linear-gradient(180deg,#fff,#666); transition:height .3s ease; }
-.bar-label,.bar-val { font-size:11px; color:var(--muted); }
-.footer { color:var(--muted); text-align:center; font-size:12px; margin-top:12px; }
-@media (max-width:480px) { .title { font-size:20px; } .timer .time { font-size:38px; } }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);background:linear-gradient(180deg,#000 0%, #111 100%)}
+.wrap{max-width:980px;margin:0 auto;padding:16px 14px 90px}
+.hero{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);margin:0 -14px 14px;padding:16px 14px}
+.hero h1{margin:0;font-size:30px}
+.hero p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
+.install,.tips,.timer,.mini,.day,.history,.stats,.chartbox,.quicktools{
+  background:var(--panel);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow)
+}
+.install,.tips,.timer,.history,.stats,.chartbox,.quicktools{padding:14px;margin-bottom:14px}
+.install strong,.tips strong,.stats strong,.history strong,.chartbox strong,.quicktools strong{display:block;color:#fff;margin-bottom:6px}
+.install-row,.controls,.toolbar,.modebar,.quick-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+button{border:0;border-radius:16px;padding:12px 14px;font-weight:700;font-size:16px;color:white;background:var(--panel2);min-height:48px}
+button.primary{background:#ffffff;color:#000}
+button.good{background:var(--good);color:#041c0e}
+button.danger{background:var(--danger)}
+button.warn{background:var(--warn);color:#2e2100}
+button.ghost{background:transparent;border:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.mini{padding:14px}
+.mini .label{color:var(--muted);font-size:12px}
+.mini .value{font-size:20px;font-weight:800;margin-top:6px}
+.timer .time{font-size:44px;font-weight:900;letter-spacing:1px}
+.timer .note{color:var(--muted);font-size:13px;margin-top:4px}
+.timer-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap}
+.badge{display:inline-block;padding:8px 10px;border-radius:999px;font-weight:700;font-size:12px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.15)}
+.toolbar button,.modebar button,.quick-row button{flex:1 1 140px}
+.day{overflow:hidden;margin-bottom:14px}
+.head{padding:16px;border-bottom:1px solid var(--border)}
+.title{margin:0 0 6px;font-size:24px;color:#fff}
+.sub{margin:0;color:var(--muted);font-size:14px}
+.progress{height:10px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin-top:12px}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,#888,#fff);transition:width .25s ease}
+.small{color:var(--muted);font-size:12px;margin-top:8px}
+.list{padding:12px}
+.exercise{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:16px;padding:12px;margin-bottom:10px;transition:all .18s ease}
+.exercise:last-child{margin-bottom:0}
+.exercise.done{background:rgba(29,185,84,.10);border-color:rgba(29,185,84,.35)}
+.checkbox{width:28px;height:28px;border-radius:8px;border:2px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;background:#fff;color:#000;font-weight:900;font-size:18px;flex:0 0 28px;margin-top:2px;transition:all .18s ease}
+.exercise.done .checkbox{background:var(--good);border-color:var(--good);color:#041c0e}
+.exercise input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}
+.exercise-main{min-width:0}
+.name{font-weight:800;font-size:16px;transition:all .18s ease}
+.meta{color:var(--muted);font-size:13px;margin-top:4px;transition:all .18s ease}
+.extra-line{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+.weight{width:96px;background:#0d0d0d;border:1px solid var(--border);border-radius:10px;color:#fff;padding:8px 10px;font-size:14px}
+.series-pill{font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:8px 10px;border-radius:999px}
+.exercise.done .name,.exercise.done .meta{text-decoration:line-through;opacity:.72}
+.tag{font-size:12px;font-weight:800;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);padding:8px 10px;border-radius:999px}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.quick button{font-size:13px;min-height:38px;padding:8px 12px}
+.history-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px}
+.history-item strong{display:block;margin-bottom:4px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.chart{display:flex;align-items:flex-end;gap:8px;height:180px;margin-top:12px;padding:10px;border-radius:16px;background:rgba(255,255,255,.02);border:1px solid var(--border)}
+.bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end}
+.bar{width:100%;max-width:42px;min-height:4px;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,#fff,#666);transition:height .3s ease}
+.bar-label,.bar-val{font-size:11px;color:var(--muted)}
+.footer{color:var(--muted);text-align:center;font-size:12px;margin-top:12px}
+@media (max-width:480px){.title{font-size:20px}.timer .time{font-size:38px}.weight{width:82px}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="hero">
-    <h1>Treino Semanal Pro</h1>
-    <p>Checklist visível, gráfico de evolução, modo academia e histórico salvo no celular.</p>
+    <h1>Treino Semanal Pro+</h1>
+    <p>Checklist visível, gráfico de evolução, modo academia, histórico, cargas e treino rápido.</p>
   </div>
 
   <div class="install">
@@ -107,10 +112,25 @@ button.ghost { background:transparent; border:1px solid var(--border); }
     </div>
   </div>
 
+  <div class="quicktools">
+    <strong>Ferramentas rápidas</strong>
+    <div class="quick-row">
+      <button class="ghost" onclick="goToday()">Ir para treino de hoje</button>
+      <button class="ghost" onclick="showQuickWorkout()">Modo treino rápido</button>
+      <button class="ghost" onclick="showLoadsChart()">Gráfico de cargas</button>
+    </div>
+  </div>
+
   <div class="chartbox">
-    <strong>Gráfico de evolução</strong>
+    <strong>Gráfico de evolução semanal</strong>
     <div class="small">Mostra quantos treinos você concluiu nos últimos 7 registros.</div>
     <div class="chart" id="chart"></div>
+  </div>
+
+  <div class="chartbox">
+    <strong>Gráfico de evolução de carga</strong>
+    <div class="small">Mostra a média dos pesos registrados nos últimos 7 treinos com carga salva.</div>
+    <div class="chart" id="loadChart"></div>
   </div>
 
   <div class="timer">
@@ -133,15 +153,14 @@ button.ghost { background:transparent; border:1px solid var(--border); }
   </div>
 
   <div class="toolbar">
-    <button class="good" onclick="goToday()">Ir para treino de hoje</button>
-    <button onclick="saveState(true)">Salvar progresso</button>
+    <button class="good" onclick="saveState(true)">Salvar progresso</button>
     <button class="ghost" onclick="markDayDone()">Concluir treino do dia</button>
     <button class="danger" onclick="clearChecks()">Limpar marcações</button>
   </div>
 
   <div class="tips">
     <strong>Dicas rápidas</strong>
-    <div>Treino ajustado com o layout completo. Som e vibração avisam quando o descanso termina.</div>
+    <div>Agora você pode anotar o peso de cada exercício, usar modo treino rápido e acompanhar cargas sem perder o layout simples de treino.</div>
   </div>
 
   <div id="daysContainer"></div>
@@ -151,32 +170,49 @@ button.ghost { background:transparent; border:1px solid var(--border); }
     <div id="historyList">Nenhum treino finalizado ainda.</div>
   </div>
 
-  <div class="footer">App de treino Pro • salvo localmente no seu celular.</div>
+  <div class="footer">App de treino Pro+ • salvo localmente no seu celular.</div>
 </div>
 
 <script>
 const DAYS = {"terca": {"title": "Terça — Peito + Tríceps", "sub": "19h • descanso 60–90s", "exs": [["Supino inclinado máquina", "4 séries • 10 repetições", "90s"], ["Supino inclinado halter", "4 séries • 10 repetições", "90s"], ["Crucifixo máquina", "4 séries • 12 repetições", "60s"], ["Tríceps corda pulley", "4 séries • 12 repetições", "60s"], ["Tríceps francês corda", "4 séries • 12 repetições", "60s"], ["Coice corda isolado", "4 séries • 12 repetições", "60s"]]}, "quarta": {"title": "Quarta — Costas + Bíceps", "sub": "19h • descanso 60–90s", "exs": [["Puxada frontal aberta", "4 séries • 10 repetições", "90s"], ["Remada baixa triângulo", "4 séries • 10 repetições", "90s"], ["Puxada em pé corda", "3 séries • 12 repetições", "60s"], ["Crucifixo inverso", "3 séries • 12 repetições", "60s"], ["Scott", "4 séries • 10 repetições", "60s"], ["Rosca unilateral halter", "3 séries • 10 repetições", "60s"], ["Polia baixa corda", "3 séries • 12 repetições", "60s"]]}, "quinta": {"title": "Quinta — Perna + Ombro + Trapézio", "sub": "19h • perna primeiro • descanso 60–90s", "exs": [["Leg press", "4 séries • 12 repetições", "90s"], ["Extensora", "3 séries • 15 repetições", "60s"], ["Flexora", "3 séries • 15 repetições", "60s"], ["Adutor", "3 séries • 15 repetições", "60s"], ["Abdutor", "3 séries • 15 repetições", "60s"], ["Panturrilha", "4 séries • 15–20 repetições", "60s"], ["Desenvolvimento máquina", "4 séries • 10 repetições", "90s"], ["Remada alta máquina", "3 séries • 12 repetições", "60s"], ["Encolhimento trapézio", "4 séries • 12–15 repetições", "60s"]]}, "sabado": {"title": "Sábado — Peito + Tríceps", "sub": "10h • variação leve • descanso 60–90s", "exs": [["Supino máquina reto", "4 séries • 10 repetições", "90s"], ["Supino inclinado halter", "4 séries • 10 repetições", "90s"], ["Crucifixo máquina", "4 séries • 12 repetições", "60s"], ["Tríceps corda", "4 séries • 12 repetições", "60s"], ["Francês corda", "4 séries • 12 repetições", "60s"]]}, "domingo": {"title": "Domingo — Costas + Bíceps", "sub": "10h • descanso 60–90s", "exs": [["Puxada frontal aberta", "4 séries • 10 repetições", "90s"], ["Remada baixa triângulo", "4 séries • 10 repetições", "90s"], ["Crucifixo inverso", "3 séries • 12 repetições", "60s"], ["Scott", "4 séries • 10 repetições", "60s"], ["Rosca halter", "3 séries • 10 repetições", "60s"]]}};
+const REPO = '/treino/';
 const daysContainer = document.getElementById('daysContainer');
+
 for (const [gid, info] of Object.entries(DAYS)) {
   let html = `<section class="day" id="${gid}"><div class="head"><h2 class="title">${info.title}</h2><p class="sub">${info.sub}</p><div class="quick"><button class="ghost" onclick="focusDay('${gid}')">Abrir este treino</button><button class="ghost" onclick="clearDay('${gid}')">Limpar dia</button></div><div class="progress"><div id="bar-${gid}"></div></div><div class="small" id="txt-${gid}">0 de ${info.exs.length} exercícios concluídos</div></div><div class="list">`;
   info.exs.forEach((ex, i) => {
-    html += `<label class="exercise" data-id="${gid}-${i}"><input type="checkbox" class="chk" data-group="${gid}" data-id="${gid}-${i}"><span class="checkbox" aria-hidden="true">✓</span><div class="exercise-main"><div class="name">${ex[0]}</div><div class="meta">${ex[1]}</div></div><div class="tag">${ex[2]}</div></label>`;
+    const id = `${gid}-${i}`;
+    html += `<label class="exercise" data-id="${id}">
+      <input type="checkbox" class="chk" data-group="${gid}" data-id="${id}">
+      <span class="checkbox" aria-hidden="true">✓</span>
+      <div class="exercise-main">
+        <div class="name">${ex[0]}</div>
+        <div class="meta">${ex[1]}</div>
+        <div class="extra-line">
+          <input class="weight" type="number" step="0.5" min="0" placeholder="Peso" data-weight-id="${id}">
+          <span class="series-pill">Cargas</span>
+        </div>
+      </div>
+      <div class="tag">${ex[2]}</div>
+    </label>`;
   });
   html += `</div></section>`;
   daysContainer.insertAdjacentHTML('beforeend', html);
 }
 
 const checkboxes=[...document.querySelectorAll('.chk')];
+const weightInputs=[...document.querySelectorAll('.weight')];
 const installBtn=document.getElementById('installBtn');
 const installText=document.getElementById('installText');
 const exportBtn=document.getElementById('exportBtn');
 const wakeBtn=document.getElementById('wakeBtn');
 const notifyBtn=document.getElementById('notifyBtn');
+
 let totalSeconds=60,remaining=60,interval=null,deferredPrompt=null;
 let autoRest=false,wakeLock=null,wakeEnabled=false,notifyEnabled=true;
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>navigator.serviceWorker.register('/treino/sw.js',{scope:'/treino/'}));
+  window.addEventListener('load',()=>navigator.serviceWorker.register(REPO+'sw.js',{scope:REPO}));
 }
 window.addEventListener('beforeinstallprompt',(e)=>{e.preventDefault();deferredPrompt=e;installBtn.style.display='inline-block';installText.textContent='Seu navegador liberou a instalação. Toque no botão abaixo.';});
 installBtn.addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.style.display='none';});
@@ -190,37 +226,163 @@ function setTimer(sec){totalSeconds=sec;remaining=sec;clearInterval(interval);in
 function startTimer(){clearInterval(interval);interval=setInterval(()=>{if(remaining>0){remaining--;renderTimer();}else{clearInterval(interval);interval=null;notifyRestEnd();alert('Tempo de descanso concluído.');}},1000);}
 function pauseTimer(){clearInterval(interval);interval=null;}
 function resetTimer(){clearInterval(interval);interval=null;remaining=totalSeconds;renderTimer();}
-function toggleAutoRest(){autoRest=!autoRest;localStorage.setItem('treinoAutoRestFix',JSON.stringify(autoRest));document.getElementById('autoMode').textContent='Auto descanso: '+(autoRest?'ligado':'desligado');}
-function loadAutoRest(){const raw=localStorage.getItem('treinoAutoRestFix');autoRest=raw?JSON.parse(raw):false;document.getElementById('autoMode').textContent='Auto descanso: '+(autoRest?'ligado':'desligado');}
-function toggleNotify(){notifyEnabled=!notifyEnabled;localStorage.setItem('treinoNotifyFix',JSON.stringify(notifyEnabled));notifyBtn.textContent='Som e vibração: '+(notifyEnabled?'ligados':'desligados');}
-function loadNotify(){const raw=localStorage.getItem('treinoNotifyFix');notifyEnabled=raw?JSON.parse(raw):true;notifyBtn.textContent='Som e vibração: '+(notifyEnabled?'ligados':'desligados');}
+function toggleAutoRest(){autoRest=!autoRest;localStorage.setItem('treinoAutoRestPlus',JSON.stringify(autoRest));document.getElementById('autoMode').textContent='Auto descanso: '+(autoRest?'ligado':'desligado');}
+function loadAutoRest(){const raw=localStorage.getItem('treinoAutoRestPlus');autoRest=raw?JSON.parse(raw):false;document.getElementById('autoMode').textContent='Auto descanso: '+(autoRest?'ligado':'desligado');}
+function toggleNotify(){notifyEnabled=!notifyEnabled;localStorage.setItem('treinoNotifyPlus',JSON.stringify(notifyEnabled));notifyBtn.textContent='Som e vibração: '+(notifyEnabled?'ligados':'desligados');}
+function loadNotify(){const raw=localStorage.getItem('treinoNotifyPlus');notifyEnabled=raw?JSON.parse(raw):true;notifyBtn.textContent='Som e vibração: '+(notifyEnabled?'ligados':'desligados');}
 notifyBtn.addEventListener('click',toggleNotify);
 
-async function requestWakeLock(){try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');wakeEnabled=true;wakeBtn.textContent='Modo academia: ligado';localStorage.setItem('treinoWakeFix','true');wakeLock.addEventListener('release',()=>{wakeEnabled=false;wakeBtn.textContent='Modo academia: desligado';});}else{alert('Seu navegador não suporta modo academia.');}}catch(err){alert('Não foi possível ativar o modo academia.');}}
-async function releaseWakeLock(){if(wakeLock){await wakeLock.release();wakeLock=null;}wakeEnabled=false;wakeBtn.textContent='Modo academia: desligado';localStorage.setItem('treinoWakeFix','false');}
+async function requestWakeLock(){try{if('wakeLock' in navigator){wakeLock=await navigator.wakeLock.request('screen');wakeEnabled=true;wakeBtn.textContent='Modo academia: ligado';localStorage.setItem('treinoWakePlus','true');wakeLock.addEventListener('release',()=>{wakeEnabled=false;wakeBtn.textContent='Modo academia: desligado';});}else{alert('Seu navegador não suporta modo academia.');}}catch(err){alert('Não foi possível ativar o modo academia.');}}
+async function releaseWakeLock(){if(wakeLock){await wakeLock.release();wakeLock=null;}wakeEnabled=false;wakeBtn.textContent='Modo academia: desligado';localStorage.setItem('treinoWakePlus','false');}
 async function toggleWakeLock(){if(wakeEnabled)await releaseWakeLock();else await requestWakeLock();}
 wakeBtn.addEventListener('click',toggleWakeLock);
-document.addEventListener('visibilitychange',async()=>{if(document.visibilityState==='visible'&&localStorage.getItem('treinoWakeFix')==='true'&&!wakeEnabled)await requestWakeLock();});
+document.addEventListener('visibilitychange',async()=>{if(document.visibilityState==='visible'&&localStorage.getItem('treinoWakePlus')==='true'&&!wakeEnabled)await requestWakeLock();});
 
-function storageKey(){return 'treinoProChecksFix';}
-function historyKey(){return 'treinoProHistoryFix';}
+function checksKey(){return 'treinoPlusChecks';}
+function historyKey(){return 'treinoPlusHistory';}
+function loadsKey(){return 'treinoPlusLoads';}
+
 function syncVisualChecks(){checkboxes.forEach(cb=>{const card=cb.closest('.exercise');if(cb.checked)card.classList.add('done');else card.classList.remove('done');});}
-function updateProgress(){let checked=0,total=checkboxes.length,doneDays=0;Object.keys(DAYS).forEach(g=>{const items=[...document.querySelectorAll(`.chk[data-group="${g}"]`)];const done=items.filter(i=>i.checked).length;const pct=items.length?Math.round((done/items.length)*100):0;document.getElementById(`bar-${g}`).style.width=pct+'%';document.getElementById(`txt-${g}`).textContent=`${done} de ${items.length} exercícios concluídos`;checked+=done;if(done===items.length&&items.length)doneDays++;});document.getElementById('globalPct').textContent=Math.round((checked/total)*100)+'%';document.getElementById('doneDays').textContent=`${doneDays}/5`;syncVisualChecks();}
-function saveState(showAlert){localStorage.setItem(storageKey(),JSON.stringify(checkboxes.map(c=>c.checked)));if(showAlert)alert('Progresso salvo no navegador.');updateProgress();}
-function loadState(){const raw=localStorage.getItem(storageKey());if(!raw)return;try{const state=JSON.parse(raw);checkboxes.forEach((c,i)=>c.checked=!!state[i]);}catch(e){}}
-function clearChecks(){if(!confirm('Deseja limpar todas as marcações?'))return;checkboxes.forEach(c=>c.checked=false);localStorage.removeItem(storageKey());updateProgress();}
-function clearDay(day){const items=[...document.querySelectorAll(`.chk[data-group="${day}"]`)];items.forEach(i=>i.checked=false);saveState(false);}
+function updateProgress(){
+  let checked=0,total=checkboxes.length,doneDays=0;
+  Object.keys(DAYS).forEach(g=>{
+    const items=[...document.querySelectorAll(`.chk[data-group="${g}"]`)];
+    const done=items.filter(i=>i.checked).length;
+    const pct=items.length?Math.round((done/items.length)*100):0;
+    document.getElementById(`bar-${g}`).style.width=pct+'%';
+    document.getElementById(`txt-${g}`).textContent=`${done} de ${items.length} exercícios concluídos`;
+    checked+=done;
+    if(done===items.length&&items.length)doneDays++;
+  });
+  document.getElementById('globalPct').textContent=Math.round((checked/total)*100)+'%';
+  document.getElementById('doneDays').textContent=`${doneDays}/5`;
+  syncVisualChecks();
+}
+
+function saveChecks(showAlert){
+  localStorage.setItem(checksKey(),JSON.stringify(checkboxes.map(c=>c.checked)));
+  if(showAlert)alert('Progresso salvo no navegador.');
+  updateProgress();
+}
+
+function saveLoads(){
+  const loads={};
+  weightInputs.forEach(inp=>{ loads[inp.dataset.weightId]=inp.value; });
+  localStorage.setItem(loadsKey(), JSON.stringify(loads));
+}
+
+function loadState(){
+  const raw=localStorage.getItem(checksKey());
+  if(raw){ try{ const state=JSON.parse(raw); checkboxes.forEach((c,i)=>c.checked=!!state[i]); }catch(e){} }
+  const loadsRaw=localStorage.getItem(loadsKey());
+  if(loadsRaw){ try{
+    const loads=JSON.parse(loadsRaw);
+    weightInputs.forEach(inp=>{ if(loads[inp.dataset.weightId]!==undefined) inp.value=loads[inp.dataset.weightId]; });
+  }catch(e){} }
+}
+
+function clearChecks(){
+  if(!confirm('Deseja limpar todas as marcações?'))return;
+  checkboxes.forEach(c=>c.checked=false);
+  localStorage.removeItem(checksKey());
+  updateProgress();
+}
+function clearDay(day){
+  const items=[...document.querySelectorAll(`.chk[data-group="${day}"]`)];
+  items.forEach(i=>i.checked=false);
+  saveChecks(false);
+}
 function focusDay(day){document.getElementById(day).scrollIntoView({behavior:'smooth',block:'start'});}
-function goToday(){const map={2:'terca',3:'quarta',4:'quinta',6:'sabado',0:'domingo'};const id=map[new Date().getDay()];if(id)focusDay(id);else alert('Hoje não há treino programado neste cronograma.');}
-function getCurrentDayId(){const map={2:'terca',3:'quarta',4:'quinta',6:'sabado',0:'domingo'};return map[new Date().getDay()]||null;}
-function markDayDone(){const day=getCurrentDayId();if(!day){alert('Hoje não há treino programado neste cronograma.');return;}const today=new Date().toISOString().slice(0,10);const history=JSON.parse(localStorage.getItem(historyKey())||'[]');history.unshift({date:today,day:day,label:document.querySelector(`#${day} .title`).textContent});localStorage.setItem(historyKey(),JSON.stringify(history.slice(0,20)));renderHistory();renderStreak();renderChart();alert('Treino do dia registrado no histórico.');}
-function renderHistory(){const history=JSON.parse(localStorage.getItem(historyKey())||'[]');const box=document.getElementById('historyList');if(!history.length){box.textContent='Nenhum treino finalizado ainda.';return;}box.innerHTML=history.map(h=>`<div class="history-item"><strong>${h.label}</strong><div>${h.date}</div></div>`).join('');}
-function renderStreak(){const history=JSON.parse(localStorage.getItem(historyKey())||'[]');document.getElementById('streak').textContent=history.length;}
-function renderChart(){const history=JSON.parse(localStorage.getItem(historyKey())||'[]');const chart=document.getElementById('chart');const recent=history.slice(0,7).reverse();if(!recent.length){chart.innerHTML='<div class="small">Sem dados ainda. Conclua treinos para gerar o gráfico.</div>';return;}chart.innerHTML=recent.map((h,idx)=>{const val=idx+1;const height=Math.max(18,20+val*18);const label=h.date.slice(5);return `<div class="bar-wrap"><div class="bar-val">${val}</div><div class="bar" style="height:${height}px"></div><div class="bar-label">${label}</div></div>`;}).join('');}
-exportBtn.addEventListener('click',()=>{const data={checks:JSON.parse(localStorage.getItem(storageKey())||'[]'),history:JSON.parse(localStorage.getItem(historyKey())||'[]'),autoRest:JSON.parse(localStorage.getItem('treinoAutoRestFix')||'false'),notify:JSON.parse(localStorage.getItem('treinoNotifyFix')||'true')};const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='treino-progresso.json';a.click();});
-checkboxes.forEach(c=>c.addEventListener('change',()=>{saveState(false);if(autoRest){const tag=c.closest('.exercise').querySelector('.tag').textContent;const secs=parseInt(tag);if(!Number.isNaN(secs)){setTimer(secs);startTimer();}}}));
-loadState();loadAutoRest();loadNotify();renderHistory();renderStreak();renderChart();updateProgress();renderTimer();
-if(localStorage.getItem('treinoWakeFix')==='true')requestWakeLock();
+function goToday(){
+  const map={2:'terca',3:'quarta',4:'quinta',6:'sabado',0:'domingo'};
+  const id=map[new Date().getDay()];
+  if(id)focusDay(id); else alert('Hoje não há treino programado neste cronograma.');
+}
+function getCurrentDayId(){
+  const map={2:'terca',3:'quarta',4:'quinta',6:'sabado',0:'domingo'};
+  return map[new Date().getDay()]||null;
+}
+function currentAverageLoad(){
+  const vals=weightInputs.map(i=>parseFloat(i.value)).filter(v=>!Number.isNaN(v)&&v>0);
+  if(!vals.length) return null;
+  return +(vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1);
+}
+function markDayDone(){
+  const day=getCurrentDayId();
+  if(!day){alert('Hoje não há treino programado neste cronograma.');return;}
+  const today=new Date().toISOString().slice(0,10);
+  const avgLoad=currentAverageLoad();
+  const history=JSON.parse(localStorage.getItem(historyKey())||'[]');
+  history.unshift({date:today,day:day,label:document.querySelector(`#${day} .title`).textContent,load:avgLoad});
+  localStorage.setItem(historyKey(),JSON.stringify(history.slice(0,30)));
+  renderHistory(); renderStreak(); renderChart(); renderLoadChart();
+  alert('Treino do dia registrado no histórico.');
+}
+
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||'[]');
+  const box=document.getElementById('historyList');
+  if(!history.length){ box.textContent='Nenhum treino finalizado ainda.'; return; }
+  box.innerHTML=history.map(h=>`<div class="history-item"><strong>${h.label}</strong><div>${h.date}${h.load?` • carga média ${h.load}`:''}</div></div>`).join('');
+}
+function renderStreak(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||'[]');
+  document.getElementById('streak').textContent=history.length;
+}
+function renderChart(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||'[]');
+  const chart=document.getElementById('chart');
+  const recent=history.slice(0,7).reverse();
+  if(!recent.length){ chart.innerHTML='<div class="small">Sem dados ainda. Conclua treinos para gerar o gráfico.</div>'; return; }
+  chart.innerHTML=recent.map((h,idx)=>{const val=idx+1; const height=Math.max(18,20+val*18); const label=h.date.slice(5); return `<div class="bar-wrap"><div class="bar-val">${val}</div><div class="bar" style="height:${height}px"></div><div class="bar-label">${label}</div></div>`;}).join('');
+}
+function renderLoadChart(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||'[]').filter(h=>h.load);
+  const chart=document.getElementById('loadChart');
+  const recent=history.slice(0,7).reverse();
+  if(!recent.length){ chart.innerHTML='<div class="small">Sem dados ainda. Salve pesos e conclua o treino para gerar o gráfico.</div>'; return; }
+  const max=Math.max(...recent.map(r=>r.load));
+  chart.innerHTML=recent.map((h)=>{const height=Math.max(18, Math.round((h.load/max)*120)+20); const label=h.date.slice(5); return `<div class="bar-wrap"><div class="bar-val">${h.load}</div><div class="bar" style="height:${height}px"></div><div class="bar-label">${label}</div></div>`;}).join('');
+}
+function showLoadsChart(){document.getElementById('loadChart').scrollIntoView({behavior:'smooth'});}
+function showQuickWorkout(){
+  const day=getCurrentDayId();
+  if(!day){ alert('Hoje não há treino programado neste cronograma.'); return; }
+  const section=document.getElementById(day);
+  const items=[...section.querySelectorAll('.exercise')].slice(0,4);
+  if(!items.length) return;
+  items[0].scrollIntoView({behavior:'smooth',block:'start'});
+  alert('Modo treino rápido: use os 4 primeiros exercícios do treino de hoje.');
+}
+
+exportBtn.addEventListener('click',()=>{
+  saveLoads();
+  const data={
+    checks:JSON.parse(localStorage.getItem(checksKey())||'[]'),
+    history:JSON.parse(localStorage.getItem(historyKey())||'[]'),
+    loads:JSON.parse(localStorage.getItem(loadsKey())||'{}'),
+    autoRest:JSON.parse(localStorage.getItem('treinoAutoRestPlus')||'false'),
+    notify:JSON.parse(localStorage.getItem('treinoNotifyPlus')||'true')
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='treino-progresso-plus.json';
+  a.click();
+});
+
+checkboxes.forEach(c=>c.addEventListener('change',()=>{
+  saveChecks(false);
+  if(autoRest){
+    const tag=c.closest('.exercise').querySelector('.tag').textContent;
+    const secs=parseInt(tag);
+    if(!Number.isNaN(secs)){ setTimer(secs); startTimer(); }
+  }
+}));
+weightInputs.forEach(inp=>inp.addEventListener('change', saveLoads));
+
+loadState(); loadAutoRest(); loadNotify(); renderHistory(); renderStreak(); renderChart(); renderLoadChart(); updateProgress(); renderTimer();
+if(localStorage.getItem('treinoWakePlus')==='true') requestWakeLock();
 </script>
 </body>
 </html>
