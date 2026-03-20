@@ -2,7 +2,7 @@
   "id": "/treino/",
   "name": "Treino Semanal Séries",
   "short_name": "Treino Séries",
-  "description": "App de treino com séries, gráfico, histórico e modo academia.",
+  "description": "App de treino com séries, mensagem do dia, histórico e modo academia.",
   "lang": "pt-BR",
   "start_url": "/treino/",
   "scope": "/treino/",
