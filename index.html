@@ -9,13 +9,14 @@ body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--text);backgroun
 .wrap{max-width:980px;margin:0 auto;padding:16px 14px 90px}
 .hero{position:sticky;top:0;z-index:20;background:rgba(0,0,0,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);margin:0 -14px 14px;padding:16px 14px}
 .hero h1{margin:0;font-size:30px}.hero p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.45}
-.proverb-card{position:relative;overflow:hidden;border:1px solid rgba(212,175,55,.24);border-radius:24px;box-shadow:var(--shadow);margin-bottom:14px;min-height:300px;background:#0d0d0d}
+.proverb-card{position:relative;overflow:hidden;border:1px solid rgba(212,175,55,.24);border-radius:24px;box-shadow:var(--shadow);margin-bottom:14px;min-height:320px;background:#0d0d0d}
 .proverb-overlay{position:absolute;inset:0;background:
-linear-gradient(180deg, rgba(0,0,0,.36), rgba(0,0,0,.48)),
-radial-gradient(circle at top right, rgba(212,175,55,.14), transparent 30%);
+linear-gradient(90deg, rgba(0,0,0,.84) 0%, rgba(0,0,0,.74) 38%, rgba(0,0,0,.42) 70%, rgba(0,0,0,.22) 100%),
+linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.34)),
+radial-gradient(circle at top right, rgba(212,175,55,.16), transparent 32%);
 z-index:1}
-.proverb-bg{position:absolute;inset:0;background-position:center;background-size:cover;background-repeat:no-repeat;filter:brightness(.9)}
-.proverb-content{position:relative;z-index:2;padding:18px}
+.proverb-bg{position:absolute;inset:0;background-position:78% center;background-size:contain;background-repeat:no-repeat;filter:brightness(.92) contrast(1.02);transform:scale(.96)}
+.proverb-content{position:relative;z-index:2;padding:18px;max-width:68%}
 .proverb-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
 .proverb-label{font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#f4df95}
 .badge{font-size:11px;font-weight:700;border:1px solid rgba(255,255,255,.14);padding:6px 10px;border-radius:999px;color:#f3f3f3;background:rgba(255,255,255,.05)}
@@ -38,7 +39,7 @@ button.primary{background:#fff;color:#000}button.good{background:var(--good);col
 .series-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.series-box{width:34px;height:34px;border-radius:10px;border:2px solid rgba(255,255,255,.4);display:flex;align-items:center;justify-content:center;background:#fff;color:#000;font-weight:900;font-size:15px;cursor:pointer;user-select:none}
 .series-box.done{background:var(--good);border-color:var(--good);color:#041c0e}.series-label{font-size:12px;color:var(--muted);margin-top:6px}
 .history-item{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:12px;margin-top:10px}.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.footer{color:var(--muted);text-align:center;font-size:12px;margin-top:12px}
-@media (max-width:480px){.proverb-text{max-width:100%;font-size:28px}.title{font-size:20px}.timer .time{font-size:38px}.proverb-card{min-height:270px}}
+@media (max-width:480px){.proverb-text{max-width:100%;font-size:28px}.title{font-size:20px}.timer .time{font-size:38px}.proverb-card{min-height:280px}.proverb-bg{background-position:86% center;background-size:cover;transform:scale(1)}.proverb-content{max-width:76%}}
 </style></head><body><div class="wrap">
 <div class="hero"><h1>Treino Semanal Séries</h1><p>Agora com provérbio do dia em destaque e artes dos 12 animais do horóscopo chinês distribuídas pelas 60 frases.</p></div>
 <div class="proverb-card">
