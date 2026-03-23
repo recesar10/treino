@@ -1,405 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0b0b0b" />
-  <title>Treino Semanal Séries</title>
-  <link rel="manifest" href="manifest.json" />
-  <style>
-    :root{--bg:#070707;--card:#101010;--line:#252525;--text:#f5f5f5;--muted:#bdbdbd;--green:#22c55e;--yellow:#d6a61c;--red:#ef4444;--chip:#171717;--radius:24px}
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased;padding:18px 14px 40px}
-    .container{max-width:760px;margin:0 auto}
-    h1{margin:6px 0 8px;font-size:clamp(30px,6vw,46px);line-height:1.05;font-weight:800}
-    .subtitle{color:var(--muted);font-size:clamp(16px,3.2vw,20px);line-height:1.45;margin-bottom:18px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:16px;overflow:hidden}
-    .quote-card{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;background:linear-gradient(180deg,#0c0c0c 0%,#0a0a0a 100%);border-color:#3b2d16}
-    .quote-left{min-width:0;display:flex;flex-direction:column;justify-content:space-between}
-    .quote-label{color:#e0c06a;letter-spacing:4px;font-size:13px;font-weight:800;margin-bottom:10px}
-    .quote-source{display:inline-block;align-self:flex-start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);border-radius:999px;padding:10px 14px;font-size:14px;font-weight:700;margin-bottom:16px}
-    .quote-mark{color:#d9b75b;font-size:54px;line-height:1;margin-bottom:8px}
-    .quote-text{font-family:Georgia,serif;font-size:clamp(20px,4.3vw,30px);line-height:1.03;font-weight:800;margin-bottom:18px}
-    .animal{color:#e9d6a2;font-size:18px}
-    .quote-image{min-height:230px;border-radius:20px;background-size:cover;background-position:center;border:1px solid rgba(214,166,28,.12);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
-    .section-title{font-size:18px;font-weight:800;margin:0 0 10px}
-    .big-timer{font-size:clamp(56px,15vw,86px);line-height:1;font-weight:800;margin:0 0 8px}
-    .chip{display:inline-block;padding:11px 14px;border-radius:999px;background:var(--chip);border:1px solid var(--line);font-weight:700;margin-bottom:14px}
-    .status{color:var(--muted);font-size:15px;margin-top:10px}
-    .install-row,.button-row,.timer-buttons,.series-row,.weights-row{display:flex;flex-wrap:wrap;gap:10px}
-    .btn{border:1px solid var(--line);background:var(--chip);color:var(--text);border-radius:20px;padding:13px 16px;font-size:16px;font-weight:700;cursor:pointer}
-    .btn.primary{background:var(--green);color:#08210f;border-color:transparent}
-    .btn.light{background:#f4f4f4;color:#111;border-color:transparent}
-    .btn.yellow{background:var(--yellow);color:#1a1a1a;border-color:transparent}
-    .btn.red{background:var(--red);color:#fff;border-color:transparent}
-    .btn.ghost{background:transparent}
-    .btn.small{min-width:74px;text-align:center}
-    .training-title{font-size:clamp(24px,6vw,40px);font-weight:800;margin:0 0 4px}
-    .training-subtitle{color:var(--muted);font-size:16px;margin-bottom:12px}
-    .progress-bar{width:100%;height:14px;background:#d9d9d9;border-radius:999px;overflow:hidden;margin-bottom:10px}
-    .progress-fill{height:100%;width:0%;background:var(--green);transition:width .2s ease}
-    .exercise{margin-top:14px;padding:16px;border-radius:22px;background:linear-gradient(180deg,#0d3017,#0a2411);border:1px solid #1d5c30}
-    .exercise-header{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-    .exercise-name{font-size:clamp(18px,4.6vw,28px);line-height:1.1;font-weight:800;margin:0 0 6px}
-    .exercise-meta,.exercise-muscle{margin:0 0 6px;font-size:15px;color:#d6d6d6}
-    .exercise-muscle{color:#d8c07a;font-weight:700}
-    .rest-badge{min-width:74px;text-align:center;padding:12px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);font-weight:800}
-    .series-btn{width:56px;height:56px;border-radius:16px;border:1px solid transparent;background:var(--green);color:#05150a;font-size:18px;font-weight:800;cursor:pointer}
-    .series-btn.off{background:#0d0d0d;color:#fff;border-color:#2a2a2a}
-    .weight-box{width:66px;text-align:center}
-    .weight-input{width:100%;background:#090909;color:#fff;border:1px solid #2b2b2b;border-radius:16px;padding:10px 6px;font-size:16px;font-weight:700;text-align:center;outline:none}
-    .weight-label{margin-top:8px;font-size:14px;color:#acacac}
-    @media (max-width:640px){
-      .quote-card{grid-template-columns:1fr}
-      .quote-image{min-height:180px;order:-1}
-      .exercise-meta,.exercise-muscle,.training-subtitle,.status{font-size:14px}
-      .btn{font-size:15px;padding:12px 14px}
-      .series-btn{width:50px;height:50px;font-size:16px}
-      .weight-box{width:60px}
-      .weight-input{font-size:15px}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino Semanal Séries</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{background:#0b0b0b;color:#fff;font-family:Arial;margin:0;padding:16px}
+.card{background:#121212;padding:16px;border-radius:20px;margin-bottom:16px}
+.quote-img{width:100%;height:180px;border-radius:16px;background-size:cover;background-position:center;margin-bottom:12px}
+.exercise{background:#0f2b16;padding:14px;border-radius:16px;margin-top:10px}
+button{padding:10px;border-radius:8px;border:none;margin:4px}
+.series{background:#1f1f1f;color:white}
+.series.done{background:#22c55e;color:black}
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Treino Semanal Séries</h1>
-    <div class="subtitle">Versão com próximo treino pela sequência real e salvamento automático.</div>
 
-    <div class="card quote-card">
-      <div class="quote-left">
-        <div>
-          <div class="quote-label">PROVÉRBIO DO DIA</div>
-          <div class="quote-source" id="quoteSource">Sabedoria oriental</div>
-          <div class="quote-mark">“</div>
-          <div class="quote-text" id="quoteText">Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.</div>
-        </div>
-        <div class="animal" id="animalText">Animal do dia: Porco</div>
-      </div>
-      <div class="quote-image" id="quoteImage"></div>
-    </div>
+<h1>Treino Semanal Séries</h1>
 
-    <div class="card" id="installCard" style="display:none;">
-      <div class="section-title">Instalar como app</div>
-      <div class="subtitle" style="margin-bottom:16px;">Seu navegador liberou a instalação. Toque no botão abaixo.</div>
-      <div class="install-row">
-        <button class="btn primary" id="installBtn">Instalar app</button>
-        <button class="btn ghost" id="exportBtn">Exportar progresso</button>
-      </div>
-    </div>
+<div class="card">
+<div class="quote-img" style="background-image:url('https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=900&q=80')"></div>
+<h3>PROVÉRBIO DO DIA</h3>
+<p><b>Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.</b></p>
+<p>Animal do dia: Porco</p>
+</div>
 
-    <div class="card">
-      <div class="big-timer" id="timerDisplay">01:00</div>
-      <div class="subtitle" style="margin-bottom:14px;">Cronômetro com descanso automático entre séries.</div>
-      <div class="chip" id="autoRestStatus">Auto descanso: desligado</div>
-
-      <div class="timer-buttons" style="margin-bottom:12px;">
-        <button class="btn small ghost" data-time="45">45s</button>
-        <button class="btn small yellow" data-time="60">60s</button>
-        <button class="btn small ghost" data-time="90">90s</button>
-        <button class="btn light" id="startTimerBtn">Iniciar</button>
-      </div>
-
-      <div class="timer-buttons" style="margin-bottom:12px;">
-        <button class="btn ghost" id="pauseTimerBtn">Pausar</button>
-        <button class="btn red" id="resetTimerBtn">Zerar</button>
-        <button class="btn ghost" id="toggleAutoBtn">Auto</button>
-      </div>
-
-      <div class="status" id="timerInfo">Tempo selecionado: 60s</div>
-    </div>
-
-    <div class="button-row" style="margin-bottom:18px;">
-      <button class="btn ghost" id="saveBtn">Salvar progresso</button>
-      <button class="btn red" id="clearBtn">Limpar marcações</button>
-    </div>
-
-    <div class="card">
-      <div class="training-title" id="workoutTitle">Treino atual</div>
-      <div class="training-subtitle" id="workoutSubtitle"></div>
-
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
-      </div>
-      <div class="status" id="progressText">0 de 0 exercícios concluídos</div>
-
-      <div id="exerciseList"></div>
-
-      <div class="button-row" style="margin-top:18px;">
-        <button class="btn primary" id="finishWorkoutBtn">Concluir treino</button>
-        <button class="btn ghost" id="nextWorkoutBtn">Avançar manualmente</button>
-      </div>
-
-      <div class="status" id="sequenceInfo" style="margin-top:14px;"></div>
-      <div class="status" id="lastDoneInfo"></div>
-    </div>
-  </div>
+<div class="card">
+<h2 id="workoutTitle"></h2>
+<div id="exerciseList"></div>
+<button onclick="finishWorkout()">Concluir treino</button>
+</div>
 
 <script>
-const STORAGE_KEY = "treino_completo_seq_v1";
-const QUOTE_DAY_KEY = "treino_quote_day_img_v1";
-
 const WORKOUTS = [
-  {id:"A",title:"Treino A — Peito + Tríceps",scheduleLabel:"Sequência real • descanso 60–90s",exercises:[
-    {id:"a1",name:"Supino inclinado máquina",sets:4,reps:10,muscle:"Peitoral superior",rest:90},
-    {id:"a2",name:"Supino reto halter",sets:4,reps:10,muscle:"Peitoral",rest:90},
-    {id:"a3",name:"Crucifixo máquina",sets:3,reps:12,muscle:"Peitoral",rest:60},
-    {id:"a4",name:"Tríceps corda",sets:4,reps:12,muscle:"Tríceps",rest:60},
-    {id:"a5",name:"Tríceps testa",sets:3,reps:10,muscle:"Tríceps",rest:60},
-    {id:"a6",name:"Mergulho banco",sets:3,reps:12,muscle:"Tríceps",rest:60}
-  ]},
-  {id:"B",title:"Treino B — Costas + Bíceps",scheduleLabel:"Sequência real • descanso 60–90s",exercises:[
-    {id:"b1",name:"Puxada frente",sets:4,reps:10,muscle:"Dorsal",rest:90},
-    {id:"b2",name:"Remada baixa",sets:4,reps:10,muscle:"Costas",rest:90},
-    {id:"b3",name:"Remada unilateral",sets:3,reps:12,muscle:"Costas",rest:60},
-    {id:"b4",name:"Rosca direta",sets:4,reps:10,muscle:"Bíceps",rest:60},
-    {id:"b5",name:"Rosca alternada",sets:3,reps:12,muscle:"Bíceps",rest:60},
-    {id:"b6",name:"Rosca martelo",sets:3,reps:12,muscle:"Braquial",rest:60}
-  ]},
-  {id:"C",title:"Treino C — Pernas",scheduleLabel:"Sequência real • descanso 60–120s",exercises:[
-    {id:"c1",name:"Agachamento",sets:4,reps:10,muscle:"Quadríceps",rest:120},
-    {id:"c2",name:"Leg press",sets:4,reps:12,muscle:"Pernas",rest:90},
-    {id:"c3",name:"Cadeira extensora",sets:3,reps:12,muscle:"Quadríceps",rest:60},
-    {id:"c4",name:"Mesa flexora",sets:3,reps:12,muscle:"Posterior",rest:60},
-    {id:"c5",name:"Panturrilha em pé",sets:4,reps:15,muscle:"Panturrilha",rest:45},
-    {id:"c6",name:"Abdominal",sets:3,reps:15,muscle:"Core",rest:45}
-  ]}
+{id:"A", title:"Treino A — Peito + Tríceps", exercises:["Supino inclinado","Supino reto","Crucifixo"]},
+{id:"B", title:"Treino B — Costas + Bíceps", exercises:["Puxada frente","Remada","Rosca direta"]},
+{id:"C", title:"Treino C — Pernas", exercises:["Agachamento","Leg press","Panturrilha"]}
 ];
 
-const QUOTES = [
-  {source:"Sabedoria oriental",text:"Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.",animal:"Porco",img:"https://images.unsplash.com/photo-1516467508483-a7212febe31a?auto=format&fit=crop&w=900&q=80"},
-  {source:"Provérbio popular",text:"A constância vence a pressa quando o objetivo é ir longe.",animal:"Tartaruga",img:"https://images.unsplash.com/photo-1508182311256-e3f4d12c3c5b?auto=format&fit=crop&w=900&q=80"},
-  {source:"Sabedoria antiga",text:"Quem volta todo dia ao caminho, um dia chega mais forte.",animal:"Lobo",img:"https://images.unsplash.com/photo-1501706362039-c6b2a7f5c0c8?auto=format&fit=crop&w=900&q=80"},
-  {source:"Provérbio do treino",text:"Não é o dia perfeito que constrói o resultado, é a repetição correta.",animal:"Touro",img:"https://images.unsplash.com/photo-1500595046743-cd271d694d30?auto=format&fit=crop&w=900&q=80"}
-];
+let state = JSON.parse(localStorage.getItem("treino_seq")) || {lastCompleted:null};
 
-const defaultState = {currentWorkoutIndex:0,lastCompletedWorkoutId:null,lastCompletedAt:null,autoRest:false,timerSelected:60,timerRemaining:60,progress:{}};
-let state = loadState();
-let deferredPrompt = null;
-let timerInterval = null;
-let timerRunning = false;
+function getNextWorkout(){
+ if(!state.lastCompleted) return WORKOUTS[0];
+ let index = WORKOUTS.findIndex(w=>w.id===state.lastCompleted);
+ return WORKOUTS[(index+1)%WORKOUTS.length];
+}
 
-function clone(obj){return JSON.parse(JSON.stringify(obj));}
-function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(!raw) return clone(defaultState);
-    const parsed = JSON.parse(raw);
-    return {...clone(defaultState),...parsed,progress:parsed.progress||{}};
-  }catch{return clone(defaultState);}
-}
-function saveState(){localStorage.setItem(STORAGE_KEY, JSON.stringify(state));}
-function getCurrentWorkout(){return WORKOUTS[state.currentWorkoutIndex] || WORKOUTS[0];}
-function getWorkoutProgress(workoutId){if(!state.progress[workoutId]) state.progress[workoutId] = {}; return state.progress[workoutId];}
-function ensureWorkoutStructure(workout){
-  const workoutProgress = getWorkoutProgress(workout.id);
-  workout.exercises.forEach(ex => {
-    if(!workoutProgress[ex.id]){
-      workoutProgress[ex.id] = {completedSets:Array(ex.sets).fill(false),weights:Array(ex.sets).fill("")};
-    }else{
-      if(!Array.isArray(workoutProgress[ex.id].completedSets) || workoutProgress[ex.id].completedSets.length !== ex.sets){
-        workoutProgress[ex.id].completedSets = Array(ex.sets).fill(false);
-      }
-      if(!Array.isArray(workoutProgress[ex.id].weights) || workoutProgress[ex.id].weights.length !== ex.sets){
-        workoutProgress[ex.id].weights = Array(ex.sets).fill("");
-      }
-    }
-  });
-}
-function renderQuote(){
-  const today = new Date().toISOString().slice(0,10);
-  let index = 0;
-  try{
-    const saved = localStorage.getItem(QUOTE_DAY_KEY);
-    if(saved){
-      const data = JSON.parse(saved);
-      if(data.day === today){index = data.index;}
-      else{
-        index = Math.floor(Math.random()*QUOTES.length);
-        localStorage.setItem(QUOTE_DAY_KEY, JSON.stringify({day:today,index}));
-      }
-    }else{
-      index = Math.floor(Math.random()*QUOTES.length);
-      localStorage.setItem(QUOTE_DAY_KEY, JSON.stringify({day:today,index}));
-    }
-  }catch{index = 0;}
-  const quote = QUOTES[index];
-  document.getElementById("quoteSource").textContent = quote.source;
-  document.getElementById("quoteText").textContent = quote.text;
-  document.getElementById("animalText").textContent = `Animal do dia: ${quote.animal}`;
-  document.getElementById("quoteImage").style.backgroundImage = `linear-gradient(90deg, rgba(0,0,0,.18), rgba(0,0,0,.35)), url("${quote.img}")`;
-}
 function renderWorkout(){
-  const workout = getCurrentWorkout();
-  ensureWorkoutStructure(workout);
-  document.getElementById("workoutTitle").textContent = workout.title;
-  document.getElementById("workoutSubtitle").textContent = workout.scheduleLabel;
-  const exerciseList = document.getElementById("exerciseList");
-  exerciseList.innerHTML = "";
-  let completedExercises = 0;
-
-  workout.exercises.forEach(ex => {
-    const exProgress = getWorkoutProgress(workout.id)[ex.id];
-    const allSetsDone = exProgress.completedSets.every(Boolean);
-    if(allSetsDone) completedExercises++;
-
-    const wrapper = document.createElement("div");
-    wrapper.className = "exercise";
-
-    const header = document.createElement("div");
-    header.className = "exercise-header";
-    header.innerHTML = `<div><div class="exercise-name">${ex.name}</div><div class="exercise-meta">${ex.sets} séries • ${ex.reps} repetições</div><div class="exercise-muscle">Músculo: ${ex.muscle}</div></div><div class="rest-badge">${ex.rest}s</div>`;
-
-    const seriesRow = document.createElement("div");
-    seriesRow.className = "series-row";
-    seriesRow.style.margin = "14px 0 12px";
-
-    for(let i=0;i<ex.sets;i++){
-      const btn = document.createElement("button");
-      btn.className = "series-btn" + (exProgress.completedSets[i] ? "" : " off");
-      btn.textContent = i + 1;
-      btn.addEventListener("click", () => {
-        exProgress.completedSets[i] = !exProgress.completedSets[i];
-        saveState();
-        renderWorkout();
-        if(state.autoRest && exProgress.completedSets[i]){
-          setTimer(ex.rest);
-          startTimer();
-        }
-      });
-      seriesRow.appendChild(btn);
-    }
-
-    const weightsRow = document.createElement("div");
-    weightsRow.className = "weights-row";
-    for(let i=0;i<ex.sets;i++){
-      const box = document.createElement("div");
-      box.className = "weight-box";
-      const input = document.createElement("input");
-      input.className = "weight-input";
-      input.type = "text";
-      input.inputMode = "decimal";
-      input.placeholder = "kg";
-      input.value = exProgress.weights[i] || "";
-      input.addEventListener("input", (e) => {
-        exProgress.weights[i] = e.target.value;
-        saveState();
-      });
-      const label = document.createElement("div");
-      label.className = "weight-label";
-      label.textContent = `S${i+1}`;
-      box.appendChild(input);
-      box.appendChild(label);
-      weightsRow.appendChild(box);
-    }
-
-    const note = document.createElement("div");
-    note.className = "status";
-    note.textContent = "Marque a série concluída e anote o peso.";
-
-    wrapper.appendChild(header);
-    wrapper.appendChild(seriesRow);
-    wrapper.appendChild(weightsRow);
-    wrapper.appendChild(note);
-    exerciseList.appendChild(wrapper);
-  });
-
-  const totalExercises = workout.exercises.length;
-  const percent = totalExercises ? (completedExercises / totalExercises) * 100 : 0;
-  document.getElementById("progressFill").style.width = `${percent}%`;
-  document.getElementById("progressText").textContent = `${completedExercises} de ${totalExercises} exercícios concluídos`;
-  const nextIndex = (state.currentWorkoutIndex + 1) % WORKOUTS.length;
-  document.getElementById("sequenceInfo").textContent = `Sequência real: atual ${workout.id} → próximo ${WORKOUTS[nextIndex].id}`;
-
-  if(state.lastCompletedWorkoutId){
-    const dateText = state.lastCompletedAt ? new Date(state.lastCompletedAt).toLocaleString("pt-BR") : "sem data";
-    document.getElementById("lastDoneInfo").textContent = `Último treino concluído: ${state.lastCompletedWorkoutId} em ${dateText}`;
-  }else{
-    document.getElementById("lastDoneInfo").textContent = "Nenhum treino concluído ainda. O app começou pelo primeiro da sequência.";
-  }
+ const w = getNextWorkout();
+ document.getElementById("workoutTitle").innerText = w.title;
+ const list = document.getElementById("exerciseList");
+ list.innerHTML="";
+ w.exercises.forEach(ex=>{
+   const div=document.createElement("div");
+   div.className="exercise";
+   div.innerHTML="<b>"+ex+"</b><br>";
+   for(let s=1;s<=4;s++){
+     const btn=document.createElement("button");
+     btn.innerText=s;
+     btn.className="series";
+     btn.onclick=()=>btn.classList.toggle("done");
+     div.appendChild(btn);
+   }
+   list.appendChild(div);
+ });
 }
+
 function finishWorkout(){
-  const workout = getCurrentWorkout();
-  state.lastCompletedWorkoutId = workout.id;
-  state.lastCompletedAt = new Date().toISOString();
-  state.currentWorkoutIndex = (state.currentWorkoutIndex + 1) % WORKOUTS.length;
-  saveState();
-  alert(`Treino ${workout.id} concluído. Próximo treino: ${getCurrentWorkout().id}`);
-  renderWorkout();
+ const w = getNextWorkout();
+ state.lastCompleted = w.id;
+ localStorage.setItem("treino_seq",JSON.stringify(state));
+ renderWorkout();
 }
-function advanceWorkoutManually(){state.currentWorkoutIndex = (state.currentWorkoutIndex + 1) % WORKOUTS.length; saveState(); renderWorkout();}
-function clearCurrentWorkout(){const workout = getCurrentWorkout(); state.progress[workout.id] = {}; ensureWorkoutStructure(workout); saveState(); renderWorkout();}
-function exportProgress(){
-  const blob = new Blob([JSON.stringify(state, null, 2)], {type:"application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "treino-progresso.json";
-  a.click();
-  URL.revokeObjectURL(url);
-}
-function formatTime(seconds){const m = String(Math.floor(seconds/60)).padStart(2,"0"); const s = String(seconds%60).padStart(2,"0"); return `${m}:${s}`;}
-function updateTimerDisplay(){
-  document.getElementById("timerDisplay").textContent = formatTime(state.timerRemaining);
-  document.getElementById("timerInfo").textContent = `Tempo selecionado: ${state.timerSelected}s`;
-  document.getElementById("autoRestStatus").textContent = `Auto descanso: ${state.autoRest ? "ligado" : "desligado"}`;
-}
-function setTimer(seconds){
-  state.timerSelected = seconds;
-  state.timerRemaining = seconds;
-  saveState();
-  updateTimerDisplay();
-  document.querySelectorAll("[data-time]").forEach(btn => {
-    const isActive = Number(btn.dataset.time) === seconds;
-    btn.classList.toggle("yellow", isActive);
-    btn.classList.toggle("ghost", !isActive);
-  });
-}
-function startTimer(){
-  if(timerRunning) return;
-  timerRunning = true;
-  timerInterval = setInterval(() => {
-    if(state.timerRemaining > 0){
-      state.timerRemaining -= 1;
-      saveState();
-      updateTimerDisplay();
-    }else{
-      clearInterval(timerInterval);
-      timerRunning = false;
-      alert("Tempo de descanso finalizado.");
-    }
-  }, 1000);
-}
-function pauseTimer(){clearInterval(timerInterval); timerRunning = false;}
-function resetTimer(){pauseTimer(); state.timerRemaining = state.timerSelected; saveState(); updateTimerDisplay();}
-function bindEvents(){
-  document.getElementById("finishWorkoutBtn").addEventListener("click", finishWorkout);
-  document.getElementById("nextWorkoutBtn").addEventListener("click", advanceWorkoutManually);
-  document.getElementById("saveBtn").addEventListener("click", () => {saveState(); alert("Progresso salvo.");});
-  document.getElementById("clearBtn").addEventListener("click", () => {if(confirm("Deseja limpar as marcações do treino atual?")) clearCurrentWorkout();});
-  document.querySelectorAll("[data-time]").forEach(btn => btn.addEventListener("click", () => setTimer(Number(btn.dataset.time))));
-  document.getElementById("startTimerBtn").addEventListener("click", startTimer);
-  document.getElementById("pauseTimerBtn").addEventListener("click", pauseTimer);
-  document.getElementById("resetTimerBtn").addEventListener("click", resetTimer);
-  document.getElementById("toggleAutoBtn").addEventListener("click", () => {state.autoRest = !state.autoRest; saveState(); updateTimerDisplay();});
-  document.getElementById("exportBtn").addEventListener("click", exportProgress);
-}
-function setupInstallPrompt(){
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    document.getElementById("installCard").style.display = "block";
-  });
-  document.getElementById("installBtn").addEventListener("click", async () => {
-    if(!deferredPrompt) return;
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    document.getElementById("installCard").style.display = "none";
-  });
-}
-function registerSW(){if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(() => {});}}
-function init(){renderQuote(); bindEvents(); setTimer(state.timerSelected || 60); updateTimerDisplay(); renderWorkout(); setupInstallPrompt(); registerSW();}
-init();
+
+renderWorkout();
 </script>
+
 </body>
 </html>
