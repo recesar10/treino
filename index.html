@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino Semanal Séries</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
+
+<style>
+body{
+  font-family: Arial;
+  background:#0b0b0b;
+  color:white;
+  padding:16px;
+}
+.card{
+  background:#121212;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:16px;
+}
+.quote-card{
+  display:flex;
+  gap:16px;
+}
+.quote-image{
+  width:40%;
+  border-radius:12px;
+  background-size:cover;
+  background-position:center;
+}
+.quote-text{
+  font-size:20px;
+  font-weight:bold;
+}
+.exercise{
+  background:#0f2b16;
+  padding:14px;
+  border-radius:14px;
+  margin-top:10px;
+}
+button{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  margin:4px;
+}
+.series{
+  background:#1f1f1f;
+  color:white;
+}
+.series.done{
+  background:#22c55e;
+  color:black;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Treino Semanal Séries</h1>
+
+<div class="card quote-card">
+  <div style="width:60%">
+    <div id="quoteSource"></div>
+    <div class="quote-text" id="quoteText"></div>
+    <div id="animalText"></div>
+  </div>
+  <div class="quote-image" id="quoteImage"></div>
+</div>
+
+<div class="card">
+  <h2 id="workoutTitle"></h2>
+  <div id="exerciseList"></div>
+  <button onclick="finishWorkout()">Concluir treino</button>
+</div>
+
+<script>
+const QUOTES = [
+{source:"Sabedoria oriental", text:"Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", animal:"Porco", img:"https://images.unsplash.com/photo-1516467508483-a7212febe31a"},
+{source:"Provérbio popular", text:"A constância vence a pressa quando o objetivo é ir longe.", animal:"Tartaruga", img:"https://images.unsplash.com/photo-1508182311256-e3f4d12c3c5b"},
+{source:"Sabedoria antiga", text:"Quem volta todo dia ao caminho, um dia chega mais forte.", animal:"Lobo", img:"https://images.unsplash.com/photo-1501706362039-c6b2a7f5c0c8"},
+{source:"Provérbio do treino", text:"Não é o dia perfeito que constrói o resultado, é a repetição correta.", animal:"Touro", img:"https://images.unsplash.com/photo-1500595046743-cd271d694d30"}
+];
+
+const WORKOUTS = [
+{id:"A", title:"Treino A — Peito + Tríceps",
+exercises:["Supino inclinado máquina","Supino reto halter","Crucifixo máquina"]},
+{id:"B", title:"Treino B — Costas + Bíceps",
+exercises:["Puxada frente","Remada baixa","Rosca direta"]},
+{id:"C", title:"Treino C — Pernas",
+exercises:["Agachamento","Leg press","Panturrilha"]}
+];
+
+let state = JSON.parse(localStorage.getItem("treino")) || {index:0,progress:{}};
+
+function renderQuote(){
+  const q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById("quoteSource").innerText=q.source;
+  document.getElementById("quoteText").innerText=q.text;
+  document.getElementById("animalText").innerText="Animal do dia: "+q.animal;
+  document.getElementById("quoteImage").style.backgroundImage="url('"+q.img+"')";
+}
+
+function renderWorkout(){
+  const w = WORKOUTS[state.index];
+  document.getElementById("workoutTitle").innerText=w.title;
+  const list = document.getElementById("exerciseList");
+  list.innerHTML="";
+  w.exercises.forEach((ex,i)=>{
+    const div=document.createElement("div");
+    div.className="exercise";
+    div.innerHTML="<b>"+ex+"</b><br>";
+    for(let s=1;s<=4;s++){
+      const btn=document.createElement("button");
+      btn.innerText=s;
+      btn.className="series";
+      btn.onclick=()=>{btn.classList.toggle("done");}
+      div.appendChild(btn);
+    }
+    list.appendChild(div);
+  });
+}
+
+function finishWorkout(){
+  state.index=(state.index+1)%WORKOUTS.length;
+  localStorage.setItem("treino",JSON.stringify(state));
+  renderWorkout();
+}
+
+renderQuote();
+renderWorkout();
+</script>
+
+</body>
+</html>
