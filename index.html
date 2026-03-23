@@ -2,10 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0b0b0b" />
   <title>Treino Semanal Séries</title>
   <link rel="manifest" href="manifest.json" />
@@ -13,17 +10,14 @@
     :root {
       --bg: #070707;
       --card: #101010;
-      --card-2: #141414;
       --text: #f5f5f5;
       --muted: #bdbdbd;
       --line: #252525;
       --green: #22c55e;
-      --green-dark: #0f3b22;
       --yellow: #d6a61c;
       --red: #ef4444;
-      --white: #ffffff;
-      --chip: #1a1a1a;
-      --radius: 24px;
+      --radius: 22px;
+      --chip: #171717;
     }
 
     * { box-sizing: border-box; }
@@ -34,21 +28,24 @@
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
       -webkit-font-smoothing: antialiased;
-      padding: 20px 16px 40px;
+      padding: 18px 14px 40px;
     }
 
-    .container { max-width: 760px; margin: 0 auto; }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
 
     h1 {
-      font-size: 34px;
+      margin: 4px 0 8px;
+      font-size: clamp(28px, 5vw, 42px);
       line-height: 1.05;
-      margin: 8px 0 10px;
       font-weight: 800;
     }
 
     .subtitle {
-      font-size: 18px;
       color: var(--muted);
+      font-size: clamp(16px, 3vw, 20px);
       line-height: 1.45;
       margin-bottom: 18px;
     }
@@ -57,9 +54,110 @@
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 18px;
-      margin-bottom: 18px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.02) inset;
+      padding: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin: 0 0 10px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    .quote-card {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+      align-items: stretch;
+      min-height: 260px;
+      background:
+        linear-gradient(180deg, #0b0b0b 0%, #0c0c0c 100%);
+      border: 1px solid #3a2d15;
+    }
+
+    .quote-left {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .quote-label {
+      color: #e0c06a;
+      letter-spacing: 4px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .quote-source {
+      display: inline-block;
+      align-self: flex-start;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    .quote-mark {
+      color: #d9b75b;
+      font-size: 52px;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .quote-text {
+      font-family: Georgia, serif;
+      font-size: clamp(18px, 4vw, 28px);
+      line-height: 1.02;
+      font-weight: 800;
+      max-width: 100%;
+      margin-bottom: 14px;
+      word-break: break-word;
+    }
+
+    .animal {
+      color: #e9d6a2;
+      font-size: 16px;
+    }
+
+    .quote-image {
+      border-radius: 20px;
+      min-height: 220px;
+      background:
+        radial-gradient(circle at 50% 40%, rgba(214,166,28,0.32), transparent 38%),
+        linear-gradient(180deg, #17130a 0%, #0e0b08 100%);
+      border: 1px solid rgba(214,166,28,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-image::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 42%, rgba(255,255,255,0.08), transparent 22%);
+      pointer-events: none;
+    }
+
+    .animal-emoji {
+      font-size: clamp(88px, 16vw, 156px);
+      filter: drop-shadow(0 0 18px rgba(214,166,28,0.16));
+      transform: translateY(6px);
     }
 
     .install-row,
@@ -68,7 +166,7 @@
     .series-row,
     .weights-row {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -76,91 +174,52 @@
       border: 1px solid var(--line);
       background: var(--chip);
       color: var(--text);
-      border-radius: 20px;
-      padding: 14px 18px;
+      border-radius: 18px;
+      padding: 13px 16px;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
     }
 
-    .btn.primary {
-      background: var(--green);
-      color: #08210f;
-      border-color: transparent;
-    }
-
-    .btn.light {
-      background: #f4f4f4;
-      color: #111;
-      border-color: transparent;
-    }
-
-    .btn.yellow {
-      background: var(--yellow);
-      color: #1a1a1a;
-      border-color: transparent;
-    }
-
-    .btn.red {
-      background: var(--red);
-      color: #fff;
-      border-color: transparent;
-    }
-
-    .btn.small {
-      padding: 10px 14px;
-      border-radius: 16px;
-      min-width: 76px;
-      text-align: center;
-    }
-
+    .btn.primary { background: var(--green); color: #08210f; border-color: transparent; }
+    .btn.light { background: #f4f4f4; color: #111; border-color: transparent; }
+    .btn.yellow { background: var(--yellow); color: #1a1a1a; border-color: transparent; }
+    .btn.red { background: var(--red); color: #fff; border-color: transparent; }
     .btn.ghost { background: transparent; }
+    .btn.small { min-width: 74px; text-align: center; }
 
     .chip {
       display: inline-block;
-      padding: 12px 16px;
+      padding: 11px 14px;
       border-radius: 999px;
       background: var(--chip);
       border: 1px solid var(--line);
-      color: var(--text);
       font-weight: 700;
       margin-bottom: 14px;
     }
 
-    .status {
-      color: var(--muted);
-      margin-top: 10px;
-      font-size: 15px;
-    }
-
     .big-timer {
-      font-size: 72px;
+      font-size: clamp(52px, 14vw, 84px);
       font-weight: 800;
       line-height: 1;
       margin: 0 0 8px;
     }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin: 0 0 10px;
-    }
-
     .training-title {
-      font-size: 28px;
+      font-size: clamp(24px, 6vw, 38px);
       font-weight: 800;
-      margin: 0 0 6px;
+      margin: 0 0 4px;
     }
 
     .training-subtitle {
       color: var(--muted);
       font-size: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .progress-bar {
       width: 100%;
-      height: 16px;
+      height: 14px;
       background: #d9d9d9;
       border-radius: 999px;
       overflow: hidden;
@@ -169,37 +228,38 @@
 
     .progress-fill {
       height: 100%;
-      background: var(--green);
       width: 0%;
-      transition: width 0.2s ease;
+      background: var(--green);
+      transition: width .2s ease;
     }
 
     .exercise {
-      background: linear-gradient(180deg, #0f2b16, #0b2011);
-      border: 1px solid #1d5c30;
-      border-radius: 24px;
-      padding: 18px;
       margin-top: 14px;
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #0d3017, #0a2411);
+      border: 1px solid #1d5c30;
     }
 
     .exercise-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .exercise-name {
-      font-size: 22px;
+      font-size: clamp(18px, 4.6vw, 28px);
       font-weight: 800;
+      line-height: 1.1;
       margin: 0 0 6px;
     }
 
     .exercise-meta,
     .exercise-muscle {
-      color: #d6d6d6;
+      font-size: 15px;
       margin: 0 0 6px;
-      font-size: 16px;
+      color: #d6d6d6;
     }
 
     .exercise-muscle {
@@ -208,23 +268,23 @@
     }
 
     .rest-badge {
+      min-width: 74px;
+      text-align: center;
+      padding: 12px 14px;
+      border-radius: 999px;
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.08);
-      padding: 14px 18px;
-      border-radius: 999px;
       font-weight: 800;
-      min-width: 78px;
-      text-align: center;
     }
 
     .series-btn {
-      width: 64px;
-      height: 64px;
+      width: 62px;
+      height: 62px;
       border-radius: 16px;
-      border: 0;
+      border: 1px solid transparent;
       background: var(--green);
       color: #05150a;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       cursor: pointer;
     }
@@ -232,11 +292,11 @@
     .series-btn.off {
       background: #0d0d0d;
       color: #fff;
-      border: 1px solid #2a2a2a;
+      border-color: #2a2a2a;
     }
 
     .weight-box {
-      width: 84px;
+      width: 76px;
       text-align: center;
     }
 
@@ -246,8 +306,8 @@
       color: #fff;
       border: 1px solid #2b2b2b;
       border-radius: 16px;
-      padding: 14px 10px;
-      font-size: 22px;
+      padding: 12px 8px;
+      font-size: 18px;
       font-weight: 700;
       text-align: center;
       outline: none;
@@ -255,92 +315,87 @@
 
     .weight-label {
       margin-top: 8px;
+      font-size: 14px;
       color: #acacac;
-      font-size: 14px;
-    }
-
-    .quote-card {
-      position: relative;
-      overflow: hidden;
-      min-height: 280px;
-      background:
-        linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.84) 55%, rgba(0,0,0,0.55) 100%),
-        radial-gradient(circle at 80% 40%, rgba(214,166,28,0.18), transparent 35%),
-        #0f0d09;
-      border: 1px solid #44351a;
-    }
-
-    .quote-label {
-      color: #e0c06a;
-      letter-spacing: 4px;
-      font-size: 14px;
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-
-    .quote-source {
-      display: inline-block;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-weight: 700;
-      margin-bottom: 18px;
-    }
-
-    .quote-mark {
-      color: #d9b75b;
-      font-size: 64px;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .quote-text {
-      max-width: 430px;
-      font-size: 34px;
-      line-height: 0.98;
-      font-weight: 800;
-      margin-bottom: 18px;
-      font-family: Georgia, serif;
-    }
-
-    .animal {
-      font-size: 18px;
-      color: #e9d6a2;
     }
 
     @media (max-width: 640px) {
-      h1 { font-size: 30px; }
-      .quote-text { font-size: 28px; }
-      .big-timer { font-size: 62px; }
-      .exercise-name { font-size: 18px; }
-      .weight-box { width: 70px; }
-      .weight-input { font-size: 18px; }
+      .quote-card {
+        grid-template-columns: 1fr;
+      }
+
+      .quote-image {
+        min-height: 160px;
+        order: -1;
+      }
+
+      .animal-emoji {
+        font-size: 96px;
+      }
+
+      .btn {
+        font-size: 15px;
+        padding: 12px 14px;
+      }
+
+      .series-btn {
+        width: 54px;
+        height: 54px;
+        font-size: 16px;
+      }
+
+      .weight-box {
+        width: 66px;
+      }
+
+      .weight-input {
+        font-size: 16px;
+      }
+
+      .exercise-meta,
+      .exercise-muscle,
+      .training-subtitle {
+        font-size: 14px;
+      }
+    }
+
+    @media (max-width: 390px) {
+      body { padding: 14px 10px 32px; }
+      .card { padding: 14px; }
+      .quote-label { letter-spacing: 3px; }
+      .quote-text { font-size: 17px; }
+      .series-btn {
+        width: 48px;
+        height: 48px;
+      }
+      .weight-box { width: 60px; }
+      .weight-input { padding: 10px 6px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Treino Semanal Séries</h1>
-    <div class="subtitle">
-      Versão com próximo treino pela sequência real e salvamento automático.
-    </div>
+    <div class="subtitle">Versão com próximo treino pela sequência real e salvamento automático.</div>
 
     <div class="card quote-card">
-      <div class="quote-label">PROVÉRBIO DO DIA</div>
-      <div class="quote-source" id="quoteSource">Sabedoria oriental</div>
-      <div class="quote-mark">“</div>
-      <div class="quote-text" id="quoteText">
-        Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.
+      <div class="quote-left">
+        <div>
+          <div class="quote-label">PROVÉRBIO DO DIA</div>
+          <div class="quote-source" id="quoteSource">Sabedoria oriental</div>
+          <div class="quote-mark">“</div>
+          <div class="quote-text" id="quoteText">Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.</div>
+        </div>
+        <div class="animal" id="animalText">Animal do dia: Porco</div>
       </div>
-      <div class="animal" id="animalText">Animal do dia: Porco</div>
+      <div class="quote-image">
+        <div class="animal-emoji" id="animalEmoji">🐷</div>
+      </div>
     </div>
 
     <div class="card" id="installCard" style="display:none;">
       <div class="section-title">Instalar como app</div>
-      <div class="subtitle" style="margin-bottom:16px;">
-        Seu navegador liberou a instalação. Toque no botão abaixo.
-      </div>
+      <div class="subtitle" style="margin-bottom:16px;">Seu navegador liberou a instalação. Toque no botão abaixo.</div>
       <div class="install-row">
         <button class="btn primary" id="installBtn">Instalar app</button>
         <button class="btn ghost" id="exportBtn">Exportar progresso</button>
@@ -349,9 +404,7 @@
 
     <div class="card">
       <div class="big-timer" id="timerDisplay">01:00</div>
-      <div class="subtitle" style="margin-bottom:14px;">
-        Cronômetro com descanso automático entre séries.
-      </div>
+      <div class="subtitle" style="margin-bottom:14px;">Cronômetro com descanso automático entre séries.</div>
       <div class="chip" id="autoRestStatus">Auto descanso: desligado</div>
 
       <div class="timer-buttons" style="margin-bottom:12px;">
@@ -397,14 +450,14 @@
   </div>
 
   <script>
-    const STORAGE_KEY = "treino_semanal_series_v2";
-    const QUOTE_DAY_KEY = "treino_quote_day_v1";
+    const STORAGE_KEY = "treino_semanal_series_v3";
+    const QUOTE_DAY_KEY = "treino_quote_day_v2";
 
     const WORKOUTS = [
       {
         id: "A",
         title: "Treino A — Peito + Tríceps",
-        scheduleLabel: "19h • descanso 60–90s",
+        scheduleLabel: "Sequência real • descanso 60–90s",
         exercises: [
           { id: "a1", name: "Supino inclinado máquina", sets: 4, reps: 10, muscle: "Peitoral superior", rest: 90 },
           { id: "a2", name: "Supino reto halter", sets: 4, reps: 10, muscle: "Peitoral", rest: 90 },
@@ -417,7 +470,7 @@
       {
         id: "B",
         title: "Treino B — Costas + Bíceps",
-        scheduleLabel: "19h • descanso 60–90s",
+        scheduleLabel: "Sequência real • descanso 60–90s",
         exercises: [
           { id: "b1", name: "Puxada frente", sets: 4, reps: 10, muscle: "Dorsal", rest: 90 },
           { id: "b2", name: "Remada baixa", sets: 4, reps: 10, muscle: "Costas", rest: 90 },
@@ -430,7 +483,7 @@
       {
         id: "C",
         title: "Treino C — Pernas",
-        scheduleLabel: "19h • descanso 60–120s",
+        scheduleLabel: "Sequência real • descanso 60–120s",
         exercises: [
           { id: "c1", name: "Agachamento", sets: 4, reps: 10, muscle: "Quadríceps", rest: 120 },
           { id: "c2", name: "Leg press", sets: 4, reps: 12, muscle: "Pernas", rest: 90 },
@@ -443,10 +496,10 @@
     ];
 
     const QUOTES = [
-      { source: "Sabedoria oriental", text: "Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", animal: "Porco" },
-      { source: "Provérbio popular", text: "A constância vence a pressa quando o objetivo é ir longe.", animal: "Tartaruga" },
-      { source: "Sabedoria antiga", text: "Quem volta todo dia ao caminho, um dia chega mais forte.", animal: "Lobo" },
-      { source: "Provérbio do treino", text: "Não é o dia perfeito que constrói o resultado, é a repetição correta.", animal: "Touro" }
+      { source: "Sabedoria oriental", text: "Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", animal: "Porco", emoji: "🐷" },
+      { source: "Provérbio popular", text: "A constância vence a pressa quando o objetivo é ir longe.", animal: "Tartaruga", emoji: "🐢" },
+      { source: "Sabedoria antiga", text: "Quem volta todo dia ao caminho, um dia chega mais forte.", animal: "Lobo", emoji: "🐺" },
+      { source: "Provérbio do treino", text: "Não é o dia perfeito que constrói o resultado, é a repetição correta.", animal: "Touro", emoji: "🐂" }
     ];
 
     const defaultState = {
@@ -513,29 +566,36 @@
 
     function renderQuote() {
       const today = new Date().toISOString().slice(0, 10);
-      let index;
-      const saved = localStorage.getItem(QUOTE_DAY_KEY);
-      if (saved) {
-        const data = JSON.parse(saved);
-        if (data.day === today) {
-          index = data.index;
+      let index = 0;
+      try {
+        const saved = localStorage.getItem(QUOTE_DAY_KEY);
+        if (saved) {
+          const data = JSON.parse(saved);
+          if (data.day === today) {
+            index = data.index;
+          } else {
+            index = Math.floor(Math.random() * QUOTES.length);
+            localStorage.setItem(QUOTE_DAY_KEY, JSON.stringify({ day: today, index }));
+          }
         } else {
           index = Math.floor(Math.random() * QUOTES.length);
           localStorage.setItem(QUOTE_DAY_KEY, JSON.stringify({ day: today, index }));
         }
-      } else {
-        index = Math.floor(Math.random() * QUOTES.length);
-        localStorage.setItem(QUOTE_DAY_KEY, JSON.stringify({ day: today, index }));
+      } catch {
+        index = 0;
       }
+
       const quote = QUOTES[index];
       document.getElementById("quoteSource").textContent = quote.source;
       document.getElementById("quoteText").textContent = quote.text;
       document.getElementById("animalText").textContent = `Animal do dia: ${quote.animal}`;
+      document.getElementById("animalEmoji").textContent = quote.emoji;
     }
 
     function renderWorkout() {
       const workout = getCurrentWorkout();
       ensureWorkoutStructure(workout);
+
       document.getElementById("workoutTitle").textContent = workout.title;
       document.getElementById("workoutSubtitle").textContent = workout.scheduleLabel;
 
@@ -565,7 +625,7 @@
 
         const seriesRow = document.createElement("div");
         seriesRow.className = "series-row";
-        seriesRow.style.margin = "16px 0 14px";
+        seriesRow.style.margin = "14px 0 12px";
 
         for (let i = 0; i < ex.sets; i++) {
           const btn = document.createElement("button");
@@ -589,6 +649,7 @@
         for (let i = 0; i < ex.sets; i++) {
           const box = document.createElement("div");
           box.className = "weight-box";
+
           const input = document.createElement("input");
           input.className = "weight-input";
           input.type = "text";
@@ -599,9 +660,11 @@
             exProgress.weights[i] = e.target.value;
             saveState();
           });
+
           const label = document.createElement("div");
           label.className = "weight-label";
           label.textContent = `S${i + 1}`;
+
           box.appendChild(input);
           box.appendChild(label);
           weightsRow.appendChild(box);
@@ -609,7 +672,6 @@
 
         const note = document.createElement("div");
         note.className = "status";
-        note.style.marginTop = "12px";
         note.textContent = "Marque a série concluída e anote o peso.";
 
         wrapper.appendChild(header);
