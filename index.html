@@ -90,59 +90,42 @@ body {
 }
 
 /* EXERCÍCIOS E SÉRIES */
-.exercise { 
-    background: var(--panel); 
-    border: 1px solid var(--line); 
-    border-radius: 20px; 
-    padding: 20px; 
-    margin-bottom: 15px; 
-}
-
-.series-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-
-.series-box { 
-    width: 52px; height: 52px; 
-    background: #1a1a1a !important; 
-    color: #fff !important; 
-    border: 2px solid #333 !important; 
-    border-radius: 14px; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-weight: 800; 
-    cursor: pointer;
-    transition: transform 0.1s, background 0.2s;
-}
-
-.series-box.done { 
-    background: var(--gold) !important; 
-    color: #000 !important; 
-    border-color: var(--gold) !important; 
-}
-
-/* ESTRUTURA DO CARD DE EXERCÍCIO */
-.exercise { 
-    background: var(--panel); 
-    border: 1px solid var(--line); 
-    border-radius: 20px; 
-    padding: 20px; 
-    margin-bottom: 15px; 
+.exercise {
     display: flex;
-    flex-direction: column; /* Força os elementos a ficarem um embaixo do outro */
-    gap: 15px;
+    flex-direction: column;
+    gap: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: var(--shadow);
 }
 
-.exercise-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.exercise-name {
+    font-size: 24px; /* Nome bem grande para destaque */
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.2;
+    display: block;
+    margin-bottom: 2px;
 }
 
-/* SÉRIES (EM CIMA) */
+.exercise-muscle {
+    font-size: 14px;
+    font-weight: 800;
+    color: #5dade2; /* Cor azul para diferenciar */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: -4px;
+    display: block;
+}
+
 .series-row { 
     display: flex; 
     gap: 10px; 
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
+    margin-top: 5px;
 }
 
 .series-box { 
@@ -164,23 +147,23 @@ body {
     border-color: var(--gold) !important; 
 }
 
-/* PESO (EMBAIXO DA SÉRIE) */
 .weight-row {
+    margin-top: 5px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.03);
-    padding: 10px 15px;
-    border-radius: 12px;
-    border: 1px solid rgba(216, 177, 91, 0.1);
-    width: fit-content; /* Deixa o campo de peso do tamanho necessário */
+    gap: 12px;
+    padding: 12px 18px;
+    background: rgba(216, 177, 91, 0.05);
+    border-radius: 14px;
+    border: 1px solid rgba(216, 177, 91, 0.15);
+    width: fit-content;
 }
 
 .weight-label {
-    font-size: 12px;
-    color: var(--text-dim);
+    font-size: 11px;
+    color: var(--gold);
+    font-weight: 900;
     text-transform: uppercase;
-    font-weight: 700;
 }
 
 .weight-input {
@@ -193,7 +176,7 @@ body {
     font-size: 16px;
     text-align: center;
 }
-
+    
 /* BOTÕES GERAIS */
 button { 
     border-radius: 14px; 
