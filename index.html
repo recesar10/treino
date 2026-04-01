@@ -95,56 +95,65 @@ body {
 .exercise {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    padding: 20px;
+    padding: 24px;
     margin-bottom: 20px;
-    border-radius: 24px;
-    background: linear-gradient(145deg, #161616, #0d0d0d);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    border-radius: 28px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.03);
     font-family: 'Montserrat', sans-serif;
 }
 
+/* FOCO TOTAL NO NOME */
 .exercise-name {
-    font-size: 22px;
+    font-size: 26px; /* Aumentado para ser a primeira leitura */
     font-weight: 900;
     color: #ffffff;
-    letter-spacing: -0.5px;
-    margin-bottom: 2px;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
 }
 
 .exercise-muscle {
-    font-size: 11px;
-    font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
     color: #5dade2;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 1px solid rgba(93, 194, 226, 0.2);
-    padding-bottom: 8px;
-    margin-bottom: 5px;
-    width: fit-content;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    opacity: 0.9;
     display: block;
 }
 
+/* DIVISOR DISCRETO */
+.exercise::after {
+    content: "";
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 20px;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+/* SÉRIES MAIS DISCRETAS (SÓ APARECEM QUANDO FEITAS) */
 .series-row { 
     display: flex; 
-    gap: 10px; 
-    flex-wrap: wrap;
-    margin: 8px 0;
+    gap: 12px; 
+    margin-bottom: 15px;
 }
 
 .series-box { 
-    width: 44px; height: 44px;
-    background: #1f1f1f !important; 
-    color: #fff !important; 
-    border: 1px solid #333 !important; 
-    border-radius: 12px;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.02) !important; 
+    color: #444 !important; /* Número fica "apagadinho" antes de marcar */
+    border: 1px solid rgba(255,255,255,0.05) !important; 
+    border-radius: 50%; /* Circulares ficam menos agressivas que quadrados */
     display: flex; 
     align-items: center; 
     justify-content: center; 
     font-weight: 700; 
-    font-size: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    transition: all 0.2s ease;
     cursor: pointer;
 }
 
@@ -152,39 +161,35 @@ body {
     background: var(--gold) !important; 
     color: #000 !important; 
     border-color: var(--gold) !important; 
-    transform: scale(0.9);
-    box-shadow: 0 0 15px rgba(216, 177, 91, 0.3);
+    box-shadow: 0 4px 12px rgba(216, 177, 91, 0.3);
+    transform: scale(1.1);
 }
 
+/* ÁREA DE PESO TOTALMENTE LIMPA */
 .weight-row {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    width: fit-content;
+    gap: 8px;
+    margin-top: 5px;
 }
 
 .weight-label {
-    font-size: 10px;
-    color: #888;
-    font-weight: 700;
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .weight-input {
-    width: 65px; height: 35px;
+    width: 60px;
     background: transparent;
     border: none;
-    border-bottom: 2px solid var(--gold);
     color: var(--gold);
-    font-weight: 900;
-    font-size: 18px;
-    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    padding: 0;
     outline: none;
+    border-bottom: 1px solid rgba(216, 177, 91, 0.2);
 }
     
     /* BOTÕES GERAIS */
