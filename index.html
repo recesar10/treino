@@ -120,54 +120,111 @@ body {
     border-color: var(--gold) !important; 
 }
 
-/* BOTÕES REESTRUTURADOS (SEM BRANCO) */
+/* ESTRUTURA DO CARD DE EXERCÍCIO */
+.exercise { 
+    background: var(--panel); 
+    border: 1px solid var(--line); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 15px; 
+    display: flex;
+    flex-direction: column; /* Força os elementos a ficarem um embaixo do outro */
+    gap: 15px;
+}
+
+.exercise-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* SÉRIES (EM CIMA) */
+.series-row { 
+    display: flex; 
+    gap: 10px; 
+    flex-wrap: wrap; 
+}
+
+.series-box { 
+    width: 52px; height: 52px; 
+    background: #1a1a1a !important; 
+    color: #fff !important; 
+    border: 2px solid #333 !important; 
+    border-radius: 14px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-weight: 800; 
+    cursor: pointer;
+}
+
+.series-box.done { 
+    background: var(--gold) !important; 
+    color: #000 !important; 
+    border-color: var(--gold) !important; 
+}
+
+/* PESO (EMBAIXO DA SÉRIE) */
+.weight-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.03);
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(216, 177, 91, 0.1);
+    width: fit-content; /* Deixa o campo de peso do tamanho necessário */
+}
+
+.weight-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.weight-input {
+    width: 70px; height: 40px;
+    background: #000;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* BOTÕES GERAIS */
 button { 
     border-radius: 14px; 
     font-weight: 800; 
     cursor: pointer; 
-    transition: 0.2s; 
     text-transform: uppercase;
     border: none;
+    transition: 0.2s;
 }
 
-/* Botão Principal (Dourado) */
 .btn-gold, .btn-green, .btn-white { 
     background: var(--gold) !important; 
     color: #000 !important; 
     width: 100%; 
     padding: 20px; 
     margin-top: 20px;
-    display: block;
 }
 
-/* Botões Secundários (Escuros com borda dourada) */
 .btn-ghost, .btn-red, button:not(.btn-gold):not(.btn-green):not(.btn-white) {
     background: #111 !important;
     color: var(--gold) !important;
     border: 1px solid rgba(216, 177, 91, 0.4) !important;
     padding: 12px 16px;
-    margin: 5px 0;
 }
 
-button:active { transform: scale(0.97); }
-
-/* CAMPOS DE PESO */
-.weight-input {
-    width: 60px; height: 38px;
-    background: #000;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* AJUSTE DO PROGRESSO */
+/* PROGRESSO */
 .progress { height: 8px; background: #222; border-radius: 10px; margin: 15px 0; overflow: hidden; }
 .progress > div { background: var(--gold); height: 100%; transition: width 0.5s ease; }
 
 </style>
-
+    
 </head>
 <body>
 <div class="wrap">
