@@ -7,15 +7,15 @@
 <meta name="theme-color" content="#050505">
 <link rel="manifest" href="manifest.json">
 <style>
-  :root {
+:root {
     --panel: #111;
-    --panel2: #171717;
+    --panel2: #1c1c1c;
     --text: #f6f3ea;
     --gold: #d8b15b;
     --line: rgba(255,255,255,.08);
     --green: #20c05c;
     --red: #d84040;
-    --shadow: 0 14px 28px rgba(0,0,0,.35);
+    --shadow: 0 10px 30px rgba(0,0,0,.5);
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -27,59 +27,91 @@ body {
     color: var(--text); 
 }
 
-.wrap { max-width: 600px; margin: 0 auto; padding: 18px 14px 100px; }
+.wrap { max-width: 600px; margin: 0 auto; padding: 20px 15px 100px; }
 
-/* Card de Motivação/Horóscopo Modernizado */
+/* REPARO DO CARD DE MOTIVAÇÃO */
 .quote-card {
     position: relative;
     overflow: hidden;
-    min-height: 300px;
-    margin: 18px 0;
+    min-height: 320px;
+    margin: 10px 0 25px;
     border-radius: 24px;
     border: 1px solid rgba(216, 177, 91, 0.2);
-    background: linear-gradient(145deg, #161616, #050505);
+    background: #080808;
+    display: flex;
+    align-items: center;
     box-shadow: var(--shadow);
 }
 
 .quote-bg {
     position: absolute;
-    inset: 0;
+    right: -5%; /* Move a imagem para a direita */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 65%;
+    height: 90%;
     background-size: contain;
-    background-position: right center;
+    background-position: center;
     background-repeat: no-repeat;
-    opacity: 0.5;
+    opacity: 0.45;
+    z-index: 1;
+}
+
+.quote-overlay {
+    position: absolute;
+    inset: 0;
+    /* Gradiente que escurece o lado esquerdo para dar leitura ao texto */
+    background: linear-gradient(90deg, #080808 45%, rgba(8,8,8,0.7) 75%, transparent 100%);
+    z-index: 2;
 }
 
 .quote-content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     padding: 30px;
-    max-width: 75%;
+    max-width: 85%;
 }
 
 .quote-text {
-    font-size: clamp(24px, 5vw, 36px);
-    line-height: 1.2;
+    font-family: Georgia, serif;
+    font-size: clamp(24px, 5vw, 38px);
+    line-height: 1.1;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
 }
 
-/* Melhoria das Caixas de Séries (Fácil de tocar) */
+.quote-animal { 
+    color: var(--gold); 
+    font-size: 14px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+}
+
+/* EXERCÍCIOS E SÉRIES - MELHORIA DE TOQUE */
+.exercise { 
+    background: var(--panel); 
+    border: 1px solid var(--line); 
+    border-radius: 20px; 
+    padding: 20px; 
+    margin-bottom: 15px; 
+}
+
+.series-row { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+
 .series-box { 
-    width: 50px; 
-    height: 50px; 
-    background: rgba(255,255,255,0.04); 
+    width: 52px; height: 52px; 
+    background: #1a1a1a; 
+    color: #fff; 
     border: 2px solid #333; 
-    border-radius: 12px; 
-    display: inline-flex; 
+    border-radius: 14px; 
+    display: flex; 
     align-items: center; 
     justify-content: center; 
-    margin: 5px;
+    font-weight: 800; 
     cursor: pointer;
-    font-weight: 800;
-    font-size: 18px;
-    color: var(--text);
+    transition: transform 0.1s, background 0.2s;
 }
 
 .series-box.done { 
@@ -88,29 +120,22 @@ body {
     border-color: var(--gold) !important; 
 }
 
-/* Campos de Peso */
-.weight-input {
-    width: 60px;
-    height: 40px;
-    border-radius: 10px;
-    border: 1px solid var(--line);
-    background: #1a1a1a;
-    color: var(--gold);
-    text-align: center;
-    font-weight: bold;
+/* BOTÃO DE FINALIZAR */
+.btn-green { 
+    background: var(--gold); 
+    color: #000; 
+    border-radius: 16px; 
+    font-weight: 900; 
+    text-transform: uppercase; 
+    width: 100%; 
+    padding: 20px; 
+    margin-top: 20px;
 }
 
-/* Botão de Finalizar */
-.btn-green {
-    background: var(--gold);
-    color: #000;
-    border-radius: 16px;
-    font-weight: 900;
-    text-transform: uppercase;
-    width: 100%;
-    padding: 20px;
-}
-  
+/* AJUSTE DO PROGRESSO */
+.progress { height: 8px; background: #222; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+.progress > div { background: var(--gold); height: 100%; transition: width 0.5s ease; }
+
 </style>
 </head>
 <body>
