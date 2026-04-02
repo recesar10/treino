@@ -135,18 +135,18 @@ body {
     opacity: 0.5;
 }
 
-/* SÉRIES MAIS DISCRETAS E ALINHADAS */
+/* ALINHAMENTO VERTICAL PERFEITO */
 .series-row { 
     display: flex; 
     gap: 12px; 
-    margin-bottom: 12px;
-    padding-left: 5px; /* Alinhamento com a borda invisível do título */
+    margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .series-box { 
     width: 40px; height: 40px;
     background: rgba(255,255,255,0.02) !important; 
-    color: #888 !important; /* Aumentei um pouco o brilho para você ver o número melhor */
+    color: #888 !important; 
     border: 1px solid rgba(255,255,255,0.05) !important; 
     border-radius: 50%; 
     display: flex; 
@@ -154,45 +154,42 @@ body {
     justify-content: center; 
     font-weight: 700; 
     font-size: 14px;
-    transition: all 0.2s ease;
-    cursor: pointer;
 }
 
-.series-box.done { 
-    background: var(--gold) !important; 
-    color: #000 !important; 
-    border-color: var(--gold) !important; 
-    box-shadow: 0 4px 12px rgba(216, 177, 91, 0.3);
-    transform: scale(1.1);
-}
-
-/* PESO ALINHADO LOGO ABAIXO DA PRIMEIRA SÉRIE */
+/* CONTAINER DOS PESOS ALINHADOS COM AS BOLINHAS */
 .weight-row {
     display: flex;
+    gap: 12px; /* MESMO GAP DAS SÉRIES ACIMA */
+    margin-top: 0;
+}
+
+/* CADA BLOCO DE PESO (S1, S2...) */
+.weight-group {
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
-    margin-top: 5px;
-    padding-left: 5px; /* MESMO ALINHAMENTO DA SÉRIE ACIMA */
+    width: 40px; /* MESMA LARGURA DA BOLINHA ACIMA */
 }
 
 .weight-label {
-    font-size: 11px;
-    color: #666;
-    font-weight: 600;
+    font-size: 9px;
+    color: var(--gold);
+    font-weight: 900;
     text-transform: uppercase;
-    min-width: 45px; /* Mantém o rótulo com tamanho fixo para não "empurrar" o input */
+    margin-bottom: 2px;
 }
 
 .weight-input {
-    width: 60px;
+    width: 100%; /* Ocupa os 40px do grupo */
     background: transparent;
     border: none;
-    color: var(--gold);
-    font-weight: 700;
-    font-size: 16px;
-    padding: 0;
-    outline: none;
     border-bottom: 1px solid rgba(216, 177, 91, 0.3);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    outline: none;
+    padding-bottom: 2px;
 }
     
     /* BOTÕES GERAIS */
