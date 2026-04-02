@@ -45,7 +45,7 @@ body {
 
 .quote-bg {
     position: absolute;
-    right: -5%; /* Move a imagem para a direita */
+    right: -5%;
     top: 50%;
     transform: translateY(-50%);
     width: 65%;
@@ -60,14 +60,13 @@ body {
 .quote-overlay {
     position: absolute;
     inset: 0;
-    /* Gradiente que escurece o lado esquerdo para dar leitura ao texto */
     background: linear-gradient(90deg, #080808 45%, rgba(8,8,8,0.7) 75%, transparent 100%);
     z-index: 2;
 }
 
 .quote-content {
     position: relative;
-        z-index: 3;
+    z-index: 3;
     padding: 30px;
     max-width: 85%;
 }
@@ -103,28 +102,27 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* FOCO TOTAL NO NOME */
 .exercise-name {
-    font-size: 26px; /* Aumentado para ser a primeira leitura */
-    font-weight: 900;
-    color: #ffffff;
+    font-size: 26px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
     letter-spacing: -1px;
     margin-bottom: 4px;
     text-transform: uppercase;
+    display: block !important;
 }
 
 .exercise-muscle {
-    font-size: 12px;
-    font-weight: 700;
-    color: #5dade2;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #5dade2 !important;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 15px;
-    opacity: 0.9;
-    display: block;
+    display: block !important;
 }
 
-/* DIVISOR DISCRETO */
+/* Divisor dourado */
 .exercise::after {
     content: "";
     width: 40px;
@@ -135,10 +133,15 @@ body {
     opacity: 0.5;
 }
 
+/* ESCONDE APENAS O TEXTO DE INSTRUÇÃO REPETITIVO */
+/* Isso mira em qualquer div ou p que não tenha uma classe específica (como o texto do sistema) */
+.exercise div:not([class]), .exercise p {
+    display: none !important;
+}
+
 /* ALINHAMENTO VERTICAL FORÇADO (GRID) */
 .series-row, .weight-row {
     display: grid !important;
-    /* Cria colunas fixas de 45px, exatamente o tamanho da bolinha */
     grid-template-columns: repeat(auto-fit, 45px) !important; 
     gap: 12px !important;
     margin-left: 0 !important;
@@ -171,66 +174,34 @@ body {
     border-color: var(--gold) !important;
 }
 
-/* AJUSTE DOS INPUTS - AGORA DOURADOS E EM DESTAQUE */
+/* PESO DOURADO E ALINHADO */
 .weight-input {
     width: 45px !important;
     background: transparent !important;
     border: none !important;
     border-bottom: 2px solid rgba(216, 177, 91, 0.4) !important;
-    
-    /* MUDANÇAS AQUI: */
-    color: var(--gold) !important; /* Cor dourada */
-    font-weight: 800 !important;   /* Fonte mais grossa */
-    font-size: 16px !important;   /* Fonte um pouco maior */
-    
+    color: var(--gold) !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
     text-align: center !important;
     outline: none !important;
     padding: 5px 0 !important;
-    font-family: 'Montserrat', sans-serif !important;
 }
 
-/* ESCONDE O RÓTULO SE EXISTIR */
 .weight-label {
     display: none !important; 
 }
-        
-.weight-input {
-    width: 100%; /* Ocupa os 40px do grupo */
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(216, 177, 91, 0.3);
-    color: #fff;
-    font-weight: 700;
-    font-size: 13px;
-    text-align: center;
-    outline: none;
-    padding-bottom: 2px;
-}
-/* LIMPEZA DE TEXTOS REPETITIVOS */
-.exercise div, .exercise p {
-    /* Esconde textos genéricos como "Marque a série..." */
-    font-size: 0; 
-    color: transparent;
-    height: 0;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-}
 
-/* Garante que as informações essenciais NÃO sumam */
-.exercise-name, .exercise-muscle, .series-box, .weight-input {
-    font-size: inherit !important;
-    color: inherit !important;
-    height: auto !important;
-    display: flex !important;
-}
-
-/* Mantém apenas o tempo de descanso visível no rodapé do card */
-.exercise::after {
-    margin-bottom: 10px; /* Ajuste para o divisor não colar no texto */
+/* Tempo de descanso que aparece no rodapé do card */
+.exercise span:last-of-type {
+    font-size: 13px !important;
+    color: var(--gold) !important;
+    margin-top: 15px;
+    opacity: 0.5;
+    display: block !important;
 }
     
-    /* BOTÕES GERAIS */
+/* BOTÕES GERAIS */
 button { 
     border-radius: 14px; 
     font-weight: 800; 
@@ -259,8 +230,8 @@ button {
 .progress { height: 8px; background: #222; border-radius: 10px; margin: 15px 0; overflow: hidden; }
 .progress > div { background: var(--gold); height: 100%; transition: width 0.5s ease; }
 
-</style>
-    
+    </style>
+        
 </head>
 <body>
 <div class="wrap">
