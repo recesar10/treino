@@ -135,65 +135,59 @@ body {
     opacity: 0.5;
 }
 
-/* ALINHAMENTO VERTICAL PERFEITO */
-.series-row { 
-    display: flex; 
-    gap: 12px; 
+/* ALINHAMENTO VERTICAL FORÇADO (GRID) */
+.series-row, .weight-row {
+    display: grid !important;
+    /* Cria colunas fixas de 45px, exatamente o tamanho da bolinha */
+    grid-template-columns: repeat(auto-fit, 45px) !important; 
+    gap: 12px !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    justify-content: flex-start !important;
+}
+
+.series-row {
     margin-top: 15px;
-    margin-bottom: 5px;
-    justify-content: flex-start; /* Força começar na esquerda */
+    margin-bottom: 8px;
 }
 
 .series-box { 
-    width: 45px; height: 45px; /* Tamanho fixo */
+    width: 45px !important; 
+    height: 45px !important;
     background: rgba(255,255,255,0.02) !important; 
     color: #888 !important; 
     border: 1px solid rgba(255,255,255,0.05) !important; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    font-weight: 700; 
-    font-size: 14px;
-    flex-shrink: 0; /* Impede que a bolinha amasse */
+    border-radius: 50% !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    font-weight: 700 !important; 
+    font-size: 14px !important;
 }
 
-/* CONTAINER DOS PESOS ALINHADOS COM AS BOLINHAS */
-.weight-row {
-    display: flex;
-    gap: 12px; /* MESMO GAP DAS SÉRIES ACIMA */
-    margin-top: 0;
-    justify-content: flex-start;
+.series-box.done { 
+    background: var(--gold) !important; 
+    color: #000 !important;
+    border-color: var(--gold) !important;
 }
 
-/* CADA BLOCO DE PESO (S1, S2...) */
-.weight-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 45px; /* EXATAMENTE A MESMA LARGURA DA BOLINHA ACIMA */
-    flex-shrink: 0;
-}
-
-.weight-label {
-    font-size: 9px;
-    color: var(--gold);
-    font-weight: 900;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-}
-
+/* AJUSTE DOS INPUTS PARA ALINHAREM NO TRILHO */
 .weight-input {
-    width: 100%; 
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(216, 177, 91, 0.3);
-    color: #fff;
-    font-weight: 700;
-    font-size: 13px;
-    text-align: center;
-    outline: none;
-    padding-bottom: 2px;
+    width: 45px !important; /* Mesma largura da bolinha */
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(216, 177, 91, 0.4) !important;
+    color: #fff !important;
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    text-align: center !important;
+    outline: none !important;
+    padding: 5px 0 !important;
+}
+
+/* DESATIVA O RÓTULO S1, S2 SE ELE ESTIVER EMPURRANDO O ALINHAMENTO */
+.weight-label {
+    display: none !important; 
 }
     
 .weight-input {
