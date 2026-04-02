@@ -457,19 +457,20 @@ function startWorkout(){
 }
 function finishWorkout(auto){
   if(!currentWorkoutId) return;
-  if(workoutInterval){clearInterval(workoutInterval); workoutInterval=null;}
+  
+  // PARA E RESETAR O TEMPO
+  if(workoutInterval){
+    clearInterval(workoutInterval); 
+    workoutInterval=null;
+  }
+  workoutSeconds = 0; // Zera o contador interno de segundos do treino
+  
+  // LIMPA O TEXTO DO TIMER NA TELA (se houver o elemento)
+  const timerDisplay = document.querySelector('.timer-big') || document.getElementById('timer-display');
+  if(timerDisplay) timerDisplay.innerText = "00:00";
+
   const completedId=normalizeWorkoutId(currentWorkoutId);
   localStorage.setItem(lastCompletedKey(), String(WORKOUT_SEQUENCE.indexOf(completedId)));
-
-  const history=JSON.parse(localStorage.getItem(historyKey())||"[]");
-  const lastWeights=JSON.parse(localStorage.getItem(lastWeightsKey())||"{}");
-  document.querySelectorAll(".exercise").forEach(card=>{
-    const id=card.dataset.id, inputs=[...card.querySelectorAll(".weight-input")].map(i=>i.value.trim());
-    if(inputs.some(Boolean)) lastWeights[id]=inputs;
-  });
-  localStorage.setItem(lastWeightsKey(), JSON.stringify(lastWeights));
-  history.unshift({date:new Date().toISOString().slice(0,10), label:DAYS[completedId].title, duration:fmt(workoutElapsed)});
-  localStorage.setItem(historyKey(), JSON.stringify(history.slice(0,30)));
 
   workoutStarted=false; workoutStartTs=null;
   workoutStatus.textContent=(auto?"Treino finalizado automaticamente. ":"Treino finalizado. ")+"Tempo: "+fmt(workoutElapsed);
