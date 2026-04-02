@@ -171,25 +171,29 @@ body {
     border-color: var(--gold) !important;
 }
 
-/* AJUSTE DOS INPUTS PARA ALINHAREM NO TRILHO */
+/* AJUSTE DOS INPUTS - AGORA DOURADOS E EM DESTAQUE */
 .weight-input {
-    width: 45px !important; /* Mesma largura da bolinha */
+    width: 45px !important;
     background: transparent !important;
     border: none !important;
-    border-bottom: 1px solid rgba(216, 177, 91, 0.4) !important;
-    color: #fff !important;
-    font-weight: 700 !important;
-    font-size: 13px !important;
+    border-bottom: 2px solid rgba(216, 177, 91, 0.4) !important;
+    
+    /* MUDANÇAS AQUI: */
+    color: var(--gold) !important; /* Cor dourada */
+    font-weight: 800 !important;   /* Fonte mais grossa */
+    font-size: 16px !important;   /* Fonte um pouco maior */
+    
     text-align: center !important;
     outline: none !important;
     padding: 5px 0 !important;
+    font-family: 'Montserrat', sans-serif !important;
 }
 
-/* DESATIVA O RÓTULO S1, S2 SE ELE ESTIVER EMPURRANDO O ALINHAMENTO */
+/* ESCONDE O RÓTULO SE EXISTIR */
 .weight-label {
     display: none !important; 
 }
-    
+        
 .weight-input {
     width: 100%; /* Ocupa os 40px do grupo */
     background: transparent;
