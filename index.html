@@ -6,7 +6,7 @@
 <title>Treino em Sequência</title>
 <meta name="theme-color" content="#050505">
 <link rel="manifest" href="manifest.json">
-<style>
+    <style>
 :root {
     --panel: #111;
     --panel2: #1c1c1c;
@@ -29,7 +29,7 @@ body {
 
 .wrap { max-width: 600px; margin: 0 auto; padding: 20px 15px 100px; }
 
-/* REPARO DO CARD DE MOTIVAÇÃO */
+/* CARD DE MOTIVAÇÃO */
 .quote-card {
     position: relative;
     overflow: hidden;
@@ -109,7 +109,6 @@ body {
     letter-spacing: -1px;
     margin-bottom: 4px;
     text-transform: uppercase;
-    display: block !important;
 }
 
 .exercise-muscle {
@@ -133,13 +132,13 @@ body {
     opacity: 0.5;
 }
 
-/* ESCONDE APENAS O TEXTO DE INSTRUÇÃO REPETITIVO */
-/* Isso mira em qualquer div ou p que não tenha uma classe específica (como o texto do sistema) */
-.exercise div:not([class]), .exercise p {
-    display: none !important;
+/* ESCONDE APENAS O TEXTO DE INSTRUÇÃO MAS MANTÉM O DESCANSO */
+.exercise div:not([class]) {
+    font-size: 0 !important;
+    color: transparent !important;
 }
 
-/* ALINHAMENTO VERTICAL FORÇADO (GRID) */
+/* ALINHAMENTO VERTICAL (GRID) */
 .series-row, .weight-row {
     display: grid !important;
     grid-template-columns: repeat(auto-fit, 45px) !important; 
@@ -149,14 +148,10 @@ body {
     justify-content: flex-start !important;
 }
 
-.series-row {
-    margin-top: 15px;
-    margin-bottom: 8px;
-}
+.series-row { margin-top: 15px; margin-bottom: 8px; }
 
 .series-box { 
-    width: 45px !important; 
-    height: 45px !important;
+    width: 45px !important; height: 45px !important;
     background: rgba(255,255,255,0.02) !important; 
     color: #888 !important; 
     border: 1px solid rgba(255,255,255,0.05) !important; 
@@ -168,13 +163,9 @@ body {
     font-size: 14px !important;
 }
 
-.series-box.done { 
-    background: var(--gold) !important; 
-    color: #000 !important;
-    border-color: var(--gold) !important;
-}
+.series-box.done { background: var(--gold) !important; color: #000 !important; }
 
-/* PESO DOURADO E ALINHADO */
+/* PESO DOURADO */
 .weight-input {
     width: 45px !important;
     background: transparent !important;
@@ -188,17 +179,16 @@ body {
     padding: 5px 0 !important;
 }
 
-.weight-label {
-    display: none !important; 
-}
+.weight-label { display: none !important; }
 
-/* Tempo de descanso que aparece no rodapé do card */
+/* RECUPERA O TEMPO DE DESCANSO (O texto que contém "s") */
 .exercise span:last-of-type {
     font-size: 13px !important;
     color: var(--gold) !important;
     margin-top: 15px;
-    opacity: 0.5;
+    opacity: 0.6;
     display: block !important;
+    font-weight: 700 !important;
 }
     
 /* BOTÕES GERAIS */
@@ -231,6 +221,7 @@ button {
 .progress > div { background: var(--gold); height: 100%; transition: width 0.5s ease; }
 
     </style>
+    
         
 </head>
 <body>
