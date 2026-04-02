@@ -206,6 +206,29 @@ body {
     outline: none;
     padding-bottom: 2px;
 }
+/* LIMPEZA DE TEXTOS REPETITIVOS */
+.exercise div, .exercise p {
+    /* Esconde textos genéricos como "Marque a série..." */
+    font-size: 0; 
+    color: transparent;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Garante que as informações essenciais NÃO sumam */
+.exercise-name, .exercise-muscle, .series-box, .weight-input {
+    font-size: inherit !important;
+    color: inherit !important;
+    height: auto !important;
+    display: flex !important;
+}
+
+/* Mantém apenas o tempo de descanso visível no rodapé do card */
+.exercise::after {
+    margin-bottom: 10px; /* Ajuste para o divisor não colar no texto */
+}
     
     /* BOTÕES GERAIS */
 button { 
