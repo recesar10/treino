@@ -141,10 +141,11 @@ body {
     gap: 12px; 
     margin-top: 15px;
     margin-bottom: 5px;
+    justify-content: flex-start; /* Força começar na esquerda */
 }
 
 .series-box { 
-    width: 40px; height: 40px;
+    width: 45px; height: 45px; /* Tamanho fixo */
     background: rgba(255,255,255,0.02) !important; 
     color: #888 !important; 
     border: 1px solid rgba(255,255,255,0.05) !important; 
@@ -154,6 +155,7 @@ body {
     justify-content: center; 
     font-weight: 700; 
     font-size: 14px;
+    flex-shrink: 0; /* Impede que a bolinha amasse */
 }
 
 /* CONTAINER DOS PESOS ALINHADOS COM AS BOLINHAS */
@@ -161,6 +163,7 @@ body {
     display: flex;
     gap: 12px; /* MESMO GAP DAS SÉRIES ACIMA */
     margin-top: 0;
+    justify-content: flex-start;
 }
 
 /* CADA BLOCO DE PESO (S1, S2...) */
@@ -168,7 +171,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 40px; /* MESMA LARGURA DA BOLINHA ACIMA */
+    width: 45px; /* EXATAMENTE A MESMA LARGURA DA BOLINHA ACIMA */
+    flex-shrink: 0;
 }
 
 .weight-label {
@@ -179,6 +183,19 @@ body {
     margin-bottom: 2px;
 }
 
+.weight-input {
+    width: 100%; 
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(216, 177, 91, 0.3);
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    text-align: center;
+    outline: none;
+    padding-bottom: 2px;
+}
+    
 .weight-input {
     width: 100%; /* Ocupa os 40px do grupo */
     background: transparent;
