@@ -135,19 +135,20 @@ body {
     opacity: 0.5;
 }
 
-/* SÉRIES MAIS DISCRETAS (SÓ APARECEM QUANDO FEITAS) */
+/* SÉRIES MAIS DISCRETAS E ALINHADAS */
 .series-row { 
     display: flex; 
     gap: 12px; 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
+    padding-left: 5px; /* Alinhamento com a borda invisível do título */
 }
 
 .series-box { 
     width: 40px; height: 40px;
     background: rgba(255,255,255,0.02) !important; 
-    color: #444 !important; /* Número fica "apagadinho" antes de marcar */
+    color: #888 !important; /* Aumentei um pouco o brilho para você ver o número melhor */
     border: 1px solid rgba(255,255,255,0.05) !important; 
-    border-radius: 50%; /* Circulares ficam menos agressivas que quadrados */
+    border-radius: 50%; 
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -165,12 +166,13 @@ body {
     transform: scale(1.1);
 }
 
-/* ÁREA DE PESO TOTALMENTE LIMPA */
+/* PESO ALINHADO LOGO ABAIXO DA PRIMEIRA SÉRIE */
 .weight-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     margin-top: 5px;
+    padding-left: 5px; /* MESMO ALINHAMENTO DA SÉRIE ACIMA */
 }
 
 .weight-label {
@@ -178,6 +180,7 @@ body {
     color: #666;
     font-weight: 600;
     text-transform: uppercase;
+    min-width: 45px; /* Mantém o rótulo com tamanho fixo para não "empurrar" o input */
 }
 
 .weight-input {
@@ -189,7 +192,7 @@ body {
     font-size: 16px;
     padding: 0;
     outline: none;
-    border-bottom: 1px solid rgba(216, 177, 91, 0.2);
+    border-bottom: 1px solid rgba(216, 177, 91, 0.3);
 }
     
     /* BOTÕES GERAIS */
