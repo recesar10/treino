@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino em Sequência</title>
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--panel:#111;--panel2:#171717;--text:#f6f3ea;--gold:#d8b15b;--line:rgba(255,255,255,.08);--green:#20c05c;--red:#d84040;--gold2:#d4a017;--shadow:0 14px 28px rgba(0,0,0,.35)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#000 0%,#0a0a0a 100%);color:var(--text)}
+.wrap{max-width:920px;margin:0 auto;padding:18px 14px 80px}
+.hero{margin-bottom:18px}.hero h1{margin:0 0 10px;font-size:34px;line-height:1.1}.hero p{margin:0;color:#c5c5c5;font-size:15px;line-height:1.5}
+.card,.panel,.day{background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.quote-card{position:relative;overflow:hidden;min-height:340px;margin:18px 0;border:1px solid rgba(216,177,91,.24);background:#080808}
+.quote-bg{position:absolute;inset:0;background-size:60%;background-position:96% center;background-repeat:no-repeat;opacity:.48;filter:contrast(1.18) brightness(1.08)}
+.quote-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.80) 40%,rgba(0,0,0,.35) 75%,rgba(0,0,0,.05) 100%)}
+.quote-content{position:relative;z-index:2;padding:22px;max-width:66%}
+.eyebrow{color:#f0d78f;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;margin-bottom:10px}
+.pill{display:inline-block;padding:8px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);font-size:12px;font-weight:700;margin-bottom:16px}
+.quote-mark{font-size:64px;line-height:.75;color:var(--gold);font-family:Georgia,serif;margin-bottom:8px}
+.quote-text{font-family:Georgia,"Times New Roman",serif;font-size:clamp(29px,5vw,46px);line-height:1.08;font-weight:700;color:#fff7df;margin-bottom:14px}
+.quote-animal{color:#dfc98b;font-size:15px}
+.toolbar,.grid,.buttons,.series-row,.weight-row{display:flex;gap:10px;flex-wrap:wrap}
+.panel{padding:16px;margin-bottom:14px}.panel strong{display:block;font-size:16px;margin-bottom:8px}.install-note{color:#ddd;line-height:1.45}
+button{border:0;border-radius:18px;min-height:48px;padding:12px 16px;font-size:16px;font-weight:800;color:#fff;background:var(--panel2)}
+.btn-green{background:var(--green);color:#072611}.btn-red{background:var(--red)}.btn-gold{background:var(--gold2);color:#2b2100}.btn-ghost{background:transparent;border:1px solid var(--line)}.btn-white{background:#fff;color:#000}
+.active-choice{background:var(--gold2)!important;color:#2b2100!important}
+.grid{margin:14px 0}.mini{flex:1 1 160px;padding:16px;border-radius:20px;background:#111;border:1px solid var(--line);box-shadow:var(--shadow)}
+.mini .label{color:#b9b9b9;font-size:13px}.mini .value{margin-top:8px;font-size:22px;font-weight:900}
+.day{overflow:hidden;margin-bottom:14px}.day-head{padding:18px;border-bottom:1px solid var(--line)}.day-title{margin:0 0 6px;font-size:28px}.day-sub{margin:0;color:#b8b8b8;font-size:14px}
+.progress{margin-top:12px;height:10px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.07)}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#7d7d7d,#fff);transition:width .25s ease}
+.progress-text{margin-top:8px;color:#bababa;font-size:13px}.day-list{padding:12px}
+.exercise{display:grid;grid-template-columns:1fr auto;gap:12px;padding:14px;margin-bottom:10px;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.exercise.done{background:rgba(32,192,92,.1);border-color:rgba(32,192,92,.34)}
+.exercise-name{font-weight:800;font-size:17px}.exercise-muscle{margin-top:6px;color:#e2c989;font-size:13px;font-weight:700}.exercise-meta{margin-top:6px;color:#bbb;font-size:14px}.last-weights{margin-top:6px;color:#9fc4ff;font-size:12px}
+.rest-tag{padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-size:13px;font-weight:800;white-space:nowrap;height:fit-content}
+.series-row{margin-top:12px}.series-box{width:36px;height:36px;border-radius:10px;background:#fff;color:#000;border:2px solid rgba(255,255,255,.36);display:flex;align-items:center;justify-content:center;font-weight:900;cursor:pointer;user-select:none}.series-box.done{background:var(--green);color:#05210f;border-color:var(--green)}
+.weight-row{margin-top:10px}.weight-chip{display:flex;flex-direction:column;align-items:center;gap:6px}.weight-input{width:56px;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.16);background:#0d0d0d;color:#fff;text-align:center;font-size:14px;font-weight:700}.weight-label{font-size:11px;color:#aaa}
+.series-help{margin-top:8px;color:#aaa;font-size:12px}
+.timer-big{font-size:46px;font-weight:900}.timer-note{color:#bdbdbd;margin-top:4px;font-size:14px}.summary-line{margin-top:8px;color:#d9d9d9;font-size:14px}
+.status-line{margin-top:10px;font-size:14px;color:#d7d7d7}.next-line{margin-top:6px;font-size:13px;color:#9fc4ff}
+.history-item{margin-top:10px;padding:12px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.03)}
+.footer{margin-top:18px;text-align:center;color:#8f8f8f;font-size:12px}
+@media (max-width:520px){.hero h1{font-size:30px}.quote-content{max-width:72%}.quote-bg{background-size:64%;background-position:99% center}.quote-text{font-size:26px}.day-title{font-size:23px}.timer-big{font-size:40px}.weight-input{width:50px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<section class="hero"><h1>Treino em Sequência</h1><p>Versão com treinos em ciclo A/B/C/D/E, sem depender do dia da semana.</p></section>
+
+<section class="quote-card card">
+  <div class="quote-bg" id="quoteBg"></div>
+  <div class="quote-overlay"></div>
+  <div class="quote-content">
+    <div class="eyebrow">Provérbio do dia</div>
+    <div class="pill">Sabedoria oriental</div>
+    <div class="quote-mark">“</div>
+    <div class="quote-text" id="quoteText"></div>
+    <div class="quote-animal" id="quoteAnimal"></div>
+  </div>
+</section>
+
+<section class="panel">
+  <strong>Instalar como app</strong>
+  <div class="install-note" id="installNote">Abra no Chrome e aguarde alguns segundos. Se o botão aparecer, toque nele.</div>
+  <div class="buttons" style="margin-top:12px">
+    <button id="installBtn" class="btn-green" style="display:none">Instalar app</button>
+    <button id="exportBtn" class="btn-ghost">Exportar progresso</button>
+  </div>
+</section>
+
+<div class="toolbar" style="margin-bottom:14px">
+  <button id="wakeBtn" class="btn-gold">Modo academia: desligado</button>
+  <button id="notifyBtn" class="btn-ghost">Som e vibração: ligados</button>
+</div>
+
+<section class="grid">
+  <div class="mini"><div class="label">Frequência</div><div class="value">5x/semana</div></div>
+  <div class="mini"><div class="label">Horários</div><div class="value">19h / 10h</div></div>
+  <div class="mini"><div class="label">Descanso</div><div class="value">45–90s</div></div>
+  <div class="mini"><div class="label">Tempo do treino</div><div class="value" id="workoutClock">00:00</div></div>
+</section>
+
+<section class="panel">
+  <strong>Treino de hoje</strong>
+  <div class="buttons" style="margin-top:12px">
+    <button id="todayWorkoutBtn" class="btn-green" onclick="goTodayWorkout()">Treino de hoje</button>
+    <button id="startWorkoutBtn" class="btn-white" onclick="startWorkout()">Iniciar treino</button>
+    <button id="finishWorkoutBtn" class="btn-ghost" onclick="finishWorkout(false)" disabled>Finalizar treino</button>
+  </div>
+  <div class="status-line" id="workoutStatus">Nenhum treino iniciado no momento.</div>
+  <div class="next-line" id="nextWorkoutInfo"></div>
+</section>
+
+<section class="panel">
+  <div class="timer-big" id="timer">01:00</div>
+  <div class="timer-note">Cronômetro com descanso automático entre séries.</div>
+  <div class="pill" id="autoMode" style="margin-top:12px">Auto descanso: desligado</div>
+  <div class="buttons" style="margin-top:12px">
+    <button id="btn45" onclick="selectTimer(45)">45s</button>
+    <button id="btn60" onclick="selectTimer(60)">60s</button>
+    <button id="btn90" onclick="selectTimer(90)">90s</button>
+    <button class="btn-white" onclick="startTimer()">Iniciar</button>
+    <button onclick="pauseTimer()">Pausar</button>
+    <button class="btn-red" onclick="resetTimer()">Zerar</button>
+    <button id="autoBtn" class="btn-ghost" onclick="toggleAutoRest()">Auto</button>
+  </div>
+  <div class="summary-line" id="timerSummary">Tempo selecionado: 60s</div>
+</section>
+
+<div class="toolbar" style="margin-bottom:14px">
+  <button onclick="saveState(true)">Salvar progresso</button>
+  <button class="btn-red" onclick="clearChecks()">Limpar marcações</button>
+</div>
+
+<div id="daysContainer"></div>
+
+<section class="panel">
+  <strong>Histórico</strong>
+  <div id="historyList">Nenhum treino finalizado ainda.</div>
+</section>
+
+<div class="footer">App de treino com sequência A/B/C/D/E e salvamento automático.</div>
+</div>
+
+<script>
+const DAYS = {"terca": {"title": "Treino A — Peito + Tríceps", "sub": "19h • descanso 60–90s", "exs": [["Supino inclinado máquina", 4, "10 repetições", "90s", "Peitoral superior"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda pulley", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Tríceps francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"], ["Coice corda isolado", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"]]}, "quarta": {"title": "Treino B — Costas + Bíceps", "sub": "19h • descanso 60–90s", "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Puxada em pé corda", 3, "12 repetições", "60s", "Trapézio / romboides"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca unilateral halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"], ["Polia baixa corda", 3, "12 repetições", "60s", "Braquial"]]}, "quinta": {"title": "Treino C — Perna + Ombro + Trapézio", "sub": "19h • perna primeiro • descanso 60–90s", "exs": [["Leg press", 4, "12 repetições", "90s", "Quadríceps / glúteo"], ["Extensora", 3, "15 repetições", "60s", "Quadríceps"], ["Flexora", 3, "15 repetições", "60s", "Posterior de coxa"], ["Adutor", 3, "15 repetições", "60s", "Adutores"], ["Abdutor", 3, "15 repetições", "60s", "Glúteo médio"], ["Panturrilha", 4, "15–20 repetições", "60s", "Gastrocnêmio"], ["Desenvolvimento máquina", 4, "10 repetições", "90s", "Deltoide anterior"], ["Remada alta máquina", 3, "12 repetições", "60s", "Deltoide lateral"], ["Encolhimento trapézio", 4, "12–15 repetições", "60s", "Trapézio"]]}, "sabado": {"title": "Treino D — Peito + Tríceps", "sub": "10h • variação leve • descanso 60–90s", "exs": [["Supino máquina reto", 4, "10 repetições", "90s", "Peitoral médio"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"]]}, "domingo": {"title": "Treino E — Costas + Bíceps", "sub": "10h • descanso 60–90s", "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"]]}}, MESSAGES = ["A jornada mais longa começa com o primeiro passo.", "Não tenha medo de andar devagar; tenha medo de ficar parado.", "Quem move uma montanha começa carregando pequenas pedras.", "A melhor hora para plantar uma árvore foi há vinte anos; a segunda melhor hora é agora.", "Água constante encontra caminho mesmo entre pedras.", "Quem aprende a esperar amadurece em silêncio.", "Uma palavra branda pode abrir portas fechadas.", "A paciência é amarga, mas seus frutos são doces.", "Quando o vento muda, alguns levantam muros; outros constroem moinhos.", "Um rio profundo corre sem alarde.", "Quem faz com constância vai além de quem começa com pressa.", "O bambu que se dobra é mais forte do que o carvalho que resiste a tudo.", "Antes de corrigir o mundo, arrume o próprio passo.", "O sábio observa mais do que fala.", "Até a água turva se acalma quando deixada em repouso.", "Grandes resultados nascem de pequenos gestos repetidos.", "Quem domina a si mesmo já venceu metade da batalha.", "O tempo esclarece o que a pressa confunde.", "Nem todo silêncio é vazio; às vezes, é compreensão.", "O caminho fica mais leve para quem aprende a levar só o necessário.", "Uma faísca cuidada pode acender grande chama.", "Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", "Mesmo a noite mais longa cede lugar ao amanhecer.", "O fruto amadurece no seu tempo, não no da ansiedade.", "A firmeza tranquila vale mais que a força impaciente.", "Quem cuida da raiz não teme a estação.", "Uma casa em paz vale mais do que um palácio inquieto.", "Não é a altura da montanha que vence o homem, mas a persistência do passo.", "Quem cultiva serenidade enxerga mais longe.", "O lago reflete o céu quando suas águas estão calmas.", "Quando a mente se aquieta, a direção aparece.", "O hábito de recomeçar é um tipo de sabedoria.", "A pressa tropeça onde a atenção pisaria firme.", "Quem guarda rancor carrega peso desnecessário.", "Até o menor avanço é maior que a imobilidade.", "O homem prudente mede o passo antes de correr.", "Uma árvore forte cresce devagar.", "Quem espalha bondade nunca volta de mãos vazias.", "O erro reconhecido já começou a se transformar em acerto.", "Quem escuta com atenção aprende duas vezes.", "A estrada ensina mais a quem caminha do que a quem apenas observa.", "Uma tigela cheia demais já não recebe mais nada.", "O dia de hoje vale mais do que a promessa de amanhã.", "Quem mantém o coração em ordem organiza melhor o caminho.", "A calma é uma forma silenciosa de poder.", "Não se apressa a primavera puxando as flores.", "Quem aceita aprender nunca envelhece por dentro.", "Uma lanterna pequena ainda é suficiente para atravessar a noite.", "Para endireitar o galho, cuide primeiro da raiz.", "Quem semeia constância colhe confiança.", "A verdade não precisa correr; ela chega.", "A pedra é vencida menos pela força do golpe e mais pela repetição.", "Nem toda demora é perda; às vezes, é preparo.", "Quem faz o simples com atenção constrói o extraordinário.", "A mente apressada vê pouco; o olhar sereno enxerga fundo.", "Se o coração estiver em paz, o caminho parecerá menos áspero.", "O excesso de ruído afasta a clareza.", "Uma ponte se sustenta porque cada parte cumpre o seu papel.", "Quem honra o presente prepara melhor o futuro.", "O homem que cuida do que pensa melhora o que vive."], ANIMALS = [{"slug": "dragao", "name": "Dragão"}, {"slug": "tigre", "name": "Tigre"}, {"slug": "coelho", "name": "Coelho"}, {"slug": "cavalo", "name": "Cavalo"}, {"slug": "cabra", "name": "Cabra"}, {"slug": "serpente", "name": "Serpente"}, {"slug": "macaco", "name": "Macaco"}, {"slug": "galo", "name": "Galo"}, {"slug": "boi", "name": "Boi"}, {"slug": "porco", "name": "Porco"}, {"slug": "rato", "name": "Rato"}, {"slug": "cao", "name": "Cão"}];
+const WORKOUT_SEQUENCE = ["terca","quarta","quinta","sabado","domingo"];
+
+function dayIndex(){ const start=new Date("2026-01-01"), now=new Date(); return Math.abs(Math.floor((now-start)/(1000*60*60*24))); }
+document.getElementById("quoteText").textContent = MESSAGES[dayIndex()%MESSAGES.length];
+const animal = ANIMALS[dayIndex()%ANIMALS.length];
+document.getElementById("quoteAnimal").textContent = "Animal do dia: " + animal.name;
+document.getElementById("quoteBg").style.backgroundImage = `url('animal_${animal.slug}.png')`;
+
+const daysContainer=document.getElementById("daysContainer");
+Object.entries(DAYS).forEach(([gid,info])=>{
+  let html=`<section class="day" id="${gid}"><div class="day-head"><h2 class="day-title">${info.title}</h2><p class="day-sub">${info.sub}</p><div class="progress"><div id="bar-${gid}"></div></div><div class="progress-text" id="txt-${gid}">0 de ${info.exs.length} exercícios concluídos</div></div><div class="day-list">`;
+  info.exs.forEach((ex,i)=>{
+    const id=`${gid}-${i}`, name=ex[0];
+    let boxes="", weights="";
+    for(let n=1;n<=ex[1];n++){
+      boxes += `<div class="series-box" data-series-id="${id}-${n}" data-exercise-id="${id}" data-rest="${ex[3]}">${n}</div>`;
+      weights += `<div class="weight-chip"><input class="weight-input" inputmode="decimal" placeholder="kg" data-weight-id="${id}-${n}"><div class="weight-label">S${n}</div></div>`;
+    }
+    html += `<div class="exercise" data-id="${id}" data-name="${name}"><div><div class="exercise-name">${name}</div><div class="exercise-meta">${ex[1]} séries • ${ex[2]}</div><div class="exercise-muscle">Músculo: ${ex[4]}</div><div class="last-weights" id="last-${id}"></div><div class="series-row">${boxes}</div><div class="weight-row">${weights}</div><div class="series-help">Marque a série concluída e anote o peso usado em cada uma.</div></div><div class="rest-tag">${ex[3]}</div></div>`;
+  });
+  html += `</div></section>`;
+  daysContainer.insertAdjacentHTML("beforeend", html);
+});
+
+const installBtn=document.getElementById("installBtn"), installNote=document.getElementById("installNote"),
+exportBtn=document.getElementById("exportBtn"), wakeBtn=document.getElementById("wakeBtn"),
+notifyBtn=document.getElementById("notifyBtn"), autoBtn=document.getElementById("autoBtn"),
+startWorkoutBtn=document.getElementById("startWorkoutBtn"), finishWorkoutBtn=document.getElementById("finishWorkoutBtn"),
+workoutStatus=document.getElementById("workoutStatus"), nextWorkoutInfo=document.getElementById("nextWorkoutInfo");
+const seriesBoxes=[...document.querySelectorAll(".series-box")], weightInputs=[...document.querySelectorAll(".weight-input")];
+
+let totalSeconds=60, remaining=60, interval=null, deferredPrompt=null;
+let autoRest=false, wakeLock=null, wakeEnabled=false, notifyEnabled=true;
+let workoutStarted=false, workoutStartTs=null, workoutElapsed=0, workoutInterval=null, currentWorkoutId=null;
+
+function seriesKey(){return "treinoSeriesState"}; function weightKey(){return "treinoWeights"}; function historyKey(){return "treinoHistory"}; function lastWeightsKey(){return "treinoLastWeights"}; function metaKey(){return "treinoWorkoutMeta"}; function lastCompletedKey(){return "treinoLastCompletedIndex"};
+
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;installBtn.style.display="inline-block";installNote.textContent="Seu navegador liberou a instalação. Toque no botão abaixo."});
+installBtn.addEventListener("click",async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.style.display="none"});
+window.addEventListener("appinstalled",()=>{installBtn.style.display="none";installNote.textContent="App instalado com sucesso."});
+
+function beep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type="sine";osc.frequency.value=880;gain.gain.setValueAtTime(.001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.15,ctx.currentTime+.01);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.25);osc.start();osc.stop(ctx.currentTime+.26)}catch(e){}}
+function notifyRestEnd(){if(!notifyEnabled)return;beep();if(navigator.vibrate)navigator.vibrate([150,80,150])}
+function fmt(sec){return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;}
+function renderTimer(){document.getElementById("timer").textContent=fmt(remaining)}
+function renderWorkoutClock(){document.getElementById("workoutClock").textContent=fmt(workoutElapsed)}
+function updateTimerButtons(selected){[45,60,90].forEach(v=>{const btn=document.getElementById("btn"+v); if(btn) btn.classList.toggle("active-choice", v===selected)}); document.getElementById("timerSummary").textContent="Tempo selecionado: "+selected+"s";}
+function setTimer(sec){totalSeconds=sec;remaining=sec;clearInterval(interval);interval=null;renderTimer();updateTimerButtons(sec);localStorage.setItem("treinoTimerChoice",String(sec))}
+function selectTimer(sec){setTimer(sec)}
+function startTimer(){clearInterval(interval);interval=setInterval(()=>{if(remaining>0){remaining--;renderTimer()}else{clearInterval(interval);interval=null;notifyRestEnd();alert("Tempo de descanso concluído.")}},1000)}
+function pauseTimer(){clearInterval(interval);interval=null}
+function resetTimer(){clearInterval(interval);interval=null;remaining=totalSeconds;renderTimer()}
+
+function updateAutoButton(){document.getElementById("autoMode").textContent="Auto descanso: "+(autoRest?"ligado":"desligado");autoBtn.classList.toggle("active-choice",autoRest)}
+function toggleAutoRest(){autoRest=!autoRest;localStorage.setItem("treinoAutoRest",JSON.stringify(autoRest));updateAutoButton()}
+function loadAutoRest(){const raw=localStorage.getItem("treinoAutoRest");autoRest=raw?JSON.parse(raw):false;updateAutoButton()}
+function toggleNotify(){notifyEnabled=!notifyEnabled;localStorage.setItem("treinoNotify",JSON.stringify(notifyEnabled));notifyBtn.textContent="Som e vibração: "+(notifyEnabled?"ligados":"desligados")}
+function loadNotify(){const raw=localStorage.getItem("treinoNotify");notifyEnabled=raw?JSON.parse(raw):true;notifyBtn.textContent="Som e vibração: "+(notifyEnabled?"ligados":"desligados")}
+notifyBtn.addEventListener("click",toggleNotify)
+
+async function requestWakeLock(){try{if("wakeLock" in navigator){wakeLock=await navigator.wakeLock.request("screen");wakeEnabled=true;wakeBtn.textContent="Modo academia: ligado";localStorage.setItem("treinoWake","true");wakeLock.addEventListener("release",()=>{wakeEnabled=false;wakeBtn.textContent="Modo academia: desligado"})}else alert("Seu navegador não suporta modo academia.")}catch(e){alert("Não foi possível ativar o modo academia.")}}
+async function releaseWakeLock(){if(wakeLock){await wakeLock.release();wakeLock=null}wakeEnabled=false;wakeBtn.textContent="Modo academia: desligado";localStorage.setItem("treinoWake","false")}
+async function toggleWakeLock(){if(wakeEnabled)await releaseWakeLock();else await requestWakeLock()}
+wakeBtn.addEventListener("click",toggleWakeLock)
+document.addEventListener("visibilitychange",async()=>{if(document.visibilityState==="visible"&&localStorage.getItem("treinoWake")==="true"&&!wakeEnabled){await requestWakeLock()}})
+
+
+function normalizeWorkoutId(id){
+  const map = {a:"terca", b:"quarta", c:"quinta", d:"sabado", e:"domingo"};
+  return map[id] || id;
+}
+
+function getNextWorkoutIndex(){
+  const raw = localStorage.getItem(lastCompletedKey());
+  const last = raw === null ? -1 : parseInt(raw,10);
+  return Number.isNaN(last) ? 0 : (last + 1) % WORKOUT_SEQUENCE.length;
+}
+function getNextWorkoutId(){ return WORKOUT_SEQUENCE[getNextWorkoutIndex()]; }
+function refreshNextWorkoutInfo(){ nextWorkoutInfo.textContent = "Treino de hoje: " + DAYS[getNextWorkoutId()].title; }
+
+function updateExerciseVisual(exerciseId){
+  const boxes=[...document.querySelectorAll(`.series-box[data-exercise-id="${exerciseId}"]`)];
+  const card=document.querySelector(`.exercise[data-id="${exerciseId}"]`);
+  const done=boxes.filter(b=>b.classList.contains("done")).length;
+  if(done===boxes.length&&boxes.length)card.classList.add("done"); else card.classList.remove("done");
+}
+function updateProgress(){
+  Object.keys(DAYS).forEach(day=>{
+    const cards=[...document.querySelectorAll(`#${day} .exercise`)];
+    const done=cards.filter(c=>c.classList.contains("done")).length;
+    const pct=cards.length?Math.round((done/cards.length)*100):0;
+    document.getElementById(`bar-${day}`).style.width=pct+"%";
+    document.getElementById(`txt-${day}`).textContent=`${done} de ${cards.length} exercícios concluídos`;
+  });
+}
+function saveWeights(){const data={};weightInputs.forEach(input=>data[input.dataset.weightId]=input.value);localStorage.setItem(weightKey(),JSON.stringify(data))}
+function loadWeights(){const raw=localStorage.getItem(weightKey());if(!raw)return;try{const data=JSON.parse(raw);weightInputs.forEach(input=>{if(Object.prototype.hasOwnProperty.call(data,input.dataset.weightId))input.value=data[input.dataset.weightId]})}catch(e){}}
+function saveState(showAlert){
+  const state={};seriesBoxes.forEach(b=>state[b.dataset.seriesId]=b.classList.contains("done"));
+  localStorage.setItem(seriesKey(),JSON.stringify(state));
+  saveWeights();
+  localStorage.setItem(metaKey(), JSON.stringify({started:workoutStarted,startTs:workoutStartTs,elapsed:workoutElapsed,currentWorkoutId}));
+  if(showAlert) alert("Progresso salvo automaticamente.");
+  updateProgress();
+}
+function loadState(){const raw=localStorage.getItem(seriesKey());if(!raw)return;try{const state=JSON.parse(raw);seriesBoxes.forEach(b=>{if(state[b.dataset.seriesId])b.classList.add("done")});[...new Set(seriesBoxes.map(b=>b.dataset.exerciseId))].forEach(updateExerciseVisual)}catch(e){}}
+function loadWorkoutMeta(){
+  const raw=localStorage.getItem(metaKey());
+  if(!raw){renderWorkoutClock();refreshNextWorkoutInfo();return;}
+  try{
+    const m=JSON.parse(raw);
+    workoutStarted=!!m.started; workoutStartTs=m.startTs||null; workoutElapsed=parseInt(m.elapsed||0,10)||0; currentWorkoutId=m.currentWorkoutId||null;
+    if(workoutStarted&&workoutStartTs){
+      workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
+      currentWorkoutId = normalizeWorkoutId(currentWorkoutId);
+      workoutStatus.textContent=currentWorkoutId?("Treino em andamento: "+DAYS[currentWorkoutId].title):"Treino em andamento.";
+      startWorkoutBtn.disabled=true; finishWorkoutBtn.disabled=false;
+    }
+  }catch(e){}
+  renderWorkoutClock(); refreshNextWorkoutInfo();
+}
+function clearChecks(){
+  if(!confirm("Deseja limpar marcações e progresso do treino atual?"))return;
+  seriesBoxes.forEach(b=>b.classList.remove("done")); weightInputs.forEach(i=>i.value="");
+  localStorage.removeItem(seriesKey()); localStorage.removeItem(weightKey()); localStorage.removeItem(metaKey());
+  workoutStarted=false; workoutStartTs=null; workoutElapsed=0; currentWorkoutId=null;
+  if(workoutInterval){clearInterval(workoutInterval); workoutInterval=null;}
+  workoutStatus.textContent="Nenhum treino iniciado no momento."; startWorkoutBtn.disabled=false; finishWorkoutBtn.disabled=true;
+  renderWorkoutClock(); [...new Set(seriesBoxes.map(b=>b.dataset.exerciseId))].forEach(updateExerciseVisual); updateProgress(); refreshNextWorkoutInfo();
+}
+function goTodayWorkout(){ document.getElementById(currentWorkoutId || getNextWorkoutId()).scrollIntoView({behavior:"smooth", block:"start"}); }
+function findNextExercise(currentExerciseId){
+  const list=[...document.querySelectorAll(".exercise")];
+  const idx=list.findIndex(el=>el.dataset.id===currentExerciseId);
+  return idx>=0&&idx<list.length-1?list[idx+1]:null;
+}
+function allSeriesDone(){ return seriesBoxes.length>0 && seriesBoxes.every(b=>b.classList.contains("done")); }
+
+function startWorkout(){
+  if(workoutStarted) return;
+  if(!currentWorkoutId) currentWorkoutId = getNextWorkoutId();
+  currentWorkoutId = normalizeWorkoutId(currentWorkoutId);
+  workoutStarted=true;
+  workoutStartTs=Date.now()-workoutElapsed*1000;
+  if(workoutInterval) clearInterval(workoutInterval);
+  workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
+  workoutStatus.textContent="Treino em andamento: " + DAYS[currentWorkoutId].title;
+  startWorkoutBtn.disabled=true; finishWorkoutBtn.disabled=false;
+  saveState(false);
+}
+function finishWorkout(auto){
+  if(!currentWorkoutId) return;
+  if(workoutInterval){clearInterval(workoutInterval); workoutInterval=null;}
+  const completedId=normalizeWorkoutId(currentWorkoutId);
+  localStorage.setItem(lastCompletedKey(), String(WORKOUT_SEQUENCE.indexOf(completedId)));
+
+  const history=JSON.parse(localStorage.getItem(historyKey())||"[]");
+  const lastWeights=JSON.parse(localStorage.getItem(lastWeightsKey())||"{}");
+  document.querySelectorAll(".exercise").forEach(card=>{
+    const id=card.dataset.id, inputs=[...card.querySelectorAll(".weight-input")].map(i=>i.value.trim());
+    if(inputs.some(Boolean)) lastWeights[id]=inputs;
+  });
+  localStorage.setItem(lastWeightsKey(), JSON.stringify(lastWeights));
+  history.unshift({date:new Date().toISOString().slice(0,10), label:DAYS[completedId].title, duration:fmt(workoutElapsed)});
+  localStorage.setItem(historyKey(), JSON.stringify(history.slice(0,30)));
+
+  workoutStarted=false; workoutStartTs=null;
+  workoutStatus.textContent=(auto?"Treino finalizado automaticamente. ":"Treino finalizado. ")+"Tempo: "+fmt(workoutElapsed);
+  startWorkoutBtn.disabled=false; finishWorkoutBtn.disabled=true;
+  currentWorkoutId=null;
+  localStorage.removeItem(metaKey());
+  renderHistory(); renderLastWeights(); refreshNextWorkoutInfo();
+  alert((auto?"Última série concluída. ":"")+"Treino finalizado em "+fmt(workoutElapsed)+".");
+}
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||"[]"), box=document.getElementById("historyList");
+  if(!history.length){box.textContent="Nenhum treino finalizado ainda."; return;}
+  box.innerHTML=history.map(h=>`<div class="history-item"><strong>${h.label}</strong><div>${h.date} • ${h.duration}</div></div>`).join("");
+}
+function renderLastWeights(){
+  const data=JSON.parse(localStorage.getItem(lastWeightsKey())||"{}");
+  document.querySelectorAll(".exercise").forEach(card=>{
+    const id=card.dataset.id, slot=document.getElementById("last-"+id), arr=data[id];
+    if(slot) slot.textContent=arr&&arr.some(v=>v) ? "Último: " + arr.map(v=>v||"—").join(" / ") + " kg" : "";
+  });
+}
+exportBtn.addEventListener("click",()=>{
+  const data={series:JSON.parse(localStorage.getItem(seriesKey())||"{}"),weights:JSON.parse(localStorage.getItem(weightKey())||"{}"),last_weights:JSON.parse(localStorage.getItem(lastWeightsKey())||"{}"),history:JSON.parse(localStorage.getItem(historyKey())||"[]"),workout_meta:JSON.parse(localStorage.getItem(metaKey())||"{}"),last_completed_index:localStorage.getItem(lastCompletedKey())};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="treino-series-progresso.json"; a.click();
+});
+
+seriesBoxes.forEach(box=>{
+  box.addEventListener("click",()=>{
+    if(!workoutStarted) startWorkout();
+    box.classList.toggle("done");
+    const exerciseId=box.dataset.exerciseId;
+    updateExerciseVisual(exerciseId);
+    saveState(false);
+    const exerciseBoxes=[...document.querySelectorAll(`.series-box[data-exercise-id="${exerciseId}"]`)];
+    if(exerciseBoxes.every(b=>b.classList.contains("done"))){
+      const nextExercise=findNextExercise(exerciseId);
+      if(nextExercise) setTimeout(()=>nextExercise.scrollIntoView({behavior:"smooth",block:"center"}),250);
+    }
+    if(autoRest){
+      const secs=parseInt(box.dataset.rest);
+      if(!Number.isNaN(secs)){ setTimer(secs); startTimer(); }
+    }
+    if(allSeriesDone() && workoutStarted) setTimeout(()=>finishWorkout(true),300);
+  });
+});
+weightInputs.forEach(input=>{
+  input.addEventListener("focus",()=>{ if(!workoutStarted) startWorkout(); });
+  input.addEventListener("input",()=>{ saveWeights(); saveState(false); });
+  input.addEventListener("blur",()=>{ saveWeights(); saveState(false); });
+});
+
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+
+loadState(); loadWeights(); loadWorkoutMeta(); loadAutoRest(); loadNotify(); renderHistory(); renderLastWeights(); updateProgress(); refreshNextWorkoutInfo();
+const storedTimer=parseInt(localStorage.getItem("treinoTimerChoice")||"60",10); setTimer([45,60,90].includes(storedTimer)?storedTimer:60);
+if(localStorage.getItem("treinoWake")==="true"){ requestWakeLock(); }
+</script>
+</body>
+</html>
