@@ -126,8 +126,38 @@ button{border:0;border-radius:18px;min-height:48px;padding:12px 16px;font-size:1
 </div>
 
 <script>
-const DAYS = {"terca": {"title": "Treino A — Peito + Tríceps", "sub": "19h • descanso 60–90s", "exs": [["Supino inclinado máquina", 4, "10 repetições", "90s", "Peitoral superior"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda pulley", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Tríceps francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"], ["Coice corda isolado", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"]]}, "quarta": {"title": "Treino B — Costas + Bíceps", "sub": "19h • descanso 60–90s", "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Puxada em pé corda", 3, "12 repetições", "60s", "Trapézio / romboides"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca unilateral halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"], ["Polia baixa corda", 3, "12 repetições", "60s", "Braquial"]]}, "quinta": {"title": "Treino C — Perna + Ombro + Trapézio", "sub": "19h • perna primeiro • descanso 60–90s", "exs": [["Leg press", 4, "12 repetições", "90s", "Quadríceps / glúteo"], ["Extensora", 3, "15 repetições", "60s", "Quadríceps"], ["Flexora", 3, "15 repetições", "60s", "Posterior de coxa"], ["Adutor", 3, "15 repetições", "60s", "Adutores"], ["Abdutor", 3, "15 repetições", "60s", "Glúteo médio"], ["Panturrilha", 4, "15–20 repetições", "60s", "Gastrocnêmio"], ["Desenvolvimento máquina", 4, "10 repetições", "90s", "Deltoide anterior"], ["Remada alta máquina", 3, "12 repetições", "60s", "Deltoide lateral"], ["Encolhimento trapézio", 4, "12–15 repetições", "60s", "Trapézio"]]}, "sabado": {"title": "Treino D — Peito + Tríceps", "sub": "10h • variação leve • descanso 60–90s", "exs": [["Supino máquina reto", 4, "10 repetições", "90s", "Peitoral médio"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"]]}, "domingo": {"title": "Treino E — Costas + Bíceps", "sub": "10h • descanso 60–90s", "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"]]}}, MESSAGES = ["A jornada mais longa começa com o primeiro passo.", "Não tenha medo de andar devagar; tenha medo de ficar parado.", "Quem move uma montanha começa carregando pequenas pedras.", "A melhor hora para plantar uma árvore foi há vinte anos; a segunda melhor hora é agora.", "Água constante encontra caminho mesmo entre pedras.", "Quem aprende a esperar amadurece em silêncio.", "Uma palavra branda pode abrir portas fechadas.", "A paciência é amarga, mas seus frutos são doces.", "Quando o vento muda, alguns levantam muros; outros constroem moinhos.", "Um rio profundo corre sem alarde.", "Quem faz com constância vai além de quem começa com pressa.", "O bambu que se dobra é mais forte do que o carvalho que resiste a tudo.", "Antes de corrigir o mundo, arrume o próprio passo.", "O sábio observa mais do que fala.", "Até a água turva se acalma quando deixada em repouso.", "Grandes resultados nascem de pequenos gestos repetidos.", "Quem domina a si mesmo já venceu metade da batalha.", "O tempo esclarece o que a pressa confunde.", "Nem todo silêncio é vazio; às vezes, é compreensão.", "O caminho fica mais leve para quem aprende a levar só o necessário.", "Uma faísca cuidada pode acender grande chama.", "Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", "Mesmo a noite mais longa cede lugar ao amanhecer.", "O fruto amadurece no seu tempo, não no da ansiedade.", "A firmeza tranquila vale mais que a força impaciente.", "Quem cuida da raiz não teme a estação.", "Uma casa em paz vale mais do que um palácio inquieto.", "Não é a altura da montanha que vence o homem, mas a persistência do passo.", "Quem cultiva serenidade enxerga mais longe.", "O lago reflete o céu quando suas águas estão calmas.", "Quando a mente se aquieta, a direção aparece.", "O hábito de recomeçar é um tipo de sabedoria.", "A pressa tropeça onde a atenção pisaria firme.", "Quem guarda rancor carrega peso desnecessário.", "Até o menor avanço é maior que a imobilidade.", "O homem prudente mede o passo antes de correr.", "Uma árvore forte cresce devagar.", "Quem espalha bondade nunca volta de mãos vazias.", "O erro reconhecido já começou a se transformar em acerto.", "Quem escuta com atenção aprende duas vezes.", "A estrada ensina mais a quem caminha do que a quem apenas observa.", "Uma tigela cheia demais já não recebe mais nada.", "O dia de hoje vale mais do que a promessa de amanhã.", "Quem mantém o coração em ordem organiza melhor o caminho.", "A calma é uma forma silenciosa de poder.", "Não se apressa a primavera puxando as flores.", "Quem aceita aprender nunca envelhece por dentro.", "Uma lanterna pequena ainda é suficiente para atravessar a noite.", "Para endireitar o galho, cuide primeiro da raiz.", "Quem semeia constância colhe confiança.", "A verdade não precisa correr; ela chega.", "A pedra é vencida menos pela força do golpe e mais pela repetição.", "Nem toda demora é perda; às vezes, é preparo.", "Quem faz o simples com atenção constrói o extraordinário.", "A mente apressada vê pouco; o olhar sereno enxerga fundo.", "Se o coração estiver em paz, o caminho parecerá menos áspero.", "O excesso de ruído afasta a clareza.", "Uma ponte se sustenta porque cada parte cumpre o seu papel.", "Quem honra o presente prepara melhor o futuro.", "O homem que cuida do que pensa melhora o que vive."], ANIMALS = [{"slug": "dragao", "name": "Dragão"}, {"slug": "tigre", "name": "Tigre"}, {"slug": "coelho", "name": "Coelho"}, {"slug": "cavalo", "name": "Cavalo"}, {"slug": "cabra", "name": "Cabra"}, {"slug": "serpente", "name": "Serpente"}, {"slug": "macaco", "name": "Macaco"}, {"slug": "galo", "name": "Galo"}, {"slug": "boi", "name": "Boi"}, {"slug": "porco", "name": "Porco"}, {"slug": "rato", "name": "Rato"}, {"slug": "cao", "name": "Cão"}];
-const WORKOUT_SEQUENCE = ["terca","quarta","quinta","sabado","domingo"];
+const DAYS = {
+  "terca": {
+    "title": "Treino A — Costas + Bíceps",
+    "sub": "19h • descanso 60–90s",
+    "exs": [/* mantém exatamente como está hoje */]
+  },
+
+  "quarta": {
+    "title": "Treino B — Peito + Tríceps",
+    "sub": "19h • descanso 60–90s",
+    "exs": [/* mantém exatamente como está hoje */]
+  },
+
+  "quinta": {
+    "title": "Treino C — Pernas + Ombros",
+    "sub": "19h • perna primeiro • descanso 60–90s",
+    "exs": [/* mantém exatamente como está hoje */]
+  },
+
+  "sabado": {
+    "title": "Treino D — Costas + Bíceps",
+    "sub": "10h • descanso 60–90s",
+    "exs": [/* mantém exatamente como está hoje */]
+  },
+
+  "domingo": {
+    "title": "Treino E — Peito + Tríceps",
+    "sub": "10h • descanso 60–90s",
+    "exs": [/* mantém exatamente como está hoje */]
+  }
+};
+  const WORKOUT_SEQUENCE = ["terca","quarta","quinta","sabado","domingo"];
 
 function dayIndex(){ const start=new Date("2026-01-01"), now=new Date(); return Math.abs(Math.floor((now-start)/(1000*60*60*24))); }
 document.getElementById("quoteText").textContent = MESSAGES[dayIndex()%MESSAGES.length];
