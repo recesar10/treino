@@ -415,7 +415,72 @@ function loadWorkoutMeta(){
   const raw=localStorage.getItem(metaKey());
   if(!raw){renderWorkoutClock();refreshNextWorkoutInfo();return;}
   try{
-    const m=JSON.parse(raw);
+    const workouts = [
+  {
+    id: "B",
+    title: "Treino A — Costas + Bíceps",
+    desc: "19h • descanso 60–90s",
+    exercises: [
+      { id: "b1", name: "Puxada Aberta Pronada", muscle: "Costas", series: 4, reps: "10-12", rest: 90 },
+      { id: "b2", name: "Remada Cavalinho", muscle: "Costas", series: 4, reps: "10-12", rest: 90 },
+      { id: "b3", name: "Puxada Triângulo", muscle: "Costas", series: 3, reps: "12", rest: 60 },
+      { id: "b4", name: "Remada Baixa", muscle: "Costas", series: 3, reps: "12", rest: 60 },
+      { id: "b5", name: "Rosca Direta Polia", muscle: "Bíceps", series: 4, reps: "10-12", rest: 60 },
+      { id: "b6", name: "Rosca Martelo Halter", muscle: "Bíceps", series: 4, reps: "10-12", rest: 60 }
+    ]
+  },
+  {
+    id: "A",
+    title: "Treino B — Peito + Tríceps",
+    desc: "19h • descanso 60–90s",
+    exercises: [
+      { id: "a1", name: "Supino Inclinado Máquina", muscle: "Peitoral Superior", series: 4, reps: "10", rest: 90 },
+      { id: "a2", name: "Supino Inclinado Halter", muscle: "Peitoral Superior", series: 4, reps: "10", rest: 90 },
+      { id: "a3", name: "Crucifixo Máquina", muscle: "Peitoral", series: 4, reps: "12", rest: 60 },
+      { id: "a4", name: "Tríceps Francês Corda", muscle: "Tríceps — Cabeça Longa", series: 4, reps: "12", rest: 60 },
+      { id: "a5", name: "Coice Corda Isolado", muscle: "Tríceps — Cabeça Lateral", series: 4, reps: "12", rest: 60 }
+    ]
+  },
+  {
+    id: "C",
+    title: "Treino C — Perna + Ombro + Trapézio",
+    desc: "19h • perna primeiro • descanso 60–90s",
+    exercises: [
+      { id: "c1", name: "Agachamento Smith", muscle: "Quadríceps", series: 4, reps: "10-12", rest: 90 },
+      { id: "c2", name: "Leg Press 45", muscle: "Quadríceps", series: 4, reps: "12", rest: 90 },
+      { id: "c3", name: "Extensora", muscle: "Quadríceps", series: 3, reps: "15", rest: 60 },
+      { id: "c4", name: "Desenvolvimento Máquina", muscle: "Ombros — Anterior", series: 4, reps: "10-12", rest: 90 },
+      { id: "c5", name: "Elevação Lateral Polia", muscle: "Ombros — Lateral", series: 4, reps: "12-15", rest: 60 },
+      { id: "c6", name: "Encolhimento Halter", muscle: "Trapézio", series: 4, reps: "12-15", rest: 60 }
+    ]
+  },
+  {
+    id: "E",
+    title: "Treino D — Posterior de Coxa + Glúteo",
+    desc: "19h • foco em posterior • descanso 60–90s",
+    exercises: [
+      { id: "e1", name: "Cadeira Flexora", muscle: "Posterior de Coxa", series: 4, reps: "12-15", rest: 60 },
+      { id: "e2", name: "Mesa Flexora", muscle: "Posterior de Coxa", series: 4, reps: "12-15", rest: 60 },
+      { id: "e3", name: "Stiff Halter", muscle: "Posterior / Glúteo", series: 4, reps: "10-12", rest: 90 },
+      { id: "e4", name: "Elevação Pélvica", muscle: "Glúteos", series: 4, reps: "10-12", rest: 90 },
+      { id: "e5", name: "Cadeira Abdutora", muscle: "Glúteo Médio", series: 3, reps: "15", rest: 60 }
+    ]
+  },
+  {
+    id: "D",
+    title: "Treino E — Abdômen + Cardio + Panturrilha",
+    desc: "10h • aeróbico em jejum / abdominal",
+    exercises: [
+      { id: "d1", name: "Cardio Moderado", muscle: "Aeróbico (30 min)", series: 1, reps: "1", rest: 0 },
+      { id: "d2", name: "Abdominal Supra Máquina", muscle: "Abdômen", series: 4, reps: "15-20", rest: 60 },
+      { id: "d3", name: "Abdominal Infra Banco", muscle: "Abdômen", series: 4, reps: "15-20", rest: 60 },
+      { id: "d4", name: "Prancha Isométrica", muscle: "Core", series: 3, reps: "45-60s", rest: 60 },
+      { id: "d5", name: "Panturrilha em Pé", muscle: "Panturrilhas", series: 4, reps: "15-20", rest: 60 }
+    ]
+  }
+];
+
+      const m=JSON.parse(raw);
     workoutStarted=!!m.started; workoutStartTs=m.startTs||null; workoutElapsed=parseInt(m.elapsed||0,10)||0; currentWorkoutId=m.currentWorkoutId||null;
     if(workoutStarted&&workoutStartTs){
       workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
@@ -445,72 +510,7 @@ function allSeriesDone(){ return seriesBoxes.length>0 && seriesBoxes.every(b=>b.
 
 function startWorkout(){
   if(workoutStarted) return;
-  if(!currentWorkoutId) currentWorkoutId = getNextWorkoutId();
-  currentWorkoutId = normalizeWorkoutId(currentWorkoutId);
-  workoutStarted=true;
-  workoutStartTs=Date.now()-workoutElapsed*1000;
-  if(workoutInterval) clearInterval(workoutInterval);
-  workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
-  workoutStatus.textContent="Treino em andamento: " + DAYS[currentWorkoutId].title;
-  startWorkoutBtn.disabled=true; finishWorkoutBtn.disabled=false;
-  saveState(false);
-}
-function finishWorkout(auto){
-  if(!currentWorkoutId) return;
   
-  // PARA E RESETAR O TEMPO
-  if(workoutInterval){
-    clearInterval(workoutInterval); 
-    workoutInterval=null;
-  }
-  workoutSeconds = 0; // Zera o contador interno de segundos do treino
-  
-  // LIMPA O TEXTO DO TIMER NA TELA (se houver o elemento)
-  const timerDisplay = document.querySelector('.timer-big') || document.getElementById('timer-display');
-  if(timerDisplay) timerDisplay.innerText = "00:00";
-
-  const completedId=normalizeWorkoutId(currentWorkoutId);
-  localStorage.setItem(lastCompletedKey(), String(WORKOUT_SEQUENCE.indexOf(completedId)));
-
-  workoutStarted=false; workoutStartTs=null;
-  workoutStatus.textContent=(auto?"Treino finalizado automaticamente. ":"Treino finalizado. ")+"Tempo: "+fmt(workoutElapsed);
-  startWorkoutBtn.disabled=false; finishWorkoutBtn.disabled=true;
-  currentWorkoutId=null;
-  localStorage.removeItem(metaKey());
-  renderHistory(); renderLastWeights(); refreshNextWorkoutInfo();
-  alert((auto?"Última série concluída. ":"")+"Treino finalizado em "+fmt(workoutElapsed)+".");
-}
-function renderHistory(){
-  const history=JSON.parse(localStorage.getItem(historyKey())||"[]"), box=document.getElementById("historyList");
-  if(!history.length){box.textContent="Nenhum treino finalizado ainda."; return;}
-  box.innerHTML=history.map(h=>`<div class="history-item"><strong>${h.label}</strong><div>${h.date} • ${h.duration}</div></div>`).join("");
-}
-function renderLastWeights(){
-  const data=JSON.parse(localStorage.getItem(lastWeightsKey())||"{}");
-  document.querySelectorAll(".exercise").forEach(card=>{
-    const id=card.dataset.id, slot=document.getElementById("last-"+id), arr=data[id];
-    if(slot) slot.textContent=arr&&arr.some(v=>v) ? "Último: " + arr.map(v=>v||"—").join(" / ") + " kg" : "";
-  });
-}
-exportBtn.addEventListener("click",()=>{
-  const data={series:JSON.parse(localStorage.getItem(seriesKey())||"{}"),weights:JSON.parse(localStorage.getItem(weightKey())||"{}"),last_weights:JSON.parse(localStorage.getItem(lastWeightsKey())||"{}"),history:JSON.parse(localStorage.getItem(historyKey())||"[]"),workout_meta:JSON.parse(localStorage.getItem(metaKey())||"{}"),last_completed_index:localStorage.getItem(lastCompletedKey())};
-  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}), a=document.createElement("a");
-  a.href=URL.createObjectURL(blob); a.download="treino-series-progresso.json"; a.click();
-});
-
-seriesBoxes.forEach(box=>{
-  box.addEventListener("click",()=>{
-    if(!workoutStarted) startWorkout();
-    box.classList.toggle("done");
-    const exerciseId=box.dataset.exerciseId;
-    updateExerciseVisual(exerciseId);
-    saveState(false);
-    const exerciseBoxes=[...document.querySelectorAll(`.series-box[data-exercise-id="${exerciseId}"]`)];
-    if(exerciseBoxes.every(b=>b.classList.contains("done"))){
-      const nextExercise=findNextExercise(exerciseId);
-      if(nextExercise) setTimeout(()=>nextExercise.scrollIntoView({behavior:"smooth",block:"center"}),250);
-    }
-    if(autoRest){
       const secs=parseInt(box.dataset.rest);
       if(!Number.isNaN(secs)){ setTimer(secs); startTimer(); }
     }
