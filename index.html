@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino em Sequência</title>
+<meta name="theme-color" content="#050505">
+<link rel="manifest" href="manifest.json">
+    <style>
+:root {
+    --panel: #111;
+    --panel2: #1c1c1c;
+    --text: #f6f3ea;
+    --gold: #d8b15b;
+    --line: rgba(255,255,255,.08);
+    --green: #20c05c;
+    --red: #d84040;
+    --shadow: 0 10px 30px rgba(0,0,0,.5);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body { 
+    margin: 0; 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+    background: #000; 
+    color: var(--text); 
+}
+
+.wrap { max-width: 600px; margin: 0 auto; padding: 20px 15px 100px; }
+
+/* CARD DE MOTIVAÇÃO */
+.quote-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 320px;
+    margin: 10px 0 25px;
+    border-radius: 24px;
+    border: 1px solid rgba(216, 177, 91, 0.2);
+    background: #080808;
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.quote-bg {
+    position: absolute;
+    right: -5%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 65%;
+    height: 90%;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.45;
+    z-index: 1;
+}
+
+.quote-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #080808 45%, rgba(8,8,8,0.7) 75%, transparent 100%);
+    z-index: 2;
+}
+
+.quote-content {
+    position: relative;
+    z-index: 3;
+    padding: 30px;
+    max-width: 85%;
+}
+
+.quote-text {
+    font-family: Georgia, serif;
+    font-size: clamp(24px, 5vw, 38px);
+    line-height: 1.1;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.quote-animal { 
+    color: var(--gold); 
+    font-size: 14px; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+}
+
+/* EXERCÍCIOS E SÉRIES */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+
+.exercise {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    margin-bottom: 20px;
+    border-radius: 28px;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.exercise-name {
+    font-size: 26px !important;
+    font-weight: 900 !important;
+    color: #ffffff !important;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.exercise-muscle {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #5dade2 !important;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    display: block !important;
+}
+
+/* Divisor dourado */
+.exercise::after {
+    content: "";
+    width: 40px;
+    height: 2px;
+    background: var(--gold);
+    margin-bottom: 20px;
+    border-radius: 2px;
+    opacity: 0.5;
+}
+
+/* INFORMAÇÕES DO EXERCÍCIO */
+.exercise-meta {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #cfcfcf !important;
+    margin-bottom: 8px;
+    display: block !important;
+}
+
+.series-help {
+    display: none !important;
+}
+
+.rest-tag {
+    font-size: 13px !important;
+    color: var(--gold) !important;
+    margin-top: 15px;
+    opacity: 0.7;
+    display: block !important;
+    font-weight: 700 !important;
+}
+
+/* ALINHAMENTO VERTICAL (GRID) */
+.series-row, .weight-row {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, 45px) !important; 
+    gap: 12px !important;
+    margin-left: 0 !important;
+    padding-left: 0 !important;
+    justify-content: flex-start !important;
+}
+
+.series-row { margin-top: 15px; margin-bottom: 8px; }
+
+.series-box { 
+    width: 45px !important; height: 45px !important;
+    background: rgba(255,255,255,0.02) !important; 
+    color: #888 !important; 
+    border: 1px solid rgba(255,255,255,0.05) !important; 
+    border-radius: 50% !important; 
+    display: flex !important; 
+    align-items: center !important; 
+    justify-content: center !important; 
+    font-weight: 700 !important; 
+    font-size: 14px !important;
+}
+
+.series-box.done { background: var(--gold) !important; color: #000 !important; }
+
+/* PESO DOURADO */
+.weight-input {
+    width: 45px !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 2px solid rgba(216, 177, 91, 0.4) !important;
+    color: var(--gold) !important;
+    font-weight: 800 !important;
+    font-size: 16px !important;
+    text-align: center !important;
+    outline: none !important;
+    padding: 5px 0 !important;
+}
+
+.weight-label { display: none !important; }
+
+    
+/* BOTÕES GERAIS */
+button { 
+    border-radius: 14px; 
+    font-weight: 800; 
+    cursor: pointer; 
+    text-transform: uppercase;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-gold, .btn-green, .btn-white { 
+    background: var(--gold) !important; 
+    color: #000 !important; 
+    width: 100%; 
+    padding: 20px; 
+    margin-top: 20px;
+}
+
+.btn-ghost, .btn-red, button:not(.btn-gold):not(.btn-green):not(.btn-white) {
+    background: #111 !important;
+    color: var(--gold) !important;
+    border: 1px solid rgba(216, 177, 91, 0.4) !important;
+    padding: 12px 16px;
+}
+
+/* PROGRESSO */
+.progress { height: 8px; background: #222; border-radius: 10px; margin: 15px 0; overflow: hidden; }
+.progress > div { background: var(--gold); height: 100%; transition: width 0.5s ease; }
+
+    </style>
+    
+        
+</head>
+<body>
+<div class="wrap">
+<section class="hero"><h1>Treino em Sequência</h1><p>Versão com treinos em ciclo A/B/C/D/E, sem depender do dia da semana.</p></section>
+
+<section class="quote-card card">
+  <div class="quote-bg" id="quoteBg"></div>
+  <div class="quote-overlay"></div>
+  <div class="quote-content">
+    <div class="eyebrow">Provérbio do dia</div>
+    <div class="pill">Sabedoria oriental</div>
+    <div class="quote-mark">“</div>
+    <div class="quote-text" id="quoteText"></div>
+    <div class="quote-animal" id="quoteAnimal"></div>
+  </div>
+</section>
+
+<section class="panel">
+  <strong>Instalar como app</strong>
+  <div class="install-note" id="installNote">Abra no Chrome e aguarde alguns segundos. Se o botão aparecer, toque nele.</div>
+  <div class="buttons" style="margin-top:12px">
+    <button id="installBtn" class="btn-green" style="display:none">Instalar app</button>
+    <button id="exportBtn" class="btn-ghost">Exportar progresso</button>
+    <button id="importBtn" class="btn-ghost">Importar progresso</button>
+    <input type="file" id="importFile" style="display:none" accept=".json">
+  </div>
+</section>
+
+<div class="toolbar" style="margin-bottom:14px">
+  <button id="wakeBtn" class="btn-gold">Modo academia: desligado</button>
+  <button id="notifyBtn" class="btn-ghost">Som e vibração: ligados</button>
+</div>
+
+<section class="grid">
+  <div class="mini"><div class="label">Frequência</div><div class="value">5x/semana</div></div>
+  <div class="mini"><div class="label">Horários</div><div class="value">19h / 10h</div></div>
+  <div class="mini"><div class="label">Descanso</div><div class="value">45–90s</div></div>
+  <div class="mini"><div class="label">Tempo do treino</div><div class="value" id="workoutClock">00:00</div></div>
+</section>
+
+<section class="panel">
+  <strong>Treino de hoje</strong>
+  <div class="buttons" style="margin-top:12px">
+    <button id="todayWorkoutBtn" class="btn-green" onclick="goTodayWorkout()">Treino de hoje</button>
+    <button id="startWorkoutBtn" class="btn-white" onclick="startWorkout()">Iniciar treino</button>
+    <button id="finishWorkoutBtn" class="btn-ghost" onclick="finishWorkout(false)" disabled>Finalizar treino</button>
+  </div>
+  <div class="status-line" id="workoutStatus">Nenhum treino iniciado no momento.</div>
+  <div class="next-line" id="nextWorkoutInfo"></div>
+</section>
+
+<section class="panel">
+  <div class="timer-big" id="timer">01:00</div>
+  <div class="timer-note">Cronômetro com descanso automático entre séries.</div>
+  <div class="pill" id="autoMode" style="margin-top:12px">Auto descanso: desligado</div>
+  <div class="buttons" style="margin-top:12px">
+    <button id="btn45" onclick="selectTimer(45)">45s</button>
+    <button id="btn60" onclick="selectTimer(60)">60s</button>
+    <button id="btn90" onclick="selectTimer(90)">90s</button>
+    <button class="btn-white" onclick="startTimer()">Iniciar</button>
+    <button onclick="pauseTimer()">Pausar</button>
+    <button class="btn-red" onclick="resetTimer()">Zerar</button>
+    <button id="autoBtn" class="btn-ghost" onclick="toggleAutoRest()">Auto</button>
+  </div>
+  <div class="summary-line" id="timerSummary">Tempo selecionado: 60s</div>
+</section>
+
+<div class="toolbar" style="margin-bottom:14px">
+  <button onclick="saveState(true)">Salvar progresso</button>
+  <button class="btn-red" onclick="clearChecks()">Limpar marcações</button>
+</div>
+
+<div id="daysContainer"></div>
+
+<section class="panel">
+  <strong>Histórico</strong>
+  <div id="historyList">Nenhum treino finalizado ainda.</div>
+</section>
+
+<div class="footer">App de treino com sequência A/B/C/D/E e salvamento automático.</div>
+</div>
+
+<script>
+const DAYS = {
+  "terca": {
+    "title": "Treino A — Costas + Bíceps",
+    "sub": "19h • descanso 60–90s",
+    "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Puxada em pé corda", 3, "12 repetições", "60s", "Trapézio / romboides"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca unilateral halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"], ["Polia baixa corda", 3, "12 repetições", "60s", "Braquial"]]
+  },
+  "quarta": {
+    "title": "Treino B — Peito + Tríceps",
+    "sub": "19h • descanso 60–90s",
+    "exs": [["Supino inclinado máquina", 4, "10 repetições", "90s", "Peitoral superior"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda pulley", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Tríceps francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"], ["Coice corda isolado", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"]]
+  },
+  "quinta": {
+    "title": "Treino C — Pernas + Ombros",
+    "sub": "19h • perna primeiro • descanso 60–90s",
+    "exs": [["Leg press", 4, "12 repetições", "90s", "Quadríceps / glúteo"], ["Extensora", 3, "15 repetições", "60s", "Quadríceps"], ["Flexora", 3, "15 repetições", "60s", "Posterior de coxa"], ["Adutor", 3, "15 repetições", "60s", "Adutores"], ["Abdutor", 3, "15 repetições", "60s", "Glúteo médio"], ["Panturrilha", 4, "15–20 repetições", "60s", "Gastrocnêmio"], ["Desenvolvimento máquina", 4, "10 repetições", "90s", "Deltoide anterior"], ["Remada alta máquina", 3, "12 repetições", "60s", "Deltoide lateral"], ["Encolhimento trapézio", 4, "12–15 repetições", "60s", "Trapézio"]]
+  },
+  "sabado": {
+    "title": "Treino D — Costas + Bíceps",
+    "sub": "10h • descanso 60–90s",
+    "exs": [["Puxada frontal aberta", 4, "10 repetições", "90s", "Dorsal"], ["Remada baixa triângulo", 4, "10 repetições", "90s", "Dorsal"], ["Crucifixo inverso", 3, "12 repetições", "60s", "Deltoide posterior"], ["Scott", 4, "10 repetições", "60s", "Bíceps – cabeça curta"], ["Rosca halter", 3, "10 repetições", "60s", "Bíceps – cabeça longa"]]
+  },
+  "domingo": {
+    "title": "Treino E — Peito + Tríceps",
+    "sub": "10h • variação leve • descanso 60–90s",
+    "exs": [["Supino máquina reto", 4, "10 repetições", "90s", "Peitoral médio"], ["Supino inclinado halter", 4, "10 repetições", "90s", "Peitoral superior"], ["Crucifixo máquina", 4, "12 repetições", "60s", "Peitoral"], ["Tríceps corda", 4, "12 repetições", "60s", "Tríceps – cabeça lateral"], ["Francês corda", 4, "12 repetições", "60s", "Tríceps – cabeça longa"]]
+  }
+}, MESSAGES = ["A jornada mais longa começa com o primeiro passo.", "Não tenha medo de andar devagar; tenha medo de ficar parado.", "Quem move uma montanha começa carregando pequenas pedras.", "A melhor hora para plantar uma árvore foi há vinte anos; a segunda melhor hora é agora.", "Água constante encontra caminho mesmo entre pedras.", "Quem aprende a esperar amadurece em silêncio.", "Uma palavra branda pode abrir portas fechadas.", "A paciência é amarga, mas seus frutos são doces.", "Quando o vento muda, alguns levantam muros; outros constroem moinhos.", "Um rio profundo corre sem alarde.", "Quem faz com constância vai além de quem começa com pressa.", "O bambu que se dobra é mais forte do que o carvalho que resiste a tudo.", "Antes de corrigir o mundo, arrume o próprio passo.", "O sábio observa mais do que fala.", "Até a água turva se acalma quando deixada em repouso.", "Grandes resultados nascem de pequenos gestos repetidos.", "Quem domina a si mesmo já venceu metade da batalha.", "O tempo esclarece o que a pressa confunde.", "Nem todo silêncio é vazio; às vezes, é compreensão.", "O caminho fica mais leve para quem aprende a levar só o necessário.", "Uma faísca cuidada pode acender grande chama.", "Quem pergunta por um minuto aprende; quem não pergunta permanece perdido.", "Mesmo a noite mais longa cede lugar ao amanhecer.", "O fruto amadurece no seu tempo, não no da ansiedade.", "A firmeza tranquila vale mais que a força impaciente.", "Quem cuida da raiz não teme a estação.", "Uma casa em paz vale mais do que um palácio inquieto.", "Não é a altura da montanha que vence o homem, mas a persistência do passo.", "Quem cultiva serenidade enxerga mais longe.", "O lago reflete o céu quando suas águas estão calmas.", "Quando a mente se aquieta, a direção aparece.", "O hábito de recomeçar é um tipo de sabedoria.", "A pressa tropeça onde a atenção pisaria firme.", "Quem guarda rancor carrega peso desnecessário.", "Até o menor avanço é maior que a imobilidade.", "O homem prudente mede o passo antes de correr.", "Uma árvore forte cresce devagar.", "Quem espalha bondade nunca volta de mãos vazias.", "O erro reconhecido já começou a se transformar em acerto.", "Quem escuta com atenção aprende duas vezes.", "A estrada ensina mais a quem caminha do que a quem apenas observa.", "Uma tigela cheia demais já não recebe mais nada.", "O dia de hoje vale mais do que a promessa de amanhã.", "Quem mantém o coração em ordem organiza melhor o caminho.", "A calma é uma forma silenciosa de poder.", "Não se apressa a primavera puxando as flores.", "Quem aceita aprender nunca envelhece por dentro.", "Uma lanterna pequena ainda é suficiente para atravessar a noite.", "Para endireitar o galho, cuide primeiro da raiz.", "Quem semeia constância colhe confiança.", "A verdade não precisa correr; ela chega.", "A pedra é vencida menos pela força do golpe e mais pela repetição.", "Nem toda demora é perda; às vezes, é preparo.", "Quem faz o simples com atenção constrói o extraordinário.", "A mente apressada vê pouco; o olhar sereno enxerga fundo.", "Se o coração estiver em paz, o caminho parecerá menos áspero.", "O excesso de ruído afasta a clareza.", "Uma ponte se sustenta porque cada parte cumpre o seu papel.", "Quem honra o presente prepara melhor o futuro.", "O homem que cuida do que pensa melhora o que vive."], ANIMALS = [{"slug": "dragao", "name": "Dragão"}, {"slug": "tigre", "name": "Tigre"}, {"slug": "coelho", "name": "Coelho"}, {"slug": "cavalo", "name": "Cavalo"}, {"slug": "cabra", "name": "Cabra"}, {"slug": "serpente", "name": "Serpente"}, {"slug": "macaco", "name": "Macaco"}, {"slug": "galo", "name": "Galo"}, {"slug": "boi", "name": "Boi"}, {"slug": "porco", "name": "Porco"}, {"slug": "rato", "name": "Rato"}, {"slug": "cao", "name": "Cão"}];
+const WORKOUT_SEQUENCE = ["terca","quarta","quinta","sabado","domingo"];
+
+function dayIndex(){ const start=new Date("2026-01-01"), now=new Date(); return Math.abs(Math.floor((now-start)/(1000*60*60*24))); }
+document.getElementById("quoteText").textContent = MESSAGES[dayIndex()%MESSAGES.length];
+const animal = ANIMALS[dayIndex()%ANIMALS.length];
+document.getElementById("quoteAnimal").textContent = "Animal do dia: " + animal.name;
+document.getElementById("quoteBg").style.backgroundImage = `url('animal_${animal.slug}.png')`;
+
+const daysContainer=document.getElementById("daysContainer");
+Object.entries(DAYS).forEach(([gid,info])=>{
+  let html=`<section class="day" id="${gid}"><div class="day-head"><h2 class="day-title">${info.title}</h2><p class="day-sub">${info.sub}</p><div class="progress"><div id="bar-${gid}"></div></div><div class="progress-text" id="txt-${gid}">0 de ${info.exs.length} exercícios concluídos</div></div><div class="day-list">`;
+  info.exs.forEach((ex,i)=>{
+    const id=`${gid}-${i}`, name=ex[0];
+    let boxes="", weights="";
+    for(let n=1;n<=ex[1];n++){
+      boxes += `<div class="series-box" data-series-id="${id}-${n}" data-exercise-id="${id}" data-rest="${ex[3]}">${n}</div>`;
+      weights += `<div class="weight-chip"><input class="weight-input" inputmode="decimal" placeholder="kg" data-weight-id="${id}-${n}"><div class="weight-label">S${n}</div></div>`;
+    }
+    html += `<div class="exercise" data-id="${id}" data-name="${name}"><div><div class="exercise-name">${name}</div><div class="exercise-meta">${ex[1]} séries • ${ex[2]}</div><div class="exercise-muscle">Músculo: ${ex[4]}</div><div class="last-weights" id="last-${id}"></div><div class="series-row">${boxes}</div><div class="weight-row">${weights}</div><div class="series-help">Marque a série concluída e anote o peso usado em cada uma.</div></div><div class="rest-tag">${ex[3]}</div></div>`;
+  });
+  html += `</div></section>`;
+  daysContainer.insertAdjacentHTML("beforeend", html);
+});
+
+const installBtn=document.getElementById("installBtn"), installNote=document.getElementById("installNote"),
+exportBtn=document.getElementById("exportBtn"), importBtn=document.getElementById("importBtn"), importFile=document.getElementById("importFile"), wakeBtn=document.getElementById("wakeBtn"),
+notifyBtn=document.getElementById("notifyBtn"), autoBtn=document.getElementById("autoBtn"),
+startWorkoutBtn=document.getElementById("startWorkoutBtn"), finishWorkoutBtn=document.getElementById("finishWorkoutBtn"),
+workoutStatus=document.getElementById("workoutStatus"), nextWorkoutInfo=document.getElementById("nextWorkoutInfo");
+const seriesBoxes=[...document.querySelectorAll(".series-box")], weightInputs=[...document.querySelectorAll(".weight-input")];
+
+let totalSeconds=60, remaining=60, interval=null, deferredPrompt=null;
+let autoRest=false, wakeLock=null, wakeEnabled=false, notifyEnabled=true;
+let workoutStarted=false, workoutStartTs=null, workoutElapsed=0, workoutInterval=null, currentWorkoutId=null;
+
+function seriesKey(){return "treinoSeriesState"}; function weightKey(){return "treinoWeights"}; function historyKey(){return "treinoHistory"}; function lastWeightsKey(){return "treinoLastWeights"}; function metaKey(){return "treinoWorkoutMeta"}; function lastCompletedKey(){return "treinoLastCompletedIndex"}; function seriesUpdatedAtKey(){return "treinoSeriesUpdatedAt"};
+
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredPrompt=e;installBtn.style.display="inline-block";installNote.textContent="Seu navegador liberou a instalação. Toque no botão abaixo."});
+installBtn.addEventListener("click",async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;installBtn.style.display="none"});
+window.addEventListener("appinstalled",()=>{installBtn.style.display="none";installNote.textContent="App instalado com sucesso."});
+
+function beep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)(),osc=ctx.createOscillator(),gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type="sine";osc.frequency.value=880;gain.gain.setValueAtTime(.001,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.15,ctx.currentTime+.01);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.25);osc.start();osc.stop(ctx.currentTime+.26)}catch(e){}}
+function notifyRestEnd(){if(!notifyEnabled)return;beep();if(navigator.vibrate)navigator.vibrate([150,80,150])}
+function fmt(sec){return `${String(Math.floor(sec/60)).padStart(2,"0")}:${String(sec%60).padStart(2,"0")}`;}
+function renderTimer(){document.getElementById("timer").textContent=fmt(remaining)}
+function renderWorkoutClock(){document.getElementById("workoutClock").textContent=fmt(workoutElapsed)}
+function updateTimerButtons(selected){[45,60,90].forEach(v=>{const btn=document.getElementById("btn"+v); if(btn) btn.classList.toggle("active-choice", v===selected)}); document.getElementById("timerSummary").textContent="Tempo selecionado: "+selected+"s";}
+function setTimer(sec){totalSeconds=sec;remaining=sec;clearInterval(interval);interval=null;renderTimer();updateTimerButtons(sec);localStorage.setItem("treinoTimerChoice",String(sec))}
+function selectTimer(sec){setTimer(sec)}
+function startTimer(){clearInterval(interval);interval=setInterval(()=>{if(remaining>0){remaining--;renderTimer()}else{clearInterval(interval);interval=null;notifyRestEnd();alert("Tempo de descanso concluído.")}},1000)}
+function pauseTimer(){clearInterval(interval);interval=null}
+function resetTimer(){clearInterval(interval);interval=null;remaining=totalSeconds;renderTimer()}
+
+function updateAutoButton(){document.getElementById("autoMode").textContent="Auto descanso: "+(autoRest?"ligado":"desligado");autoBtn.classList.toggle("active-choice",autoRest)}
+function toggleAutoRest(){autoRest=!autoRest;localStorage.setItem("treinoAutoRest",JSON.stringify(autoRest));updateAutoButton()}
+function loadAutoRest(){const raw=localStorage.getItem("treinoAutoRest");autoRest=raw?JSON.parse(raw):false;updateAutoButton()}
+function toggleNotify(){notifyEnabled=!notifyEnabled;localStorage.setItem("treinoNotify",JSON.stringify(notifyEnabled));notifyBtn.textContent="Som e vibração: "+(notifyEnabled?"ligados":"desligados")}
+function loadNotify(){const raw=localStorage.getItem("treinoNotify");notifyEnabled=raw?JSON.parse(raw):true;notifyBtn.textContent="Som e vibração: "+(notifyEnabled?"ligados":"desligados")}
+notifyBtn.addEventListener("click",toggleNotify)
+
+async function requestWakeLock(){try{if("wakeLock" in navigator){wakeLock=await navigator.wakeLock.request("screen");wakeEnabled=true;wakeBtn.textContent="Modo academia: ligado";localStorage.setItem("treinoWake","true");wakeLock.addEventListener("release",()=>{wakeEnabled=false;wakeBtn.textContent="Modo academia: desligado"})}else alert("Seu navegador não suporta modo academia.")}catch(e){alert("Não foi possível ativar o modo academia.")}}
+async function releaseWakeLock(){if(wakeLock){await wakeLock.release();wakeLock=null}wakeEnabled=false;wakeBtn.textContent="Modo academia: desligado";localStorage.setItem("treinoWake","false")}
+async function toggleWakeLock(){if(wakeEnabled)await releaseWakeLock();else await requestWakeLock()}
+wakeBtn.addEventListener("click",toggleWakeLock)
+document.addEventListener("visibilitychange",async()=>{if(document.visibilityState==="visible"&&localStorage.getItem("treinoWake")==="true"&&!wakeEnabled){await requestWakeLock()}})
+
+
+function normalizeWorkoutId(id){
+  const map = {a:"terca", b:"quarta", c:"quinta", d:"sabado", e:"domingo"};
+  return map[id] || id;
+}
+
+function getNextWorkoutIndex(){
+  const raw = localStorage.getItem(lastCompletedKey());
+  const last = raw === null ? -1 : parseInt(raw,10);
+  return Number.isNaN(last) ? 0 : (last + 1) % WORKOUT_SEQUENCE.length;
+}
+function getNextWorkoutId(){ return WORKOUT_SEQUENCE[getNextWorkoutIndex()]; }
+function refreshNextWorkoutInfo(){ nextWorkoutInfo.textContent = "Treino de hoje: " + DAYS[getNextWorkoutId()].title; }
+
+function updateExerciseVisual(exerciseId){
+  const boxes=[...document.querySelectorAll(`.series-box[data-exercise-id="${exerciseId}"]`)];
+  const card=document.querySelector(`.exercise[data-id="${exerciseId}"]`);
+  const done=boxes.filter(b=>b.classList.contains("done")).length;
+  if(done===boxes.length&&boxes.length)card.classList.add("done"); else card.classList.remove("done");
+}
+function updateProgress(){
+  Object.keys(DAYS).forEach(day=>{
+    const cards=[...document.querySelectorAll(`#${day} .exercise`)];
+    const done=cards.filter(c=>c.classList.contains("done")).length;
+    const pct=cards.length?Math.round((done/cards.length)*100):0;
+    document.getElementById(`bar-${day}`).style.width=pct+"%";
+    document.getElementById(`txt-${day}`).textContent=`${done} de ${cards.length} exercícios concluídos`;
+  });
+}
+function saveWeights(){const data={};weightInputs.forEach(input=>data[input.dataset.weightId]=input.value);localStorage.setItem(weightKey(),JSON.stringify(data))}
+function loadWeights(){const raw=localStorage.getItem(weightKey());if(!raw)return;try{const data=JSON.parse(raw);weightInputs.forEach(input=>{if(Object.prototype.hasOwnProperty.call(data,input.dataset.weightId))input.value=data[input.dataset.weightId]})}catch(e){}}
+
+function markSeriesUpdated(){ localStorage.setItem(seriesUpdatedAtKey(), String(Date.now())); }
+function clearSeriesStateOnly(){
+  seriesBoxes.forEach(b=>b.classList.remove("done"));
+  localStorage.removeItem(seriesKey());
+  localStorage.removeItem(metaKey());
+  localStorage.removeItem(seriesUpdatedAtKey());
+  workoutStarted=false; workoutStartTs=null; workoutElapsed=0; currentWorkoutId=null;
+  if(workoutInterval){ clearInterval(workoutInterval); workoutInterval=null; }
+  workoutStatus.textContent="Nenhum treino iniciado no momento.";
+  startWorkoutBtn.disabled=false; finishWorkoutBtn.disabled=true;
+  renderWorkoutClock();
+  [...new Set(seriesBoxes.map(b=>b.dataset.exerciseId))].forEach(updateExerciseVisual);
+  updateProgress();
+  refreshNextWorkoutInfo();
+}
+function resetStaleSeriesState(){
+  const raw = localStorage.getItem(seriesUpdatedAtKey());
+  if(!raw) return;
+  const savedAt = parseInt(raw,10);
+  if(Number.isNaN(savedAt)) return;
+  let hasActiveWorkout = false;
+  try{
+    hasActiveWorkout = !!(JSON.parse(localStorage.getItem(metaKey()) || "null") || {}).started;
+  }catch(e){}
+  if(hasActiveWorkout) return;
+  const savedDate = new Date(savedAt).toDateString();
+  const todayDate = new Date().toDateString();
+  if(savedDate !== todayDate){
+    clearSeriesStateOnly();
+  }
+}
+function saveState(showAlert){
+  const state={};seriesBoxes.forEach(b=>state[b.dataset.seriesId]=b.classList.contains("done"));
+  localStorage.setItem(seriesKey(),JSON.stringify(state));
+  markSeriesUpdated();
+  saveWeights();
+  localStorage.setItem(metaKey(), JSON.stringify({started:workoutStarted,startTs:workoutStartTs,elapsed:workoutElapsed,currentWorkoutId}));
+  if(showAlert) alert("Progresso salvo.");
+  updateProgress();
+}
+function loadState(){const raw=localStorage.getItem(seriesKey());if(!raw)return;try{const state=JSON.parse(raw);seriesBoxes.forEach(b=>{if(state[b.dataset.seriesId])b.classList.add("done")});[...new Set(seriesBoxes.map(b=>b.dataset.exerciseId))].forEach(updateExerciseVisual)}catch(e){}}
+function loadWorkoutMeta(){
+  const raw=localStorage.getItem(metaKey());
+  if(!raw){renderWorkoutClock();refreshNextWorkoutInfo();return;}
+  try{
+    const m=JSON.parse(raw);
+    workoutStarted=!!m.started; workoutStartTs=m.startTs||null; workoutElapsed=parseInt(m.elapsed||0,10)||0; currentWorkoutId=m.currentWorkoutId||null;
+    if(workoutStarted&&workoutStartTs){
+      workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
+      currentWorkoutId = normalizeWorkoutId(currentWorkoutId);
+      workoutStatus.textContent=currentWorkoutId?("Treino em andamento: "+DAYS[currentWorkoutId].title):"Treino em andamento.";
+      startWorkoutBtn.disabled=true; finishWorkoutBtn.disabled=false;
+    }
+  }catch(e){}
+  renderWorkoutClock(); refreshNextWorkoutInfo();
+}
+function clearChecks(){
+  if(!confirm("Deseja limpar apenas as marcações do treino atual? Os pesos ficarão salvos."))return;
+  clearSeriesStateOnly();
+}
+function goTodayWorkout(){ document.getElementById(currentWorkoutId || getNextWorkoutId()).scrollIntoView({behavior:"smooth", block:"start"}); }
+function findNextExercise(currentExerciseId){
+  const list=[...document.querySelectorAll(".exercise")];
+  const idx=list.findIndex(el=>el.dataset.id===currentExerciseId);
+  return idx>=0&&idx<list.length-1?list[idx+1]:null;
+}
+function allSeriesDone(){ return seriesBoxes.length>0 && seriesBoxes.every(b=>b.classList.contains("done")); }
+
+function startWorkout(){
+  if(workoutStarted) return;
+  if(!currentWorkoutId) currentWorkoutId = getNextWorkoutId();
+  currentWorkoutId = normalizeWorkoutId(currentWorkoutId);
+  workoutStarted=true;
+  workoutStartTs=Date.now()-workoutElapsed*1000;
+  if(workoutInterval) clearInterval(workoutInterval);
+  workoutInterval=setInterval(()=>{workoutElapsed=Math.floor((Date.now()-workoutStartTs)/1000);renderWorkoutClock()},1000);
+  workoutStatus.textContent="Treino em andamento: " + DAYS[currentWorkoutId].title;
+  startWorkoutBtn.disabled=true; finishWorkoutBtn.disabled=false;
+  saveState(false);
+}
+function collectCurrentWorkoutWeights(workoutId){
+  const data = {};
+  weightInputs.forEach(input=>{
+    const key = input.dataset.weightId || "";
+    if(!key.startsWith(workoutId+"-")) return;
+    const parts = key.split("-");
+    const exerciseId = parts.slice(0,2).join("-");
+    if(!data[exerciseId]) data[exerciseId] = [];
+    data[exerciseId].push(input.value || "");
+  });
+  return data;
+}
+
+function saveWorkoutSummary(workoutId, elapsedSeconds){
+  const lastWeights = JSON.parse(localStorage.getItem(lastWeightsKey()) || "{}");
+  Object.assign(lastWeights, collectCurrentWorkoutWeights(workoutId));
+  localStorage.setItem(lastWeightsKey(), JSON.stringify(lastWeights));
+
+  const history = JSON.parse(localStorage.getItem(historyKey()) || "[]");
+  history.unshift({
+    label: DAYS[workoutId].title,
+    date: new Date().toLocaleString("pt-BR"),
+    duration: fmt(elapsedSeconds)
+  });
+  localStorage.setItem(historyKey(), JSON.stringify(history.slice(0, 30)));
+}
+
+function finishWorkout(auto){
+  if(!currentWorkoutId) return;
+
+  const completedId=normalizeWorkoutId(currentWorkoutId);
+  const finalElapsed = workoutElapsed;
+
+  if(workoutInterval){
+    clearInterval(workoutInterval);
+    workoutInterval=null;
+  }
+
+  saveWorkoutSummary(completedId, finalElapsed);
+  localStorage.setItem(lastCompletedKey(), String(WORKOUT_SEQUENCE.indexOf(completedId)));
+
+  workoutStarted=false;
+  workoutStartTs=null;
+  workoutElapsed=0;
+  currentWorkoutId=null;
+
+  localStorage.removeItem(metaKey());
+  localStorage.removeItem(seriesKey());
+  localStorage.removeItem(seriesUpdatedAtKey());
+
+  seriesBoxes.forEach(b=>b.classList.remove("done"));
+  [...new Set(seriesBoxes.map(b=>b.dataset.exerciseId))].forEach(updateExerciseVisual);
+
+  renderWorkoutClock();
+  updateProgress();
+  workoutStatus.textContent=(auto?"Treino finalizado automaticamente. ":"Treino finalizado. ")+"Tempo: "+fmt(finalElapsed);
+  startWorkoutBtn.disabled=false;
+  finishWorkoutBtn.disabled=true;
+  renderHistory();
+  renderLastWeights();
+  refreshNextWorkoutInfo();
+  alert((auto?"Última série concluída. ":"")+"Treino finalizado em "+fmt(finalElapsed)+".");
+}
+function renderHistory(){
+  const history=JSON.parse(localStorage.getItem(historyKey())||"[]"), box=document.getElementById("historyList");
+  if(!history.length){box.textContent="Nenhum treino finalizado ainda."; return;}
+  box.innerHTML=history.map(h=>`<div class="history-item"><strong>${h.label}</strong><div>${h.date} • ${h.duration}</div></div>`).join("");
+}
+function renderLastWeights(){
+  const data=JSON.parse(localStorage.getItem(lastWeightsKey())||"{}");
+  document.querySelectorAll(".exercise").forEach(card=>{
+    const id=card.dataset.id, slot=document.getElementById("last-"+id), arr=data[id];
+    if(slot) slot.textContent=arr&&arr.some(v=>v) ? "Último: " + arr.map(v=>v||"—").join(" / ") + " kg" : "";
+  });
+}
+exportBtn.addEventListener("click",()=>{
+  const data={series:JSON.parse(localStorage.getItem(seriesKey())||"{}"),weights:JSON.parse(localStorage.getItem(weightKey())||"{}"),last_weights:JSON.parse(localStorage.getItem(lastWeightsKey())||"{}"),history:JSON.parse(localStorage.getItem(historyKey())||"[]"),workout_meta:JSON.parse(localStorage.getItem(metaKey())||"{}"),last_completed_index:localStorage.getItem(lastCompletedKey()),series_updated_at:localStorage.getItem(seriesUpdatedAtKey())};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}), a=document.createElement("a");
+  const url = URL.createObjectURL(blob);
+  a.href=url; a.download="treino-series-progresso.json"; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+
+importBtn.addEventListener("click",()=>importFile.click());
+importFile.addEventListener("change",(event)=>{
+  const file = event.target.files && event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e)=>{
+    try{
+      const data = JSON.parse(e.target.result);
+      if(data.series) localStorage.setItem(seriesKey(), JSON.stringify(data.series));
+      if(data.weights) localStorage.setItem(weightKey(), JSON.stringify(data.weights));
+      if(data.last_weights) localStorage.setItem(lastWeightsKey(), JSON.stringify(data.last_weights));
+      if(data.history) localStorage.setItem(historyKey(), JSON.stringify(data.history));
+      if(data.workout_meta) localStorage.setItem(metaKey(), JSON.stringify(data.workout_meta));
+      if(data.last_completed_index !== null && data.last_completed_index !== undefined) localStorage.setItem(lastCompletedKey(), String(data.last_completed_index));
+      if(data.series_updated_at) localStorage.setItem(seriesUpdatedAtKey(), String(data.series_updated_at));
+      alert("Importação concluída com sucesso.");
+      location.reload();
+    }catch(err){
+      alert("Erro ao importar o arquivo.");
+    }finally{
+      importFile.value = "";
+    }
+  };
+  reader.readAsText(file);
+});
+
+seriesBoxes.forEach(box=>{
+  box.addEventListener("click",()=>{
+    if(!workoutStarted) startWorkout();
+    box.classList.toggle("done");
+    const exerciseId=box.dataset.exerciseId;
+    updateExerciseVisual(exerciseId);
+    saveState(false);
+    const exerciseBoxes=[...document.querySelectorAll(`.series-box[data-exercise-id="${exerciseId}"]`)];
+    if(exerciseBoxes.every(b=>b.classList.contains("done"))){
+      const nextExercise=findNextExercise(exerciseId);
+      if(nextExercise) setTimeout(()=>nextExercise.scrollIntoView({behavior:"smooth",block:"center"}),250);
+    }
+    if(autoRest){
+      const secs=parseInt(box.dataset.rest);
+      if(!Number.isNaN(secs)){ setTimer(secs); startTimer(); }
+    }
+    if(allSeriesDone() && workoutStarted) setTimeout(()=>finishWorkout(true),300);
+  });
+});
+weightInputs.forEach(input=>{
+  input.addEventListener("focus",()=>{ if(!workoutStarted) startWorkout(); });
+  input.addEventListener("input",()=>{ saveWeights(); saveState(false); });
+  input.addEventListener("blur",()=>{ saveWeights(); saveState(false); });
+});
+
+if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
+
+resetStaleSeriesState();
+loadState(); loadWeights(); loadWorkoutMeta(); loadAutoRest(); loadNotify(); renderHistory(); renderLastWeights(); updateProgress(); refreshNextWorkoutInfo();
+const storedTimer=parseInt(localStorage.getItem("treinoTimerChoice")||"60",10); setTimer([45,60,90].includes(storedTimer)?storedTimer:60);
+if(localStorage.getItem("treinoWake")==="true"){ requestWakeLock(); }
+</script>
+</body>
+</html>
